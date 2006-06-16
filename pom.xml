@@ -26,12 +26,17 @@
 	</issueManagement>
 
 	<dependencies>
-
+        <dependency>
+			<groupId>com.davidsoergel</groupId>
+			<artifactId>dsutils</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<scm>
-		<connection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats/trunk</connection>
-		<developerConnection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats/trunk</developerConnection>
+		<connection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats</connection>
+		<developerConnection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats</developerConnection>
 	</scm>
 	<distributionManagement>
 		<site>
