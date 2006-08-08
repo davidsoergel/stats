@@ -24,9 +24,8 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.stats.DiscreteDistribution1D;
-import com.davidsoergel.stats.DistributionException;
 import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.MersenneTwisterFast;
 
 /**
  * @author lorax
@@ -34,6 +33,9 @@ import com.davidsoergel.dsutils.ArrayUtils;
  */
 public class MultinomialDistribution implements DiscreteDistribution1D
 	{
+
+	static MersenneTwisterFast mtf = new MersenneTwisterFast();
+
 // ------------------------------ FIELDS ------------------------------
 
 	double[] probs = new double[0];
@@ -47,6 +49,13 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 		{
 		probs = new double[p.length];
 		System.arraycopy(p, 0, probs, 0, p.length);
+		normalize();
+		}
+
+	public MultinomialDistribution(int[] p)
+		{
+		probs = ArrayUtils.castToDouble(p);
+		//System.arraycopy(p, 0, probs, 0, p.length);
 		normalize();
 		}
 
@@ -75,7 +84,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			{
 			throw new DistributionException("Multinomial distribution is not normalized.");
 			}
-		double r = Math.random();
+		double r = mtf.nextDouble(); //Math.random();
 		int c = 0;
 		while (r >= probs[c])
 			{
