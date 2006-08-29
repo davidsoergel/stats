@@ -2,6 +2,8 @@ package com.davidsoergel.stats;
 
 import org.apache.log4j.Logger;
 
+import java.util.Set;
+
 // ** Redo using matrix library
 public class Histogram1D //extends SimpleXYSeries
 	{
@@ -49,6 +51,22 @@ public class Histogram1D //extends SimpleXYSeries
 			{
 			counts[bin(x)]++;
 			totalcounts++;
+			}
+		}
+
+	public void add(SimpleXYSeries s)
+		{
+		for(double i: s.getYArray())
+			{
+			add(i);
+			}
+		}
+
+	public void add(Set<SimpleXYSeries> ss)
+		{
+		for(SimpleXYSeries s : ss)
+			{
+			add(s);
 			}
 		}
 
