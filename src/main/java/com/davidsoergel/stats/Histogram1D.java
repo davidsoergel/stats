@@ -13,14 +13,14 @@ public class Histogram1D //extends SimpleXYSeries
 	int totalcounts;
 	private int maxbin;
 	private int underflow, overflow;
-	private double from, to, step;
+	private double from, to, binwidth;
 
-	public Histogram1D(double from, double to, double step)
+	public Histogram1D(double from, double to, double binwidth)
 		{
 		this.from = from;
 		this.to = to;
-		this.step = step;
-		maxbin = (int) ((to - from) / step);
+		this.binwidth = binwidth;
+		maxbin = (int) ((to - from) / binwidth);
 		counts = new int[maxbin + 1];
 		}
 
@@ -28,7 +28,7 @@ public class Histogram1D //extends SimpleXYSeries
 		{
 		this.from = from;
 		this.to = to;
-		this.step = step;
+		this.binwidth = step;
 		counts = new int[(int) (((to - from) / step) + 1)];
 		for (double d : data)
 			{
@@ -72,7 +72,7 @@ public class Histogram1D //extends SimpleXYSeries
 
 	public int bin(double x)
 		{
-		return (int) ((x - from) / step);
+		return (int) ((x - from) / binwidth);
 		}
 
 	public int[] getCounts()
@@ -82,7 +82,7 @@ public class Histogram1D //extends SimpleXYSeries
 
 	public double centerOfBin(int i)
 		{
-		return from + (i * step) + (0.5 * step);
+		return from + (i * binwidth) + (0.5 * binwidth);
 		}
 
 	public double approximateMean()
