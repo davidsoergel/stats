@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import java.util.Set;
 
 // ** Redo using matrix library
-public class Histogram1D //extends SimpleXYSeries
+public class Histogram1D//extends SimpleXYSeries
 	{
 	private static Logger logger = Logger.getLogger(Histogram1D.class);
 
@@ -56,7 +56,7 @@ public class Histogram1D //extends SimpleXYSeries
 
 	public void add(SimpleXYSeries s)
 		{
-		for(double i: s.getYArray())
+		for (double i : s.getXArray())
 			{
 			add(i);
 			}
@@ -64,7 +64,7 @@ public class Histogram1D //extends SimpleXYSeries
 
 	public void add(Set<SimpleXYSeries> ss)
 		{
-		for(SimpleXYSeries s : ss)
+		for (SimpleXYSeries s : ss)
 			{
 			add(s);
 			}
