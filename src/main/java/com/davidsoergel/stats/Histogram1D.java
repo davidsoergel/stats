@@ -10,7 +10,7 @@ public class Histogram1D//extends SimpleXYSeries
 	private static Logger logger = Logger.getLogger(Histogram1D.class);
 
 	private int[] counts;
-	int totalcounts;
+	int validcounts, totalcounts;
 	private int maxbin;
 	private int underflow, overflow;
 	private double from, to, binwidth;
@@ -36,6 +36,8 @@ public class Histogram1D//extends SimpleXYSeries
 			}
 		}
 
+	private double sum = 0;
+
 	public void add(double x)
 		{
 		int b = bin(x);
@@ -50,8 +52,10 @@ public class Histogram1D//extends SimpleXYSeries
 		else
 			{
 			counts[bin(x)]++;
-			totalcounts++;
+			validcounts++;
 			}
+		sum += x;
+		totalcounts++;
 		}
 
 	public void add(SimpleXYSeries s)
@@ -85,26 +89,38 @@ public class Histogram1D//extends SimpleXYSeries
 		return from + (i * binwidth) + (0.5 * binwidth);
 		}
 
-	public double approximateMean()
+	//private double sum = 0;
+	/*	public double approximateMean()
+		 {
+		 //int i = 0;
+		 if(mean == 0)
+			 {
+
+		 for (int i = 0; i < counts.length; i++)
+			 {
+			 mean += counts[i] * centerOfBin(i);
+			 }
+		 mean /= validcounts;
+			 }
+		 return mean;
+		 }
+ */
+
+	public double mean()
 		{
-		//int i = 0;
-		double mean = 0;
-		for (int i = 0; i < counts.length; i++)
-			{
-			mean += counts[i] * centerOfBin(i);
-			}
-		mean /= totalcounts;
-		return mean;
+		return sum / totalcounts;
 		}
 
 	public double approximateStdDev()
 		{
-		double mean = approximateMean();
+		double mean = mean();
+		double var = 0;
 		for (int i = 0; i < counts.length; i++)
 			{
-			mean += counts[i] * centerOfBin(i);
+			double d = centerOfBin(i) - mean;
+			var += counts[i] * d * d;
 			}
-		mean /= totalcounts;
-		return mean;
+		var /= validcounts;
+		return Math.sqrt(var);
 		}
 	}
