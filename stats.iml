@@ -15,15 +15,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../.m2/repository/org/testng/testng/4.7/testng-4.7-jdk15.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../../.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -33,7 +24,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../.m2/repository/qdox/qdox/1.5/qdox-1.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../.m2/repository/org/testng/testng/5.1/testng-5.1-jdk15.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -43,15 +34,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../../.m2/repository/commons-lang/commons-lang/2.1/commons-lang-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../.m2/repository/bsh/bsh/2.0b1/bsh-2.0b1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
