@@ -41,7 +41,7 @@
 	<distributionManagement>
 		<site>
 			<id>website</id>
-			<url>scpexe://dev.davidsoergel.com/home/continuum/domains/dev.davidsoergel.com/stats</url>
+			<url>scpexe://dev.davidsoergel.com/home/continuum/domains/dev.davidsoergel.com/stats/site</url>
 		</site>
 	</distributionManagement>
 
