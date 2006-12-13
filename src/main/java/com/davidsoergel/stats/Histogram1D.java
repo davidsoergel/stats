@@ -60,7 +60,7 @@ public class Histogram1D//extends SimpleXYSeries
 
 	public void add(SimpleXYSeries s)
 		{
-		for (double i : s.getXArray())
+		for (double i : s.getYArray())
 			{
 			add(i);
 			}
