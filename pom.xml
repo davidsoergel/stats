@@ -49,10 +49,36 @@
 	<repositories>
 		<repository>
 			<id>dev.davidsoergel.com</id>
-			<name>David Soergel Dev Repository</name>
+			<name>David Soergel Release Repository</name>
 			<url>http://dev.davidsoergel.com/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>dev.davidsoergel.com.snapshots</id>
+			<name>David Soergel Snapshot Repository</name>
+			<url>http://dev.davidsoergel.com/maven2-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>dev.davidsoergel.com.xtra</id>
+			<name>David Soergel Xtra Repository</name>
+			<url>http://dev.davidsoergel.com/maven2-xtra</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
-
-
 </project>
