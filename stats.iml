@@ -14,6 +14,19 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="dsutils" exported="" />
     <orderEntry type="module-library" exported="">
+      <library name="Maven Dependency: commons-lang:commons-lang:jar:2.1:compile">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../.m2/repository/commons-lang/commons-lang/2.1/commons-lang-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../../../.m2/repository/commons-lang/commons-lang/2.1/commons-lang-2.1-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../../.m2/repository/commons-lang/commons-lang/2.1/commons-lang-2.1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
       <library name="Maven Dependency: junit:junit:jar:3.8.1:test">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar!/" />
