@@ -58,7 +58,15 @@ public class Histogram1D//extends SimpleXYSeries
 		totalcounts++;
 		}
 
-	public void add(SimpleXYSeries s)
+	public void addXValues(SimpleXYSeries s)
+		{
+		for (double i : s.getXArray())
+			{
+			add(i);
+			}
+		}
+
+	public void addYValues(SimpleXYSeries s)
 		{
 		for (double i : s.getYArray())
 			{
@@ -66,11 +74,19 @@ public class Histogram1D//extends SimpleXYSeries
 			}
 		}
 
-	public void add(Set<SimpleXYSeries> ss)
+	public void addXValues(Set<SimpleXYSeries> ss)
 		{
 		for (SimpleXYSeries s : ss)
 			{
-			add(s);
+			addXValues(s);
+			}
+		}
+
+	public void addYValues(Set<SimpleXYSeries> ss)
+		{
+		for (SimpleXYSeries s : ss)
+			{
+			addYValues(s);
 			}
 		}
 
