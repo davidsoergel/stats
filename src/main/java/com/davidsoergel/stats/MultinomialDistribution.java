@@ -31,67 +31,85 @@ import com.davidsoergel.dsutils.MersenneTwisterFast;
  * @author lorax
  * @version 1.0
  */
-public class MultinomialDistribution implements DiscreteDistribution1D {
+public class MultinomialDistribution implements DiscreteDistribution1D
+	{
 
-    static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	static MersenneTwisterFast mtf = new MersenneTwisterFast();
 
-// ------------------------------ FIELDS ------------------------------
+	// ------------------------------ FIELDS ------------------------------
 
-    double[] probs = new double[0];
-    private boolean isNormalized = false;
+	double[] probs = new double[0];
+	private boolean isNormalized = false;
 
-// --------------------------- CONSTRUCTORS ---------------------------
+	// --------------------------- CONSTRUCTORS ---------------------------
 
-    public MultinomialDistribution() {
-    }
+	public MultinomialDistribution()
+		{
+		}
 
-    public MultinomialDistribution(double[] p) {
-        probs = new double[p.length];
-        System.arraycopy(p, 0, probs, 0, p.length);
-        normalize();
-    }
+	public MultinomialDistribution(double[] p)
+		{
+		probs = new double[p.length];
+		System.arraycopy(p, 0, probs, 0, p.length);
+		normalize();
+		}
 
-    public MultinomialDistribution(int[] p) {
-        probs = ArrayUtils.castToDouble(p);
-        //System.arraycopy(p, 0, probs, 0, p.length);
-        normalize();
-    }
+	public MultinomialDistribution(int[] p)
+		{
+		probs = ArrayUtils.castToDouble(p);
+		//System.arraycopy(p, 0, probs, 0, p.length);
+		normalize();
+		}
 
-    public void normalize() {
-        double normalizer = 0;
-        for (int i = 0; i < probs.length; i++) {
-            normalizer += probs[i];
-        }
-        for (int i = 0; i < probs.length; i++) {
-            probs[i] /= normalizer;
-        }
-        isNormalized = true;
-    }
+	public void normalize()
+		{
+		double normalizer = 0;
+		for (int i = 0; i < probs.length; i++)
+			{
+			normalizer += probs[i];
+			}
+		for (int i = 0; i < probs.length; i++)
+			{
+			probs[i] /= normalizer;
+			}
+		isNormalized = true;
+		}
 
-// ------------------------ INTERFACE METHODS ------------------------
+	// ------------------------ INTERFACE METHODS ------------------------
 
-// --------------------- Interface DiscreteDistribution1D ---------------------
+	// --------------------- Interface DiscreteDistribution1D ---------------------
 
-    public int sample() throws DistributionException {
-        if (!isNormalized) {
-            throw new DistributionException("Multinomial distribution is not normalized.");
-        }
-        double r = mtf.nextDouble(); //Math.random();
-        int c = 0;
-        while (r >= probs[c]) {
-            r -= probs[c];
-            c++;
-        }
-        return c;
-    }
+	public int sample() throws DistributionException
+		{
+		if (!isNormalized)
+			{
+			//normalize();
+			throw new DistributionException(
+					"Multinomial distribution is not normalized.");// force the programmer to pay attention
+			}
+		double r = mtf.nextDouble();//Math.random();
+		int c = 0;
+		while (r >= probs[c])
+			{
+			r -= probs[c];
+			c++;
+			}
+		return c;
+		}
 
-// -------------------------- OTHER METHODS --------------------------
+	// -------------------------- OTHER METHODS --------------------------
 
-    public void add(double prob) {
-        probs = ArrayUtils.grow(probs, 1);
-        probs[probs.length - 1] = prob;
-        isNormalized = false;
-    }
+	public void add(double prob)
+		{
+		probs = ArrayUtils.grow(probs, 1);
+		probs[probs.length - 1] = prob;
+		isNormalized = false;
+		}
 
+	public void update(int index, double prob)
+		{
+		probs[index] = prob;
+		isNormalized = false;
+		}
 
-}
+	}
