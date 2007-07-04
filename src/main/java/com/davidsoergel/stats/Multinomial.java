@@ -56,20 +56,32 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		if (elements.contains(obj))
 			{
 			dist.update(elements.indexOf(obj), prob);
-			dist.normalize();
+			//dist.normalize();
 			//throw new DistributionException("Can't add the same element to a Multinomial twice");// don't bother to handle this properly
 			}
 		else
 			{
 			elements.add(obj);
 			dist.add(prob);
-			dist.normalize();
+			//dist.normalize();
 			}
 		}
 
-	public double get(T obj)
+	public void normalize()
 		{
-		return dist.probs[elements.indexOf(obj)];
+		dist.normalize();
+		}
+
+	public double get(T obj) throws DistributionException//throws DistributionException
+		{
+		int i = elements.indexOf(obj);
+		if (i == -1)
+			{
+			//return 0;
+			//return Double.NaN;
+			throw new DistributionException("No probability known: " + obj);
+			}
+		return dist.probs[i];
 		}
 
 	public T sample() throws DistributionException
