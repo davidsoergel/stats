@@ -56,19 +56,33 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 		{
 		}
 
-	public MultinomialDistribution(double[] p)
+	public MultinomialDistribution(MultinomialDistribution copyFrom)
+		{
+		probs = copyFrom.probs.clone();
+		isNormalized = copyFrom.isNormalized;
+		}
+
+	public MultinomialDistribution(double[] p) throws DistributionException
 		{
 		probs = new double[p.length];
 		System.arraycopy(p, 0, probs, 0, p.length);
 		normalize();
 		}
 
-	public void normalize()
+	public void normalize() throws DistributionException
 		{
 		double normalizer = 0;
 		for (int i = 0; i < probs.length; i++)
 			{
+			if (probs[i] < 0)
+				{
+				throw new DistributionException("Negative probability!");
+				}
 			normalizer += probs[i];
+			}
+		if (probs.length != 0 && normalizer <= 0)
+			{
+			throw new DistributionException("Can't normalize; no probability weight!");
 			}
 		for (int i = 0; i < probs.length; i++)
 			{
@@ -77,7 +91,12 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 		isNormalized = true;
 		}
 
-	public MultinomialDistribution(int[] p)
+	/**
+	 * Constructs a new MultinomialDistribution by
+	 *
+	 * @param p the int[]
+	 */
+	public MultinomialDistribution(int[] p) throws DistributionException
 		{
 		probs = ArrayUtils.castToDouble(p);
 		//System.arraycopy(p, 0, probs, 0, p.length);
@@ -109,15 +128,23 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public void add(double prob)
+	public void add(double prob) throws DistributionException
 		{
+		if (prob < 0)
+			{
+			throw new DistributionException("Negative probability!");
+			}
 		probs = ArrayUtils.grow(probs, 1);
 		probs[probs.length - 1] = prob;
 		isNormalized = false;
 		}
 
-	public void update(int index, double prob)
+	public void update(int index, double prob) throws DistributionException
 		{
+		if (prob < 0)
+			{
+			throw new DistributionException("Negative probability!");
+			}
 		probs[index] = prob;
 		isNormalized = false;
 		}

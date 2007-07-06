@@ -36,6 +36,7 @@ package com.davidsoergel.stats;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: lorax Date: Jun 24, 2007 Time: 10:36:27 PM To change this template use File |
@@ -48,10 +49,22 @@ public class Multinomial<T>//extends HashMap<Double, T>
 	MultinomialDistribution dist = new MultinomialDistribution();
 	List<T> elements = new ArrayList<T>();
 
+	public Multinomial()
+		{
+		}
+
+	public Multinomial(T[] keys, Map<T, Double> values) throws DistributionException
+		{
+		for (T k : keys)
+			{
+			put(k, values.get(k));
+			}
+		normalize();
+		}
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public void put(T obj, double prob) throws DistributionException
+	public void put(T obj, double prob) throws DistributionException//throws DistributionException
 		{
 		if (elements.contains(obj))
 			{
@@ -67,7 +80,7 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			}
 		}
 
-	public void normalize()
+	public void normalize() throws DistributionException
 		{
 		dist.normalize();
 		}
@@ -87,5 +100,18 @@ public class Multinomial<T>//extends HashMap<Double, T>
 	public T sample() throws DistributionException
 		{
 		return elements.get(dist.sample());
+		}
+
+	public Multinomial<T> clone()
+		{
+		Multinomial<T> result = new Multinomial<T>();
+		result.dist = new MultinomialDistribution(dist);
+		result.elements = new ArrayList<T>(elements);
+		return result;
+		}
+
+	public int size()
+		{
+		return elements.size();
 		}
 	}

@@ -75,7 +75,7 @@ public class MixtureOfDistributions
 		mixture.add(proportion);
 		}
 
-	public void normalize()
+	public void normalize() throws DistributionException
 		{
 		mixture.normalize();
 		}
