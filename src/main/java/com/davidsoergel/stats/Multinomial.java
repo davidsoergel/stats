@@ -97,6 +97,11 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		return dist.probs[i];
 		}
 
+	public List<T> getElements()
+		{
+		return elements;
+		}
+
 	public T sample() throws DistributionException
 		{
 		return elements.get(dist.sample());
