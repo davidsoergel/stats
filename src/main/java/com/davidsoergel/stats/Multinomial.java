@@ -119,4 +119,12 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		{
 		return elements.size();
 		}
+
+	public void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
+		{
+		for (int c = 0; c < elements.size(); c++)
+			{
+			dist.probs[c] = (dist.probs[c] * (1. - smoothFactor)) + uniform.get(elements.get(c)) * smoothFactor;
+			}
+		}
 	}
