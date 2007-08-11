@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -34,33 +32,58 @@
 
 package com.davidsoergel.stats;
 
-import org.apache.log4j.Logger;
-
-/**
- * @author lorax
- * @version 1.0
- */
-public class DistributionException extends StatsException
+public class PearsonCorrelation
 	{
-	// ------------------------------ FIELDS ------------------------------
+	/*
+	Pseodocade form Wikipedia
 
-	private static Logger logger = Logger.getLogger(DistributionException.class);
+	sum_sq_x = 0
+sum_sq_y = 0
+sum_coproduct = 0
+mean_x = x[1]
+mean_y = y[1]
+for i in 2 to N:
+    sweep = (i - 1.0) / i
+    delta_x = x[i] - mean_x
+    delta_y = y[i] - mean_y
+    sum_sq_x += delta_x * delta_x * sweep
+    sum_sq_y += delta_y * delta_y * sweep
+    sum_coproduct += delta_x * delta_y * sweep
+    mean_x += delta_x / i
+    mean_y += delta_y / i
+pop_sd_x = sqrt( sum_sq_x / N )
+pop_sd_y = sqrt( sum_sq_y / N )
+cov_x_y = sum_coproduct / N
+correlation = cov_x_y / (pop_sd_x * pop_sd_y)
+	 */
 
-
-	// --------------------------- CONSTRUCTORS ---------------------------
-
-	public DistributionException(Throwable e)
+	public static double computeCorrelationCoefficient(double[] x, double[] y) throws StatsException
 		{
-		super(e);
-		}
-
-	public DistributionException(String s)
-		{
-		super(s);
-		}
-
-	public DistributionException(Throwable e, String s)
-		{
-		super(e, s);
+		double sum_sq_x = 0;
+		double sum_sq_y = 0;
+		double sum_coproduct = 0;
+		double mean_x = x[1];
+		double mean_y = y[1];
+		int N = x.length;
+		if (y.length != N)
+			{
+			throw new StatsException("Cannot compute correlation coefficient between arrays of different lengths");
+			}
+		for (int i = 2; i < N; i++)
+			{
+			double sweep = (i - 1.0) / i;
+			double delta_x = x[i] - mean_x;
+			double delta_y = y[i] - mean_y;
+			sum_sq_x += delta_x * delta_x * sweep;
+			sum_sq_y += delta_y * delta_y * sweep;
+			sum_coproduct += delta_x * delta_y * sweep;
+			mean_x += delta_x / i;
+			mean_y += delta_y / i;
+			}
+		double pop_sd_x = Math.sqrt(sum_sq_x / N);
+		double pop_sd_y = Math.sqrt(sum_sq_y / N);
+		double cov_x_y = sum_coproduct / N;
+		double correlation = cov_x_y / (pop_sd_x * pop_sd_y);
+		return correlation;
 		}
 	}

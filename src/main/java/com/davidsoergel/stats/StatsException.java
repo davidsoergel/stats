@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -34,13 +32,10 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.ChainedException;
 import org.apache.log4j.Logger;
 
-/**
- * @author lorax
- * @version 1.0
- */
-public class DistributionException extends StatsException
+public class StatsException extends ChainedException
 	{
 	// ------------------------------ FIELDS ------------------------------
 
@@ -49,17 +44,17 @@ public class DistributionException extends StatsException
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public DistributionException(Throwable e)
+	public StatsException(Throwable e)
 		{
 		super(e);
 		}
 
-	public DistributionException(String s)
+	public StatsException(String s)
 		{
 		super(s);
 		}
 
-	public DistributionException(Throwable e, String s)
+	public StatsException(Throwable e, String s)
 		{
 		super(e, s);
 		}
