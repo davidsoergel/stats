@@ -57,6 +57,13 @@ cov_x_y = sum_coproduct / N
 correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 	 */
 
+
+	public static double computeCorrelationCoefficient(DoubleArrayContainer x, DoubleArrayContainer y)
+			throws StatsException
+		{
+		return computeCorrelationCoefficient(x.getArray(), y.getArray());
+		}
+
 	public static double computeCorrelationCoefficient(double[] x, double[] y) throws StatsException
 		{
 		double sum_sq_x = 0;

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -34,15 +32,12 @@
 
 package com.davidsoergel.stats;
 
+/* $Id$ */
+
 /**
- * @author lorax
- * @version 1.0
+ * @Author David Soergel
+ * @Version 1.0
  */
-public interface DiscreteDistribution1D
+public interface MutableDistribution
 	{
-	// -------------------------- OTHER METHODS --------------------------
-
-	public int sample() throws DistributionException;
-
-	//public int sampleWithoutReplacement() throws DistributionException;
 	}

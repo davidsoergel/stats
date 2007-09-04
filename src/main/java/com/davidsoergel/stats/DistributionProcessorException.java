@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -34,15 +32,35 @@
 
 package com.davidsoergel.stats;
 
+import org.apache.log4j.Logger;
+
+/* $Id$ */
+
 /**
  * @author lorax
  * @version 1.0
  */
-public interface DiscreteDistribution1D
+public class DistributionProcessorException extends StatsException
 	{
-	// -------------------------- OTHER METHODS --------------------------
+	// ------------------------------ FIELDS ------------------------------
 
-	public int sample() throws DistributionException;
+	private static Logger logger = Logger.getLogger(DistributionProcessorException.class);
 
-	//public int sampleWithoutReplacement() throws DistributionException;
+
+	// --------------------------- CONSTRUCTORS ---------------------------
+
+	public DistributionProcessorException(Throwable e)
+		{
+		super(e);
+		}
+
+	public DistributionProcessorException(String s)
+		{
+		super(s);
+		}
+
+	public DistributionProcessorException(Throwable e, String s)
+		{
+		super(e, s);
+		}
 	}
