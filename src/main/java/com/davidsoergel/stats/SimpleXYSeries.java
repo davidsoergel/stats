@@ -145,6 +145,21 @@ public class SimpleXYSeries
 		return points.size();
 		}
 
+	public double[] getYArray(double xmin, double xmax)
+		{
+		double[] result = new double[points.size()];
+		int i = 0;
+		for (XYPoint p : points)
+			{
+			if (p.x >= xmin && p.x < xmax)
+				{
+				result[i] = p.y;
+				i++;
+				}
+			}
+		return result;
+		}
+
 	// -------------------------- INNER CLASSES --------------------------
 
 	private class XYPoint

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -38,68 +36,57 @@ import org.apache.log4j.Logger;
 
 import java.util.Set;
 
-// ** Redo using matrix library
-public class Histogram1D//extends SimpleXYSeries
-	{
-	// ------------------------------ FIELDS ------------------------------
+/* $Id$ */
 
+/**
+ * @Author David Soergel
+ * @Version 1.0
+ */
+public abstract class Histogram1D extends SimpleXYSeries
+	{
 	private static Logger logger = Logger.getLogger(Histogram1D.class);
+
 	int validcounts, totalcounts;
 
-	private int[] counts;
-	private int maxbin;
-	private int underflow, overflow;
-	private double from, to, binwidth;
+	protected int[] counts;
+	protected int bins;
+	//protected int underflow, overflow;
 
-	private double sum = 0;
+	protected double from, to;
 
-
-	// --------------------------- CONSTRUCTORS ---------------------------
-
-	public Histogram1D(double from, double to, double binwidth)
+	public Histogram1D(double from, double to, int bins)
 		{
 		this.from = from;
 		this.to = to;
-		this.binwidth = binwidth;
-		maxbin = (int) ((to - from) / binwidth);
-		counts = new int[maxbin + 1];
+		this.bins = bins;
 		}
 
-	public Histogram1D(double from, double to, double step, double[] data)
+	public abstract int bin(double x) throws StatsException;
+
+	public double centerOfBin(int i) throws StatsException
 		{
-		this.from = from;
-		this.to = to;
-		this.binwidth = step;
-		counts = new int[(int) (((to - from) / step) + 1)];
-		for (double d : data)
-			{
-			add(d);
-			}
+		return (topOfBin(i) + bottomOfBin(i)) / 2;
 		}
+
+	public abstract double bottomOfBin(int bin) throws StatsException;
+
+	public abstract double topOfBin(int bin) throws StatsException;
+
+	private double totalsum = 0;// handy to keep the sum around to get the mean quickly
 
 	public void add(double x)
 		{
-		int b = bin(x);
-		if (b < 0)
-			{
-			underflow++;
-			}
-		else if (b > maxbin)
-			{
-			overflow++;
-			}
-		else
+		try
 			{
 			counts[bin(x)]++;
 			validcounts++;
 			}
-		sum += x;
+		catch (StatsException e)
+			{
+			// out of range
+			}
+		totalsum += x;
 		totalcounts++;
-		}
-
-	public int bin(double x)
-		{
-		return (int) ((x - from) / binwidth);
 		}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
@@ -149,7 +136,17 @@ public class Histogram1D//extends SimpleXYSeries
 		double var = 0;
 		for (int i = 0; i < counts.length; i++)
 			{
-			double d = centerOfBin(i) - mean;
+			double d = 0;
+			try
+				{
+				d = centerOfBin(i) - mean;
+				}
+			catch (StatsException e)
+				{
+				logger.debug(e);
+				e.printStackTrace();
+				throw new Error("Impossible");
+				}
 			var += counts[i] * d * d;
 			}
 		var /= validcounts;
@@ -173,13 +170,14 @@ public class Histogram1D//extends SimpleXYSeries
 		 }
  */
 
+	/**
+	 * The mean of all the numbers that have been added to this histogram, whether or not they were in range
+	 *
+	 * @return
+	 */
 	public double mean()
 		{
-		return sum / totalcounts;
+		return totalsum / totalcounts;
 		}
 
-	public double centerOfBin(int i)
-		{
-		return from + (i * binwidth) + (0.5 * binwidth);
-		}
 	}
