@@ -67,21 +67,29 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		//int bin = 0;
 		double pointsPerBin = data.length / bins;
 		Arrays.sort(data);
-		int lastbin = 0;
+		int prevBin = 0;
 		for (int dataIndex = 0; dataIndex < data.length; dataIndex++)
 			{
 			// cast rounds toward zero, hence == floor
 			int bin = (int) ((double) dataIndex / pointsPerBin);
-			if (bin != lastbin)
+			if (bin >= bins)
+				{
+				bin = bins - 1;
+				}
+			if (bin != prevBin)
 				{
 				boundaries[bin] = data[dataIndex];
 				}
 			counts[bin]++;
-			lastbin = bin;
+			prevBin = bin;
 			}
 
 		// obviously the counts should be pointsPerBin for every bin, plus or minus one due to discretizing
 		// the main point here was to set the boundaries
 		}
 
+	public int getBins()
+		{
+		return bins;
+		}
 	}

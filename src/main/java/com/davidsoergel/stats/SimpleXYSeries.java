@@ -34,6 +34,7 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -70,8 +71,16 @@ public class SimpleXYSeries
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public void addPoint(double x, double y)
+	public void addPoint(double x, double y) throws StatsException
 		{
+		if (Double.isNaN(x) || Double.isInfinite(x))
+			{
+			throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
+			}
+		if (Double.isNaN(x) || Double.isInfinite(x))
+			{
+			throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
+			}
 		points.add(new XYPoint(x, y));
 		if (x > maxX)
 			{
@@ -147,17 +156,20 @@ public class SimpleXYSeries
 
 	public double[] getYArray(double xmin, double xmax)
 		{
-		double[] result = new double[points.size()];
-		int i = 0;
+		ArrayList<Double> result = new ArrayList<Double>();
+		//	int i = 0;
 		for (XYPoint p : points)
 			{
 			if (p.x >= xmin && p.x < xmax)
 				{
-				result[i] = p.y;
-				i++;
+				//result[i] = p.y;
+				result.add(p.y);
+				//i++;
 				}
 			}
-		return result;
+		//double[] result = new double[points.size()];
+		//return result;
+		return ArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
 		}
 
 	// -------------------------- INNER CLASSES --------------------------

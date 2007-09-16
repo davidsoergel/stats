@@ -59,6 +59,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 		this.from = from;
 		this.to = to;
 		this.bins = bins;
+		counts = new int[bins];
 		}
 
 	public abstract int bin(double x) throws StatsException;

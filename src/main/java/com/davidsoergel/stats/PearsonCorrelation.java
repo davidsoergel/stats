@@ -81,16 +81,36 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 			double sweep = (i - 1.0) / i;
 			double delta_x = x[i] - mean_x;
 			double delta_y = y[i] - mean_y;
+			if (Double.isNaN(delta_x) || Double.isInfinite(delta_x))
+				{
+				throw new StatsException("Error computing Pearson correlation: NaN or Infinity");
+				}
+			if (Double.isNaN(delta_y) || Double.isInfinite(delta_y))
+				{
+				throw new StatsException("Error computing Pearson correlation: NaN or Infinity");
+				}
+
 			sum_sq_x += delta_x * delta_x * sweep;
 			sum_sq_y += delta_y * delta_y * sweep;
 			sum_coproduct += delta_x * delta_y * sweep;
 			mean_x += delta_x / i;
 			mean_y += delta_y / i;
 			}
+
+		if (sum_sq_x == 0 || sum_sq_y == 0)
+			{
+			throw new StatsException("Can't compute Pearson correlation: distribution has no variance");
+			}
+
 		double pop_sd_x = Math.sqrt(sum_sq_x / N);
 		double pop_sd_y = Math.sqrt(sum_sq_y / N);
+
 		double cov_x_y = sum_coproduct / N;
 		double correlation = cov_x_y / (pop_sd_x * pop_sd_y);
+		if (Double.isNaN(correlation) || Double.isInfinite(correlation))
+			{
+			throw new StatsException("Error computing Pearson correlation: NaN or Infinity");
+			}
 		return correlation;
 		}
 	}

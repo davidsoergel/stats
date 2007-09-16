@@ -47,7 +47,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 		super(from, to, bins);
 		boundaries = new double[bins + 1];
 		boundaries[0] = from;
-		boundaries[bins + 1] = to;
+		boundaries[bins] = to;
 		}
 
 
@@ -57,7 +57,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested number  " + x + " not in histogram range " + from + " - " + to);
 			}
-		for (int i = 0; i < boundaries.length; i++)
+		for (int i = 0; i < bins; i++)
 			{
 			if (x >= boundaries[i] && x < boundaries[i + 1])
 				{

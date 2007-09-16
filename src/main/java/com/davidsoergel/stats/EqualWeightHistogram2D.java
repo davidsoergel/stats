@@ -34,6 +34,7 @@ package com.davidsoergel.stats;
 
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* $Id$ */
@@ -45,21 +46,21 @@ import java.util.List;
 public class EqualWeightHistogram2D
 	{
 	private static Logger logger = Logger.getLogger(EqualWeightHistogram2D.class);
-	int validcounts, totalcounts;
+	//int validcounts, totalcounts;
 
 	private EqualWeightHistogram1D theBaseHistogram;
-	private List<EqualWeightHistogram1D> thePerBinHistograms;
+	private List<EqualWeightHistogram1D> thePerBinHistograms = new ArrayList<EqualWeightHistogram1D>();
 
 
-	public EqualWeightHistogram2D(SimpleXYSeries xy, int baseBins, int perBinBins) throws StatsException
+	public EqualWeightHistogram2D(SimpleXYSeries xy, int xBins, int yBins) throws StatsException
 		{
-		theBaseHistogram = new EqualWeightHistogram1D(baseBins, xy.getXArray());
+		theBaseHistogram = new EqualWeightHistogram1D(xBins, xy.getXArray());
 
-		for (int i = 0; i < baseBins; i++)
+		for (int i = 0; i < xBins; i++)
 			{
 			double xmin = theBaseHistogram.bottomOfBin(i);
 			double xmax = theBaseHistogram.topOfBin(i);
-			thePerBinHistograms.add(new EqualWeightHistogram1D(perBinBins, xy.getYArray(xmin, xmax)));
+			thePerBinHistograms.add(new EqualWeightHistogram1D(yBins, xy.getYArray(xmin, xmax)));
 			}
 
 		}
@@ -73,5 +74,18 @@ public class EqualWeightHistogram2D
 	public List<EqualWeightHistogram1D> getThePerBinHistograms()
 		{
 		return thePerBinHistograms;
+		}
+
+	public SimpleXYSeries getYBinBoundarySeries(int yBinNumber) throws StatsException
+		{
+		SimpleXYSeries result = new SimpleXYSeries();
+		double i = 1;
+		double xBins = theBaseHistogram.getBins();
+		for (EqualWeightHistogram1D yBin : thePerBinHistograms)
+			{
+			result.addPoint(i * (1. / xBins), yBin.topOfBin(yBinNumber));
+			i++;
+			}
+		return result;
 		}
 	}
