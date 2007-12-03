@@ -34,6 +34,8 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.MathUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -126,5 +128,17 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			{
 			dist.probs[c] = (dist.probs[c] * (1. - smoothFactor)) + uniform.get(elements.get(c)) * smoothFactor;
 			}
+		}
+
+	public double KLDivergenceToThisFrom(Multinomial<T> from) throws DistributionException
+		{
+		double divergence = 0;
+		for (T key : elements)
+			{
+			double p = get(key);
+			double q = from.get(key);
+			divergence += p * MathUtils.approximateLog(p / q);
+			}
+		return divergence;
 		}
 	}
