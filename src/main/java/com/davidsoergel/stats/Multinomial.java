@@ -87,6 +87,11 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		dist.normalize();
 		}
 
+	public boolean isAlreadyNormalized() throws DistributionException
+		{
+		return dist.isAlreadyNormalized();
+		}
+
 	public double get(T obj) throws DistributionException//throws DistributionException
 		{
 		int i = elements.indexOf(obj);

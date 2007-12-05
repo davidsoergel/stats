@@ -35,6 +35,7 @@
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.MathUtils;
 import com.davidsoergel.dsutils.MersenneTwisterFast;
 
 /**
@@ -47,7 +48,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 
 	static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double[] probs = new double[0];
-	private boolean isNormalized = false;
+	private boolean normalized = false;
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
@@ -59,7 +60,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 	public MultinomialDistribution(MultinomialDistribution copyFrom)
 		{
 		probs = copyFrom.probs.clone();
-		isNormalized = copyFrom.isNormalized;
+		normalized = copyFrom.normalized;
 		}
 
 	public MultinomialDistribution(double[] p) throws DistributionException
@@ -88,7 +89,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			{
 			probs[i] /= normalizer;
 			}
-		isNormalized = true;
+		normalized = true;
 		}
 
 	/**
@@ -110,7 +111,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 
 	public int sample() throws DistributionException
 		{
-		if (!isNormalized)
+		if (!normalized)
 			{
 			//normalize();
 			throw new DistributionException(
@@ -136,7 +137,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			}
 		probs = ArrayUtils.grow(probs, 1);
 		probs[probs.length - 1] = prob;
-		isNormalized = false;
+		normalized = false;
 		}
 
 	public void update(int index, double prob) throws DistributionException
@@ -146,6 +147,34 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			throw new DistributionException("Negative probability!");
 			}
 		probs[index] = prob;
-		isNormalized = false;
+		normalized = false;
+		}
+
+	/**
+	 * Check whether the distribution is already normalized, even if it hasn't been explicitly normalized. Useful for
+	 * testing whether a freshly constructed distribution is valid.
+	 *
+	 * @return
+	 * @throws DistributionException
+	 */
+	public boolean isAlreadyNormalized() throws DistributionException
+		{
+		if (!normalized)
+			{
+			double sum = 0;
+			for (int i = 0; i < probs.length; i++)
+				{
+				if (probs[i] < 0)
+					{
+					throw new DistributionException("Negative probability!");
+					}
+				sum += probs[i];
+				}
+			if (MathUtils.equalWithinFPError(sum, 1.0))
+				{
+				normalized = true;
+				}
+			}
+		return normalized;
 		}
 	}
