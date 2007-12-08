@@ -135,15 +135,44 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			}
 		}
 
-	public double KLDivergenceToThisFrom(Multinomial<T> from) throws DistributionException
+	public double KLDivergenceToThisFrom(Multinomial<T> belief) throws DistributionException
 		{
 		double divergence = 0;
 		for (T key : elements)
 			{
 			double p = get(key);
-			double q = from.get(key);
+			double q = belief.get(key);
+			if (p == 0 || q == 0)
+				{
+				throw new DistributionException("Can't compute KL divergence: distributions not smoothed");
+				}
+
 			divergence += p * MathUtils.approximateLog(p / q);
+
+			if (Double.isNaN(divergence))
+				{
+				throw new DistributionException("Got NaN when computing KL divergence.");
+				}
 			}
 		return divergence;
+		}
+
+	public static <T> Multinomial<T> mixture(Multinomial<T> basis, Multinomial<T> bias, double mixingProportion)
+			throws DistributionException
+		{
+		Multinomial<T> result = new Multinomial<T>();
+
+		// these may be slow, remove later?
+		assert basis.isAlreadyNormalized();
+		assert bias.isAlreadyNormalized();
+		assert basis.getElements().size() == bias.getElements().size();
+
+		for (T key : basis.getElements())
+			{
+			double p = (1. - mixingProportion) * basis.get(key) + mixingProportion * bias.get(key);
+			result.put(key, p);
+			}
+		assert result.isAlreadyNormalized();
+		return result;
 		}
 	}
