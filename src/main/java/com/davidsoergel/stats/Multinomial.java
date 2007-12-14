@@ -37,6 +37,7 @@ package com.davidsoergel.stats;
 import com.davidsoergel.dsutils.MathUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,7 @@ public class Multinomial<T>//extends HashMap<Double, T>
 
 	MultinomialDistribution dist = new MultinomialDistribution();
 	List<T> elements = new ArrayList<T>();
+	private Map<T, Double> logProbs = new HashMap<T, Double>();
 
 	public Multinomial()
 		{
@@ -102,6 +104,17 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			throw new DistributionException("No probability known: " + obj);
 			}
 		return dist.probs[i];
+		}
+
+	public double getLog(T obj) throws DistributionException
+		{
+		Double result = logProbs.get(obj);
+		if (result == null)
+			{
+			result = MathUtils.approximateLog(get(obj));
+			logProbs.put(obj, result);
+			}
+		return result;
 		}
 
 	public List<T> getElements()
@@ -175,4 +188,5 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		assert result.isAlreadyNormalized();
 		return result;
 		}
+
 	}
