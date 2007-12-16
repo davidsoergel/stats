@@ -42,7 +42,7 @@ public interface DiscreteDistribution1D
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	public int sample() throws DistributionException;
+	int sample() throws DistributionException;
 
 	//public int sampleWithoutReplacement() throws DistributionException;
 	}

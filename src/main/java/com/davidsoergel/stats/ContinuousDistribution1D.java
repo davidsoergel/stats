@@ -42,5 +42,5 @@ public interface ContinuousDistribution1D
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	public double sample() throws DistributionException;
+	double sample() throws DistributionException;
 	}

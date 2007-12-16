@@ -42,7 +42,7 @@ public interface ContinuousDistribution
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	public int getDimensionality();
+	int getDimensionality();
 
-	public double[] sample() throws DistributionException;
+	double[] sample() throws DistributionException;
 	}
