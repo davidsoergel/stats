@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -31,6 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/* $Id$ */
 
 package com.davidsoergel.stats;
 

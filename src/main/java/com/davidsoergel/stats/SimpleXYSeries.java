@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -31,6 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/* $Id$ */
 
 package com.davidsoergel.stats;
 
@@ -126,6 +126,24 @@ public class SimpleXYSeries
 		return result;
 		}
 
+	public double[] getYArray(double xmin, double xmax)
+		{
+		ArrayList<Double> result = new ArrayList<Double>();
+		//	int i = 0;
+		for (XYPoint p : points)
+			{
+			if (p.x >= xmin && p.x < xmax)
+				{
+				//result[i] = p.y;
+				result.add(p.y);
+				//i++;
+				}
+			}
+		//double[] result = new double[points.size()];
+		//return result;
+		return ArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
+		}
+
 	public Iterator getYiterator()
 		{
 		return new Iterator()
@@ -152,24 +170,6 @@ public class SimpleXYSeries
 	public int size()
 		{
 		return points.size();
-		}
-
-	public double[] getYArray(double xmin, double xmax)
-		{
-		ArrayList<Double> result = new ArrayList<Double>();
-		//	int i = 0;
-		for (XYPoint p : points)
-			{
-			if (p.x >= xmin && p.x < xmax)
-				{
-				//result[i] = p.y;
-				result.add(p.y);
-				//i++;
-				}
-			}
-		//double[] result = new double[points.size()];
-		//return result;
-		return ArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
 		}
 
 	// -------------------------- INNER CLASSES --------------------------

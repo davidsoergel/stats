@@ -40,5 +40,7 @@ package com.davidsoergel.stats;
  */
 public interface DistributionProcessor<T extends MutableDistribution>
 	{
+	// -------------------------- OTHER METHODS --------------------------
+
 	void process(T distribution) throws DistributionProcessorException;
 	}

@@ -45,12 +45,16 @@ import java.util.List;
  */
 public class EqualWeightHistogram2D
 	{
+	// ------------------------------ FIELDS ------------------------------
+
 	private static Logger logger = Logger.getLogger(EqualWeightHistogram2D.class);
 	//int validcounts, totalcounts;
 
 	private EqualWeightHistogram1D theBaseHistogram;
 	private List<EqualWeightHistogram1D> thePerBinHistograms = new ArrayList<EqualWeightHistogram1D>();
 
+
+	// --------------------------- CONSTRUCTORS ---------------------------
 
 	public EqualWeightHistogram2D(SimpleXYSeries xy, int xBins, int yBins) throws StatsException
 		{
@@ -62,9 +66,9 @@ public class EqualWeightHistogram2D
 			double xmax = theBaseHistogram.topOfBin(i);
 			thePerBinHistograms.add(new EqualWeightHistogram1D(yBins, xy.getYArray(xmin, xmax)));
 			}
-
 		}
 
+	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public EqualWeightHistogram1D getTheBaseHistogram()
 		{
@@ -75,6 +79,8 @@ public class EqualWeightHistogram2D
 		{
 		return thePerBinHistograms;
 		}
+
+	// -------------------------- OTHER METHODS --------------------------
 
 	public SimpleXYSeries getYBinBoundarySeries(int yBinNumber) throws StatsException
 		{

@@ -40,7 +40,12 @@ package com.davidsoergel.stats;
  */
 public abstract class VariableWidthHistogram1D extends Histogram1D
 	{
+	// ------------------------------ FIELDS ------------------------------
+
 	double[] boundaries;// inclusive at the bottom, exclusive at the top
+
+
+	// --------------------------- CONSTRUCTORS ---------------------------
 
 	public VariableWidthHistogram1D(double from, double to, int bins)
 		{
@@ -50,6 +55,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 		boundaries[bins] = to;
 		}
 
+	// -------------------------- OTHER METHODS --------------------------
 
 	public int bin(double x) throws StatsException
 		{
@@ -67,7 +73,6 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 		throw new Error("Impossible");
 		}
 
-
 	public double bottomOfBin(int bin) throws StatsException
 		{
 		if (bin < 0 || bin >= bins)
@@ -77,6 +82,11 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 		return boundaries[bin];
 		}
 
+	public double getBoundary(int i)
+		{
+		return boundaries[i];
+		}
+
 	public double topOfBin(int bin) throws StatsException
 		{
 		if (bin < 0 || bin >= bins)
@@ -84,10 +94,5 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 			throw new StatsException("Requested bin " + bin + " not in histogram range 0 - " + (bins));
 			}
 		return boundaries[bin + 1];
-		}
-
-	public double getBoundary(int i)
-		{
-		return boundaries[i];
 		}
 	}

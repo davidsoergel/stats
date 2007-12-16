@@ -34,9 +34,10 @@ package com.davidsoergel.stats;
 
 public class PearsonCorrelation
 	{
+	// -------------------------- STATIC METHODS --------------------------
+
 	/*
 	Pseodocade form Wikipedia
-
 	sum_sq_x = 0
 sum_sq_y = 0
 sum_coproduct = 0

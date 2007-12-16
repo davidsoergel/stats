@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -32,6 +30,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* $Id$ */
+
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.MathUtils;
@@ -50,6 +50,36 @@ public class Multinomial<T>//extends HashMap<Double, T>
 
 	MultinomialDistribution dist = new MultinomialDistribution();
 	List<T> elements = new ArrayList<T>();
+
+
+	// -------------------------- STATIC METHODS --------------------------
+
+	public static <T> Multinomial<T> mixture(Multinomial<T> basis, Multinomial<T> bias, double mixingProportion)
+			throws DistributionException
+		{
+		Multinomial<T> result = new Multinomial<T>();
+
+		// these may be slow, remove later?
+		assert basis.isAlreadyNormalized();
+		assert bias.isAlreadyNormalized();
+		assert basis.getElements().size() == bias.getElements().size();
+
+		for (T key : basis.getElements())
+			{
+			double p = (1. - mixingProportion) * basis.get(key) + mixingProportion * bias.get(key);
+			result.put(key, p);
+			}
+		assert result.isAlreadyNormalized();
+		return result;
+		}
+
+	public boolean isAlreadyNormalized() throws DistributionException
+		{
+		return dist.isAlreadyNormalized();
+		}
+
+	// --------------------------- CONSTRUCTORS ---------------------------
+
 	//	private Map<T, Double> logProbs = new HashMap<T, Double>();
 
 	public Multinomial()
@@ -64,8 +94,6 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			}
 		normalize();
 		}
-
-	// -------------------------- OTHER METHODS --------------------------
 
 	public void put(T obj, double prob) throws DistributionException//throws DistributionException
 		{
@@ -88,44 +116,14 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		dist.normalize();
 		}
 
-	public boolean isAlreadyNormalized() throws DistributionException
-		{
-		return dist.isAlreadyNormalized();
-		}
-
-	public double get(T obj) throws DistributionException//throws DistributionException
-		{
-		int i = elements.indexOf(obj);
-		if (i == -1)
-			{
-			//return 0;
-			//return Double.NaN;
-			throw new DistributionException("No probability known: " + obj);
-			}
-		return dist.probs[i];
-		}
-
-	public double getLog(T obj) throws DistributionException
-		{
-		//		Double result = logProbs.get(obj);
-		//		if (result == null)
-		//			{
-		//			result = MathUtils.approximateLog(get(obj));
-		//			logProbs.put(obj, result);
-		//			}
-		//		return result;
-		return MathUtils.approximateLog(get(obj));
-		}
+	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public List<T> getElements()
 		{
 		return elements;
 		}
 
-	public T sample() throws DistributionException
-		{
-		return elements.get(dist.sample());
-		}
+	// ------------------------ CANONICAL METHODS ------------------------
 
 	public Multinomial<T> clone()
 		{
@@ -135,18 +133,7 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		return result;
 		}
 
-	public int size()
-		{
-		return elements.size();
-		}
-
-	public void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
-		{
-		for (int c = 0; c < elements.size(); c++)
-			{
-			dist.probs[c] = (dist.probs[c] * (1. - smoothFactor)) + uniform.get(elements.get(c)) * smoothFactor;
-			}
-		}
+	// -------------------------- OTHER METHODS --------------------------
 
 	public double KLDivergenceToThisFrom(Multinomial<T> belief) throws DistributionException
 		{
@@ -170,23 +157,45 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		return divergence;
 		}
 
-	public static <T> Multinomial<T> mixture(Multinomial<T> basis, Multinomial<T> bias, double mixingProportion)
-			throws DistributionException
+	public double getLog(T obj) throws DistributionException
 		{
-		Multinomial<T> result = new Multinomial<T>();
-
-		// these may be slow, remove later?
-		assert basis.isAlreadyNormalized();
-		assert bias.isAlreadyNormalized();
-		assert basis.getElements().size() == bias.getElements().size();
-
-		for (T key : basis.getElements())
-			{
-			double p = (1. - mixingProportion) * basis.get(key) + mixingProportion * bias.get(key);
-			result.put(key, p);
-			}
-		assert result.isAlreadyNormalized();
-		return result;
+		//		Double result = logProbs.get(obj);
+		//		if (result == null)
+		//			{
+		//			result = MathUtils.approximateLog(get(obj));
+		//			logProbs.put(obj, result);
+		//			}
+		//		return result;
+		return MathUtils.approximateLog(get(obj));
 		}
 
+	public double get(T obj) throws DistributionException//throws DistributionException
+		{
+		int i = elements.indexOf(obj);
+		if (i == -1)
+			{
+			//return 0;
+			//return Double.NaN;
+			throw new DistributionException("No probability known: " + obj);
+			}
+		return dist.probs[i];
+		}
+
+	public void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
+		{
+		for (int c = 0; c < elements.size(); c++)
+			{
+			dist.probs[c] = (dist.probs[c] * (1. - smoothFactor)) + uniform.get(elements.get(c)) * smoothFactor;
+			}
+		}
+
+	public T sample() throws DistributionException
+		{
+		return elements.get(dist.sample());
+		}
+
+	public int size()
+		{
+		return elements.size();
+		}
 	}

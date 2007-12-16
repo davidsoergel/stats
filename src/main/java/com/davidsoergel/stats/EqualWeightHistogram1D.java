@@ -44,6 +44,12 @@ import java.util.Arrays;
  */
 public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 	{
+	// --------------------------- CONSTRUCTORS ---------------------------
+
+	public EqualWeightHistogram1D(int bins, double[] data)
+		{
+		this(ArrayUtils.min(data), ArrayUtils.max(data), bins, data);
+		}
 
 	public EqualWeightHistogram1D(double from, double to, int bins)
 		{
@@ -55,12 +61,6 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		super(from, to, bins);
 		addAll(data);
 		}
-
-	public EqualWeightHistogram1D(int bins, double[] data)
-		{
-		this(ArrayUtils.min(data), ArrayUtils.max(data), bins, data);
-		}
-
 
 	private void addAll(double[] data)
 		{
@@ -87,6 +87,8 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		// obviously the counts should be pointsPerBin for every bin, plus or minus one due to discretizing
 		// the main point here was to set the boundaries
 		}
+
+	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public int getBins()
 		{

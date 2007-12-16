@@ -40,5 +40,7 @@ package com.davidsoergel.stats;
  */
 public interface DoubleArrayContainer extends MutableDistribution
 	{
+	// -------------------------- OTHER METHODS --------------------------
+
 	double[] getArray();
 	}

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright (c) 2001-2007 David Soergel
  * 418 Richmond St., El Cerrito, CA  94530
@@ -31,6 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/* $Id$ */
 
 package com.davidsoergel.stats;
 
@@ -140,16 +140,6 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 		normalized = false;
 		}
 
-	public void update(int index, double prob) throws DistributionException
-		{
-		if (prob < 0)
-			{
-			throw new DistributionException("Negative probability!");
-			}
-		probs[index] = prob;
-		normalized = false;
-		}
-
 	/**
 	 * Check whether the distribution is already normalized, even if it hasn't been explicitly normalized. Useful for
 	 * testing whether a freshly constructed distribution is valid.
@@ -176,5 +166,15 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 				}
 			}
 		return normalized;
+		}
+
+	public void update(int index, double prob) throws DistributionException
+		{
+		if (prob < 0)
+			{
+			throw new DistributionException("Negative probability!");
+			}
+		probs[index] = prob;
+		normalized = false;
 		}
 	}

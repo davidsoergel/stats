@@ -44,6 +44,8 @@ import java.util.Set;
  */
 public abstract class Histogram1D extends SimpleXYSeries
 	{
+	// ------------------------------ FIELDS ------------------------------
+
 	private static Logger logger = Logger.getLogger(Histogram1D.class);
 
 	int validcounts, totalcounts;
@@ -54,40 +56,17 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	protected double from, to;
 
+	private double totalsum = 0;// handy to keep the sum around to get the mean quickly
+
+
+	// --------------------------- CONSTRUCTORS ---------------------------
+
 	public Histogram1D(double from, double to, int bins)
 		{
 		this.from = from;
 		this.to = to;
 		this.bins = bins;
 		counts = new int[bins];
-		}
-
-	public abstract int bin(double x) throws StatsException;
-
-	public double centerOfBin(int i) throws StatsException
-		{
-		return (topOfBin(i) + bottomOfBin(i)) / 2;
-		}
-
-	public abstract double bottomOfBin(int bin) throws StatsException;
-
-	public abstract double topOfBin(int bin) throws StatsException;
-
-	private double totalsum = 0;// handy to keep the sum around to get the mean quickly
-
-	public void add(double x)
-		{
-		try
-			{
-			counts[bin(x)]++;
-			validcounts++;
-			}
-		catch (StatsException e)
-			{
-			// out of range
-			}
-		totalsum += x;
-		totalcounts++;
 		}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
@@ -106,6 +85,23 @@ public abstract class Histogram1D extends SimpleXYSeries
 			add(i);
 			}
 		}
+
+	public void add(double x)
+		{
+		try
+			{
+			counts[bin(x)]++;
+			validcounts++;
+			}
+		catch (StatsException e)
+			{
+			// out of range
+			}
+		totalsum += x;
+		totalcounts++;
+		}
+
+	public abstract int bin(double x) throws StatsException;
 
 	public void addXValues(Set<SimpleXYSeries> ss)
 		{
@@ -181,4 +177,12 @@ public abstract class Histogram1D extends SimpleXYSeries
 		return totalsum / totalcounts;
 		}
 
+	public double centerOfBin(int i) throws StatsException
+		{
+		return (topOfBin(i) + bottomOfBin(i)) / 2;
+		}
+
+	public abstract double topOfBin(int bin) throws StatsException;
+
+	public abstract double bottomOfBin(int bin) throws StatsException;
 	}
