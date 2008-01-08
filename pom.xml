@@ -38,14 +38,14 @@
 	<artifactId>stats</artifactId>
 
 	<name>stats</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.9-SNAPSHOT</version>
 	<url>http://dev.davidsoergel.com/stats</url>
 	<description>Distributions.</description>
 
 	<parent>
 		<groupId>com.davidsoergel</groupId>
 		<artifactId>basepom</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>0.9-SNAPSHOT</version>
 	</parent>
 
 	<inceptionYear>2006</inceptionYear>
@@ -61,14 +61,14 @@
 		<dependency>
 			<groupId>com.davidsoergel</groupId>
 			<artifactId>dsutils</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>0.9-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
 	<scm>
-		<connection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats</connection>
-		<developerConnection>scm:svn:svn+ssh://lorax.org/home/lorax/repos/stats</developerConnection>
+		<connection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</connection>
+		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
 	</scm>
 	<distributionManagement>
 		<site>
