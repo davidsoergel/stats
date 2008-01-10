@@ -70,12 +70,15 @@
 		<connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
 		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
 	</scm>
+
+
 	<distributionManagement>
 		<site>
 			<id>website</id>
-			<url>scpexe://dev.davidsoergel.com/home/continuum/domains/dev.davidsoergel.com/stats/site</url>
+			<url>scpexe://dev.davidsoergel.com/home/build/mavensites/stats</url>
 		</site>
 	</distributionManagement>
+
 
 
 	<repositories>
