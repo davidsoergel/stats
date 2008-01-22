@@ -198,4 +198,18 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		{
 		return elements.size();
 		}
+
+	public void redistributeWithMinimum(double minimumProbability) throws DistributionException
+		{
+		double redistributionProportion = elements.size() * minimumProbability;
+		if (redistributionProportion > 1.)
+			{
+			throw new DistributionException("Can't use a minimum probability of " + minimumProbability
+					+ " for a multinomial with " + elements.size() + "elements.");
+			}
+		for (int c = 0; c < elements.size(); c++)
+			{
+			dist.probs[c] = (1. - redistributionProportion) * dist.probs[c] + minimumProbability;
+			}
+		}
 	}
