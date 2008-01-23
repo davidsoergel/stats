@@ -1,3 +1,4 @@
 Title: stats
 
 Provides some basic statistics: standard distributions, histogram binning, and so forth.
+
