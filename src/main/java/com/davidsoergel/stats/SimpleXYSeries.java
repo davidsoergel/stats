@@ -53,8 +53,10 @@ public class SimpleXYSeries
 
 	private List<XYPoint> points = new ArrayList<XYPoint>();
 
-	private double maxX;
-	private double maxY;
+	private double minX = Double.MAX_VALUE;
+	private double maxX = Double.MIN_VALUE;
+	private double minY = Double.MAX_VALUE;
+	private double maxY = Double.MIN_VALUE;
 
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
@@ -62,6 +64,17 @@ public class SimpleXYSeries
 	public double getMaxX()
 		{
 		return maxX;
+		}
+
+	public double getMinX()
+		{
+		return minX;
+		}
+
+	public double getMinY()
+		{
+
+		return minY;
 		}
 
 	public double getMaxY()
@@ -77,7 +90,7 @@ public class SimpleXYSeries
 			{
 			throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
 			}
-		if (Double.isNaN(x) || Double.isInfinite(x))
+		if (Double.isNaN(y) || Double.isInfinite(y))
 			{
 			throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
 			}
@@ -89,6 +102,14 @@ public class SimpleXYSeries
 		if (y > maxY)
 			{
 			maxY = y;
+			}
+		if (x < minX)
+			{
+			minX = x;
+			}
+		if (y < minY)
+			{
+			minY = y;
 			}
 		}
 
@@ -171,6 +192,7 @@ public class SimpleXYSeries
 		{
 		return points.size();
 		}
+
 
 	// -------------------------- INNER CLASSES --------------------------
 

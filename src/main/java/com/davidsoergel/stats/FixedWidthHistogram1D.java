@@ -74,7 +74,14 @@ public class FixedWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested number  " + x + " not in histogram range " + from + " - " + to);
 			}
-		return (int) ((x - from) / binwidth);
+		int result = (int) ((x - from) / binwidth);
+
+		// edge case where x == xMax; just put it in the top bin
+		if (result == bins)
+			{
+			result--;
+			}
+		return result;
 		}
 
 	public double bottomOfBin(int bin) throws StatsException
