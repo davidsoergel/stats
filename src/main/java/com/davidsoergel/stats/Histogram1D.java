@@ -185,4 +185,14 @@ public abstract class Histogram1D extends SimpleXYSeries
 	public abstract double topOfBin(int bin) throws StatsException;
 
 	public abstract double bottomOfBin(int bin) throws StatsException;
+
+	public double[] getBinCenters() throws StatsException
+		{
+		double[] result = new double[counts.length];
+		for (int i = 0; i < counts.length; i++)
+			{
+			result[i] = centerOfBin(i);
+			}
+		return result;
+		}
 	}
