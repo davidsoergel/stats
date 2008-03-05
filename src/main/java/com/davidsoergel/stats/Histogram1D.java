@@ -101,6 +101,22 @@ public abstract class Histogram1D extends SimpleXYSeries
 		totalcounts++;
 		}
 
+
+	public void add(double x, int repetitions)
+		{
+		try
+			{
+			counts[bin(x)] += repetitions;
+			validcounts += repetitions;
+			}
+		catch (StatsException e)
+			{
+			// out of range
+			}
+		totalsum += x * repetitions;
+		totalcounts += repetitions;
+		}
+
 	public abstract int bin(double x) throws StatsException;
 
 	public void addXValues(Set<SimpleXYSeries> ss)

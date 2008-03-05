@@ -34,6 +34,7 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.ArrayUtils;
 import com.davidsoergel.dsutils.MathUtils;
 import org.apache.commons.collections.Bag;
 
@@ -223,5 +224,10 @@ public class Multinomial<T>//extends HashMap<Double, T>
 			{
 			dist.probs[c] = (1. - redistributionProportion) * dist.probs[c] + minimumProbability;
 			}
+		}
+
+	public double getDominantProbability()
+		{
+		return ArrayUtils.max(dist.probs);
 		}
 	}
