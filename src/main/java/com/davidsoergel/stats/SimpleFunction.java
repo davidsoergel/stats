@@ -40,7 +40,7 @@ package com.davidsoergel.stats;
  */
 public interface SimpleFunction
 	{
-	double f(int x);
+	//double f(int x);
 
 	double f(double x);
 	}
