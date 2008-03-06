@@ -230,4 +230,9 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		{
 		return ArrayUtils.max(dist.probs);
 		}
+
+	public T getDominantKey()
+		{
+		return elements.get(ArrayUtils.argmax(dist.probs));
+		}
 	}
