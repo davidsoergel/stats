@@ -32,6 +32,7 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.Set;
@@ -210,5 +211,12 @@ public abstract class Histogram1D extends SimpleXYSeries
 			result[i] = centerOfBin(i);
 			}
 		return result;
+		}
+
+	public double[] getFractions()
+		{
+		double[] fractions = ArrayUtils.castToDouble(counts);
+		ArrayUtils.multiplyBy(fractions, 1. / totalcounts);
+		return fractions;
 		}
 	}
