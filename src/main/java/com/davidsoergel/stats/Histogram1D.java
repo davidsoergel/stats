@@ -215,6 +215,10 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	public double[] getFractions()
 		{
+		if (totalcounts == 0)
+			{
+			return null;
+			}
 		double[] fractions = ArrayUtils.castToDouble(counts);
 		ArrayUtils.multiplyBy(fractions, 1. / totalcounts);
 		return fractions;

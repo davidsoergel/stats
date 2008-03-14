@@ -193,6 +193,22 @@ public class SimpleXYSeries
 		return points.size();
 		}
 
+	public SimpleXYSeries getYSmoothedCopy(double smoothFactor) throws StatsException
+		{
+		if (smoothFactor == 0)
+			{
+			return this;
+			}
+		SimpleXYSeries result = new SimpleXYSeries();
+
+		// inefficient
+		for (XYPoint p : points)
+			{
+			result.addPoint(p.x, ArrayUtils.mean(getYArray(p.x - smoothFactor, p.x + smoothFactor)));
+			}
+
+		return result;
+		}
 
 	// -------------------------- INNER CLASSES --------------------------
 
