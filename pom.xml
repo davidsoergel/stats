@@ -45,7 +45,7 @@
 	<parent>
 		<groupId>com.davidsoergel</groupId>
 		<artifactId>basepom</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.9</version>
 	</parent>
 
 	<inceptionYear>2006</inceptionYear>
@@ -56,7 +56,7 @@
 		<system>Trac</system>
 		<url>http://dev.davidsoergel.com/stats/</url>
 	</issueManagement>
-	
+
 	<scm>
 		<connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
 		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
@@ -70,23 +70,22 @@
 	</distributionManagement>
 
 	<repositories>
-	    <repository>
-	        <id>central</id>
-	        <url>http://dev.davidsoergel.com/artifactory/repo</url>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-	    </repository>
-	    <repository>
-	        <id>snapshots</id>
-	        <url>http://dev.davidsoergel.com/artifactory/repo</url>
-	        <releases>
-	            <enabled>false</enabled>
-	        </releases>
-	    </repository>
+		<repository>
+			<id>central</id>
+			<url>http://dev.davidsoergel.com/artifactory/repo</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>snapshots</id>
+			<url>http://dev.davidsoergel.com/artifactory/repo</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
 	</repositories>
-	
-	
+
 
 	<dependencies>
 		<dependency>
