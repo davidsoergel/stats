@@ -38,6 +38,8 @@ import com.davidsoergel.dsutils.ArrayUtils;
 import com.davidsoergel.dsutils.MathUtils;
 import com.davidsoergel.dsutils.MersenneTwisterFast;
 
+import java.util.List;
+
 /**
  * @author lorax
  * @version 1.0
@@ -68,6 +70,11 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 		probs = new double[p.length];
 		System.arraycopy(p, 0, probs, 0, p.length);
 		normalize();
+		}
+
+	public MultinomialDistribution(List<Double> doubles) throws DistributionException
+		{
+		this(ArrayUtils.toPrimitive(doubles.toArray(ArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY)));
 		}
 
 	public void normalize() throws DistributionException
@@ -176,5 +183,10 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			}
 		probs[index] = prob;
 		normalized = false;
+		}
+
+	public double[] getProbs()
+		{
+		return probs;
 		}
 	}
