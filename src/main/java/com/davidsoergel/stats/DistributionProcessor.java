@@ -32,7 +32,7 @@
 
 package com.davidsoergel.stats;
 
-/* $Id$ */
+
 
 /**
  * @Author David Soergel

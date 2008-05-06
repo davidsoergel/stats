@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Set;
 
-/* $Id$ */
+
 
 /**
  * @Author David Soergel
