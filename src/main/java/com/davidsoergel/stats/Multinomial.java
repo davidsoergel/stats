@@ -35,6 +35,7 @@ package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.ArrayUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
+import com.google.common.collect.Multiset;
 import org.apache.commons.collections.Bag;
 
 import java.util.ArrayList;
@@ -103,6 +104,17 @@ public class Multinomial<T>//extends HashMap<Double, T>
 		for (Object k : counts.uniqueSet())
 			{
 			put((T) k, counts.getCount(k));
+			}
+		normalize();
+		}
+
+
+	public Multinomial(Multiset<T> counts) throws DistributionException
+		{
+		this();
+		for (Multiset.Entry k : counts.entrySet())
+			{
+			put((T) k.getElement(), k.getCount());
 			}
 		normalize();
 		}
