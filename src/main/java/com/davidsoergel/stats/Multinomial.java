@@ -31,11 +31,10 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.ArrayUtils;
-import com.davidsoergel.dsutils.MathUtils;
+import com.davidsoergel.dsutils.math.MathUtils;
 import org.apache.commons.collections.Bag;
 
 import java.util.ArrayList;

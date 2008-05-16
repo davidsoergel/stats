@@ -31,10 +31,9 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.MersenneTwisterFast;
+import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 
 
 /**
