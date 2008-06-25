@@ -31,7 +31,6 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
 import java.util.ArrayList;
@@ -79,5 +78,10 @@ public class DoubleTimecourse
 		sum += d;
 		data.add(d);
 		runningAverage.add(sum / (double) data.size());
+		}
+
+	public ArrayList<Double> getData()
+		{
+		return data;
 		}
 	}
