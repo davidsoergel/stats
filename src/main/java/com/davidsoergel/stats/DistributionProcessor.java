@@ -33,11 +33,6 @@
 package com.davidsoergel.stats;
 
 
-
-/**
- * @Author David Soergel
- * @Version 1.0
- */
 public interface DistributionProcessor<T extends MutableDistribution>
 	{
 	// -------------------------- OTHER METHODS --------------------------

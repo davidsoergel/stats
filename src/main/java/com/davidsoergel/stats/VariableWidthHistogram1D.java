@@ -33,11 +33,6 @@
 package com.davidsoergel.stats;
 
 
-
-/**
- * @Author David Soergel
- * @Version 1.0
- */
 public abstract class VariableWidthHistogram1D extends Histogram1D
 	{
 	// ------------------------------ FIELDS ------------------------------

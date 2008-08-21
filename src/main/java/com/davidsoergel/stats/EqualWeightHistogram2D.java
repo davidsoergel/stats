@@ -38,11 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-/**
- * @Author David Soergel
- * @Version 1.0
- */
 public class EqualWeightHistogram2D
 	{
 	// ------------------------------ FIELDS ------------------------------

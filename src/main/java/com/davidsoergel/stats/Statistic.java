@@ -33,10 +33,6 @@
 package com.davidsoergel.stats;
 
 
-/**
- * @Author David Soergel
- * @Version 1.0
- */
 public interface Statistic<T>
 	{
 	// -------------------------- OTHER METHODS --------------------------

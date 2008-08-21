@@ -38,11 +38,6 @@ import org.apache.log4j.Logger;
 import java.util.Set;
 
 
-
-/**
- * @Author David Soergel
- * @Version 1.0
- */
 public abstract class Histogram1D extends SimpleXYSeries
 	{
 	// ------------------------------ FIELDS ------------------------------
