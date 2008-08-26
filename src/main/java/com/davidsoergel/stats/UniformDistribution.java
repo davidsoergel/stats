@@ -61,7 +61,7 @@ public class UniformDistribution implements ContinuousDistribution1D
 
 	// --------------------- Interface ContinuousDistribution1D ---------------------
 
-	public double sample() throws DistributionException
+	public double sample()//throws DistributionException
 		{
 		return min + ((max - min) * mtf.nextDouble());
 		}

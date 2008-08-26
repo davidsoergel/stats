@@ -63,7 +63,7 @@ public class LogNormalDistribution implements ContinuousDistribution1D
 
 	// --------------------- Interface ContinuousDistribution1D ---------------------
 
-	public double sample() throws DistributionException
+	public double sample()//throws DistributionException
 		{
 		return MathUtils.approximateLog(mean + (variance * mtf.nextGaussian()));
 		}

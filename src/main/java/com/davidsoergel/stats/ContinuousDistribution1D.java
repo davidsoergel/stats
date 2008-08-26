@@ -31,7 +31,6 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
 /**
@@ -42,5 +41,5 @@ public interface ContinuousDistribution1D
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	double sample() throws DistributionException;
+	double sample();// throws DistributionException;
 	}

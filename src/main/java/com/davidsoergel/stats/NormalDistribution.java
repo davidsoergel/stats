@@ -62,7 +62,7 @@ public class NormalDistribution implements ContinuousDistribution1D
 
 	// --------------------- Interface ContinuousDistribution1D ---------------------
 
-	public double sample() throws DistributionException
+	public double sample()//throws DistributionException
 		{
 		return mean + (variance * mtf.nextGaussian());
 		}
