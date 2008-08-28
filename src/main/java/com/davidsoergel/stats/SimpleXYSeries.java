@@ -31,7 +31,6 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.ArrayUtils;

@@ -31,7 +31,6 @@
  */
 
 
-
 package com.davidsoergel.stats;
 
 import org.apache.log4j.Logger;
