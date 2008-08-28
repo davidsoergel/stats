@@ -51,8 +51,5 @@ public interface DistanceMeasure<T>
 	//public String getName();
 	double distanceFromTo(T a, T b);
 
-	// ** premature optimization
-	// double distanceFromTo(T p, T centroid, double distanceToBeat);
-
 	String toString();
 	}
