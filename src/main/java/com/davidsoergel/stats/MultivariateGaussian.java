@@ -33,7 +33,9 @@
 
 package com.davidsoergel.stats;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
+
 
 /**
  * @author lorax
@@ -53,7 +55,7 @@ public class MultivariateGaussian implements ContinuousDistribution
 
 	public MultivariateGaussian(double[] mean, double[][] cov)
 		{
-
+		throw new NotImplementedException();
 		}
 
 	// ------------------------ INTERFACE METHODS ------------------------
