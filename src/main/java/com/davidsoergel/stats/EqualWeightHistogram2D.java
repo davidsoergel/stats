@@ -42,7 +42,7 @@ public class EqualWeightHistogram2D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(EqualWeightHistogram2D.class);
+	private static final Logger logger = Logger.getLogger(EqualWeightHistogram2D.class);
 	//int validcounts, totalcounts;
 
 	private EqualWeightHistogram1D theBaseHistogram;

@@ -40,7 +40,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(FixedWidthHistogram1D.class);
+	private static final Logger logger = Logger.getLogger(FixedWidthHistogram1D.class);
 
 	private double binwidth;
 

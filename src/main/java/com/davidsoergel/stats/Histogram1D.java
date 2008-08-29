@@ -42,7 +42,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(Histogram1D.class);
+	private static final Logger logger = Logger.getLogger(Histogram1D.class);
 
 	int validcounts, totalcounts;
 

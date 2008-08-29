@@ -45,7 +45,7 @@ public class MultivariateGaussian implements ContinuousDistribution
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(MultivariateGaussian.class);
+	private static final Logger logger = Logger.getLogger(MultivariateGaussian.class);
 
 	double[] mean;
 	double[][] cov;

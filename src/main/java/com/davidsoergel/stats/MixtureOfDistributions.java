@@ -48,7 +48,7 @@ public class MixtureOfDistributions
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(MixtureOfDistributions.class);
+	private static final Logger logger = Logger.getLogger(MixtureOfDistributions.class);
 
 	int d;
 	MultinomialDistribution mixture = new MultinomialDistribution();

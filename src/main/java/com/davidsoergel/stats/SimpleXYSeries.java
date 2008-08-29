@@ -48,7 +48,7 @@ public class SimpleXYSeries
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(SimpleXYSeries.class);
+	private static final Logger logger = Logger.getLogger(SimpleXYSeries.class);
 
 	private List<XYPoint> points = new ArrayList<XYPoint>();
 

@@ -60,7 +60,7 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 	private void addAll(double[] data)
 		{
 		//int bin = 0;
-		double pointsPerBin = data.length / bins;
+		double pointsPerBin = (double) data.length / (double) bins;
 		Arrays.sort(data);
 		int prevBin = 0;
 		for (int dataIndex = 0; dataIndex < data.length; dataIndex++)

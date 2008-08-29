@@ -43,7 +43,7 @@ public class DistributionException extends StatsException
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(DistributionException.class);
+	private static final Logger logger = Logger.getLogger(DistributionException.class);
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------

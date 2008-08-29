@@ -39,7 +39,7 @@ public class StatsException extends ChainedException
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(StatsException.class);
+	private static final Logger logger = Logger.getLogger(StatsException.class);
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
