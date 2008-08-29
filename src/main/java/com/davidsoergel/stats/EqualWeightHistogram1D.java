@@ -32,7 +32,7 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.DSArrayUtils;
 
 import java.util.Arrays;
 
@@ -43,7 +43,7 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 
 	public EqualWeightHistogram1D(int bins, double[] data)
 		{
-		this(ArrayUtils.min(data), ArrayUtils.max(data), bins, data);
+		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
 		}
 
 	public EqualWeightHistogram1D(double from, double to, int bins)

@@ -33,7 +33,7 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -161,7 +161,7 @@ public class SimpleXYSeries
 			}
 		//double[] result = new double[points.size()];
 		//return result;
-		return ArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
+		return DSArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
 		}
 
 	public Iterator getYiterator()
@@ -203,7 +203,7 @@ public class SimpleXYSeries
 		// inefficient
 		for (XYPoint p : points)
 			{
-			result.addPoint(p.x, ArrayUtils.mean(getYArray(p.x - smoothFactor, p.x + smoothFactor)));
+			result.addPoint(p.x, DSArrayUtils.mean(getYArray(p.x - smoothFactor, p.x + smoothFactor)));
 			}
 
 		return result;

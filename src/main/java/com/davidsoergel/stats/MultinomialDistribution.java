@@ -33,7 +33,7 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.DSArrayUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 
@@ -73,7 +73,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 
 	public MultinomialDistribution(List<Double> doubles) throws DistributionException
 		{
-		this(ArrayUtils.toPrimitive(doubles.toArray(ArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY)));
+		this(DSArrayUtils.toPrimitive(doubles.toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY)));
 		}
 
 	public void normalize() throws DistributionException
@@ -105,7 +105,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 	 */
 	public MultinomialDistribution(int[] p) throws DistributionException
 		{
-		probs = ArrayUtils.castToDouble(p);
+		probs = DSArrayUtils.castToDouble(p);
 		//System.arraycopy(p, 0, probs, 0, p.length);
 		normalize();
 		}
@@ -141,7 +141,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			{
 			throw new DistributionException("Negative probability!");
 			}
-		probs = ArrayUtils.grow(probs, 1);
+		probs = DSArrayUtils.grow(probs, 1);
 		probs[probs.length - 1] = prob;
 		normalized = false;
 		}

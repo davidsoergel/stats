@@ -32,7 +32,7 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.Set;
@@ -214,8 +214,8 @@ public abstract class Histogram1D extends SimpleXYSeries
 			{
 			return null;
 			}
-		double[] fractions = ArrayUtils.castToDouble(counts);
-		ArrayUtils.multiplyBy(fractions, 1. / totalcounts);
+		double[] fractions = DSArrayUtils.castToDouble(counts);
+		DSArrayUtils.multiplyBy(fractions, 1. / totalcounts);
 		return fractions;
 		}
 	}

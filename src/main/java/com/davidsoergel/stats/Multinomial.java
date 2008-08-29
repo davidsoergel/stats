@@ -33,7 +33,7 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.ArrayUtils;
+import com.davidsoergel.dsutils.DSArrayUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.google.common.collect.Multiset;
 import org.apache.commons.collections15.Bag;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Multinomial<T>//extends HashMap<Double, T>
+public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	{
 	// ------------------------------ FIELDS ------------------------------
 
@@ -235,11 +235,11 @@ public class Multinomial<T>//extends HashMap<Double, T>
 
 	public double getDominantProbability()
 		{
-		return ArrayUtils.max(dist.probs);
+		return DSArrayUtils.max(dist.probs);
 		}
 
 	public T getDominantKey()
 		{
-		return elements.get(ArrayUtils.argmax(dist.probs));
+		return elements.get(DSArrayUtils.argmax(dist.probs));
 		}
 	}
