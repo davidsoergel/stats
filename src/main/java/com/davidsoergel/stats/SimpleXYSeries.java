@@ -211,7 +211,7 @@ public class SimpleXYSeries
 
 	// -------------------------- INNER CLASSES --------------------------
 
-	private class XYPoint
+	private static class XYPoint
 		{
 		public double x, y;
 
