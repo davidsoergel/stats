@@ -33,6 +33,11 @@
 package com.davidsoergel.stats;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public interface IntArrayContainer extends MutableDistribution
 	{
 	// -------------------------- OTHER METHODS --------------------------

@@ -38,6 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public class EqualWeightHistogram2D
 	{
 	// ------------------------------ FIELDS ------------------------------

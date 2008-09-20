@@ -37,6 +37,11 @@ import com.davidsoergel.dsutils.DSArrayUtils;
 import java.util.Arrays;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 	{
 	// --------------------------- CONSTRUCTORS ---------------------------

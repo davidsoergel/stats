@@ -38,6 +38,11 @@ import org.apache.log4j.Logger;
 import java.util.Set;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public abstract class Histogram1D extends SimpleXYSeries
 	{
 	// ------------------------------ FIELDS ------------------------------

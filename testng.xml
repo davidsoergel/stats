@@ -36,6 +36,7 @@
 	<test name="stats">
 		<packages>
 			<package name="com.davidsoergel.stats"/>
+			<package name="com.davidsoergel.stats.*"/>
 		</packages>
 	</test>
 </suite>

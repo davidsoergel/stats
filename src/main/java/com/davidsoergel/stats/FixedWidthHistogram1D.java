@@ -35,6 +35,11 @@ package com.davidsoergel.stats;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 // MAYBE Redo using matrix library
 public class FixedWidthHistogram1D extends Histogram1D
 	{
