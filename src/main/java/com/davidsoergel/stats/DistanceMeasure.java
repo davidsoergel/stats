@@ -33,23 +33,32 @@
 
 package com.davidsoergel.stats;
 
+
 /**
- * @author lorax
- * @version 1.0
+ * A measure of distance between points of the generic type, i.e., a generalized dot product.  Note the distance need
+ * not be symmetric.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
  */
 public interface DistanceMeasure<T>
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
 	/**
-	 * Method distanceBetween ...
+	 * Computes the distance from the first given point to the second.
 	 *
-	 * @param a of type T
-	 * @param b of type T
-	 * @return double
+	 * @param a the starting point of type T
+	 * @param b the ending point of type T
+	 * @return the double distance according to this measure.
 	 */
 	//public String getName();
 	double distanceFromTo(T a, T b);
 
+	/**
+	 * Provides some description of this distance measure, such as its name.
+	 *
+	 * @return a String describing this distance measure.
+	 */
 	String toString();
 	}

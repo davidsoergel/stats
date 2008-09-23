@@ -34,13 +34,16 @@
 package com.davidsoergel.stats;
 
 /**
- * @author lorax
- * @version 1.0
+ * A one-dimensional continuous distribution on the integer number line.
  */
 public interface DiscreteDistribution1D
 	{
 	// -------------------------- OTHER METHODS --------------------------
-
+	/**
+	 * Sample the distribution
+	 *
+	 * @return the double sample
+	 */
 	int sample() throws DistributionException;
 
 	//public int sampleWithoutReplacement() throws DistributionException;

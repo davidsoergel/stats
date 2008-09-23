@@ -34,12 +34,16 @@
 package com.davidsoergel.stats;
 
 /**
- * @author lorax
- * @version 1.0
+ * A one-dimensional continuous distribution on the real number line.
  */
 public interface ContinuousDistribution1D
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
+	/**
+	 * Sample the distribution
+	 *
+	 * @return the double sample
+	 */
 	double sample();// throws DistributionException;
 	}

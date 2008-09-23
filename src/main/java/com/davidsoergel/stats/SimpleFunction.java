@@ -34,13 +34,19 @@ package com.davidsoergel.stats;
 
 
 /**
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * A function from the reals onto the reals.
+ *
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
 public interface SimpleFunction
 	{
-	//double f(int x);
-
+	/**
+	 * Perform the function on the argument.
+	 *
+	 * @param x the input
+	 * @return the output, f(x).
+	 */
 	double f(double x);
 	}

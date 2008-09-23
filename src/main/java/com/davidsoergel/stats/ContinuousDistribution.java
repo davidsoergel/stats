@@ -34,14 +34,23 @@
 package com.davidsoergel.stats;
 
 /**
- * @author lorax
- * @version 1.0
+ * A multi-dimensional distribution over a continuous real space.
  */
 public interface ContinuousDistribution
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
+	/**
+	 * Returns the dimensionality of this distribution
+	 *
+	 * @return the dimensionality of this distribution
+	 */
 	int getDimensionality();
 
+	/**
+	 * Sample the distribution
+	 *
+	 * @return the double sample
+	 */
 	double[] sample() throws DistributionException;
 	}

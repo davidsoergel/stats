@@ -34,7 +34,9 @@ package com.davidsoergel.stats;
 
 
 /**
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * Interface for classes that can compute a double value given an object of the generic type.
+ *
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
@@ -42,15 +44,20 @@ public interface Statistic<T>
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
+
 	/**
-	 * Method distanceBetween ...
+	 * Compute the statistic on the given object.
 	 *
-	 * @param a of type T
-	 * @return double
+	 * @param a the object on which to compute the statistic.
+	 * @return the value of the statistic for that object.
 	 */
-	//public String getName();
 	double measure(T a);
 
+	/**
+	 * Provides some description of this statistic, such as its name.
+	 *
+	 * @return a String describing this statistic.
+	 */
 	String toString();
 	}
 
