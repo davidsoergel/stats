@@ -40,8 +40,7 @@ import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 import java.util.List;
 
 /**
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class MultinomialDistribution implements DiscreteDistribution1D
 	{

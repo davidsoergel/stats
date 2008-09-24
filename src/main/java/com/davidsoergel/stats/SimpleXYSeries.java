@@ -41,8 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class SimpleXYSeries
 	{

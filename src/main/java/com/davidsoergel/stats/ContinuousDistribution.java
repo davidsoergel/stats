@@ -35,6 +35,9 @@ package com.davidsoergel.stats;
 
 /**
  * A multi-dimensional distribution over a continuous real space.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
  */
 public interface ContinuousDistribution
 	{

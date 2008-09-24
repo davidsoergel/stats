@@ -38,8 +38,7 @@ import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 
 
 /**
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class LogNormalDistribution implements ContinuousDistribution1D
 	{

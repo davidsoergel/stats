@@ -36,8 +36,7 @@ package com.davidsoergel.stats;
 import java.util.ArrayList;
 
 /**
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class DoubleTimecourse
 	{

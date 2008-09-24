@@ -41,8 +41,7 @@ import java.util.List;
 /**
  * Models a mixture of distributions in a multidimensional linear space.
  *
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class MixtureOfDistributions
 	{

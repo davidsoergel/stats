@@ -36,8 +36,7 @@ package com.davidsoergel.stats;
 import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 
 /**
- * @author lorax
- * @version 1.0
+ * @version $Id$
  */
 public class UniformDistribution implements ContinuousDistribution1D
 	{

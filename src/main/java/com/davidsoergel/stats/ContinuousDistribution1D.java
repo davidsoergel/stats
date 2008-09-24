@@ -35,6 +35,9 @@ package com.davidsoergel.stats;
 
 /**
  * A one-dimensional continuous distribution on the real number line.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
  */
 public interface ContinuousDistribution1D
 	{
