@@ -51,8 +51,8 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	MultinomialDistribution dist = new MultinomialDistribution();
-	List<T> elements = new ArrayList<T>();
+	private MultinomialDistribution dist = new MultinomialDistribution();
+	private List<T> elements = new ArrayList<T>();
 
 
 	// -------------------------- STATIC METHODS --------------------------
@@ -113,7 +113,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	public Multinomial(Multiset<T> counts) throws DistributionException
 		{
 		this();
-		for (Multiset.Entry k : counts.entrySet())
+		for (Multiset.Entry<T> k : counts.entrySet())
 			{
 			put((T) k.getElement(), k.getCount());
 			}

@@ -46,7 +46,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	private static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double[] probs = new double[0];
 	private boolean normalized = false;
 
