@@ -33,6 +33,7 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -64,6 +65,16 @@ public class FixedWidthHistogram1D extends Histogram1D
 	public FixedWidthHistogram1D(double from, double to, double binwidth, double[] data)
 		{
 		this(from, to, binwidth);
+		for (double d : data)
+			{
+			add(d);
+			}
+		}
+
+	public FixedWidthHistogram1D(double[] data, int numBins)
+		{
+		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
+		binwidth = (to - from) / numBins;
 		for (double d : data)
 			{
 			add(d);
