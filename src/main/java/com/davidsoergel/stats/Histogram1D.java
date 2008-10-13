@@ -223,4 +223,25 @@ public abstract class Histogram1D extends SimpleXYSeries
 		DSArrayUtils.multiplyBy(fractions, 1. / totalcounts);
 		return fractions;
 		}
+
+	public double[] getCumulativeFractions()
+		{
+		double[] result = getFractions();
+		for (int i = 1; i < result.length; i++)
+			{
+			result[i] += result[i - 1];
+			}
+		return result;
+		}
+
+	/**
+	 * Typically, when fractions are requested, the histogram is just normalized by the number of samples seen so far.
+	 * Sometimes we may want to use a different denominator, thogh.
+	 *
+	 * @param totalcounts
+	 */
+	public void setTotalcounts(int totalcounts)
+		{
+		this.totalcounts = totalcounts;
+		}
 	}
