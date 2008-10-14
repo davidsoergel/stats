@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.DSArrayUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.google.common.collect.Multiset;
 import org.apache.commons.collections15.Bag;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -246,5 +247,19 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	public T getDominantKey()
 		{
 		return elements.get(DSArrayUtils.argmax(dist.probs));
+		}
+
+	public void remove(T obj) throws DistributionException
+		{
+		int i = elements.indexOf(obj);
+		if (i == -1)
+			{
+			//return 0;
+			//return Double.NaN;
+			throw new DistributionException("Can't remove nonexistent element: " + obj);
+			}
+		elements.remove(i);
+		dist.probs = ArrayUtils.remove(dist.probs, i);
+		dist.normalize();
 		}
 	}
