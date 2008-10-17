@@ -50,6 +50,10 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 	private double binwidth;
 
+	public double getBinwidth()
+		{
+		return binwidth;
+		}
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
