@@ -230,8 +230,9 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		double redistributionProportion = elements.size() * minimumProbability;
 		if (redistributionProportion > 1.)
 			{
-			throw new DistributionException("Can't use a minimum probability of " + minimumProbability
-					+ " for a multinomial with " + elements.size() + "elements.");
+			throw new DistributionException(
+					"Can't use a minimum probability of " + minimumProbability + " for a multinomial with "
+							+ elements.size() + "elements.");
 			}
 		for (int c = 0; c < elements.size(); c++)
 			{
@@ -261,5 +262,28 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		elements.remove(i);
 		dist.probs = ArrayUtils.remove(dist.probs, i);
 		dist.normalize();
+		}
+
+	/**
+	 * Note this is entirely sensitive to the current normalization state.  The idea is that one might add a bunch of
+	 * weights in a loop, and normalize afterwards.
+	 *
+	 * @param obj
+	 * @param increment
+	 * @throws DistributionException
+	 */
+	public void increment(T obj, double increment) throws DistributionException
+		{
+		try
+			{
+			double currentval = get(obj);
+			dist.update(elements.indexOf(obj), currentval + increment);
+			}
+		catch (DistributionException e)  // there wasn't already a value
+			{
+			elements.add(obj);
+			dist.add(increment);
+			//dist.normalize();
+			}
 		}
 	}
