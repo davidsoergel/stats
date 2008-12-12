@@ -35,12 +35,14 @@ package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.DSArrayUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Multiset;
 import org.apache.commons.collections15.Bag;
 import org.apache.commons.lang.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -53,8 +55,9 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	// ------------------------------ FIELDS ------------------------------
 
 	private MultinomialDistribution dist = new MultinomialDistribution();
-	private List<T> elements = new ArrayList<T>();
-
+	//private List<T> elements = new ArrayList<T>();
+	private BiMap<T, Integer> elementIndexes = new HashBiMap<T, Integer>();
+	int maxIndex = 0;
 
 	// -------------------------- STATIC METHODS --------------------------
 
@@ -123,15 +126,16 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	public void put(T obj, double prob) throws DistributionException//throws DistributionException
 		{
-		if (elements.contains(obj))
+		if (elementIndexes.containsKey(obj))
 			{
-			dist.update(elements.indexOf(obj), prob);
+			dist.update(elementIndexes.get(obj), prob);
 			//dist.normalize();
 			//throw new DistributionException("Can't add the same element to a Multinomial twice");// don't bother to handle this properly
 			}
 		else
 			{
-			elements.add(obj);
+			elementIndexes.put(obj, maxIndex);
+			maxIndex++;
 			dist.add(prob);
 			//dist.normalize();
 			}
@@ -144,9 +148,9 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public List<T> getElements()
+	public Collection<T> getElements()
 		{
-		return elements;
+		return elementIndexes.keySet();
 		}
 
 	// ------------------------ CANONICAL METHODS ------------------------
@@ -155,7 +159,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		{
 		Multinomial<T> result = new Multinomial<T>();
 		result.dist = new MultinomialDistribution(dist);
-		result.elements = new ArrayList<T>(elements);
+		result.elementIndexes = new HashBiMap<T, Integer>(elementIndexes);
 		return result;
 		}
 
@@ -164,7 +168,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	public double KLDivergenceToThisFrom(Multinomial<T> belief) throws DistributionException
 		{
 		double divergence = 0;
-		for (T key : elements)
+		for (T key : elementIndexes.keySet())
 			{
 			double p = get(key);
 			double q = belief.get(key);
@@ -197,8 +201,8 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	public double get(T obj) throws DistributionException//throws DistributionException
 		{
-		int i = elements.indexOf(obj);
-		if (i == -1)
+		Integer i = elementIndexes.get(obj);
+		if (i == null)
 			{
 			//return 0;
 			//return Double.NaN;
@@ -209,32 +213,33 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	public void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
 		{
-		for (int c = 0; c < elements.size(); c++)
+		for (int c = 0; c < elementIndexes.size(); c++)
 			{
-			dist.probs[c] = (dist.probs[c] * (1. - smoothFactor)) + uniform.get(elements.get(c)) * smoothFactor;
+			dist.probs[c] =
+					(dist.probs[c] * (1. - smoothFactor)) + uniform.get(elementIndexes.inverse().get(c)) * smoothFactor;
 			}
 		}
 
 	public T sample() throws DistributionException
 		{
-		return elements.get(dist.sample());
+		return elementIndexes.inverse().get(dist.sample());
 		}
 
 	public int size()
 		{
-		return elements.size();
+		return elementIndexes.size();
 		}
 
 	public void redistributeWithMinimum(double minimumProbability) throws DistributionException
 		{
-		double redistributionProportion = elements.size() * minimumProbability;
+		double redistributionProportion = maxIndex * minimumProbability;
 		if (redistributionProportion > 1.)
 			{
 			throw new DistributionException(
-					"Can't use a minimum probability of " + minimumProbability + " for a multinomial with "
-							+ elements.size() + "elements.");
+					"Can't use a minimum probability of " + minimumProbability + " for a multinomial with " + maxIndex
+							+ "elements.");
 			}
-		for (int c = 0; c < elements.size(); c++)
+		for (int c = 0; c < maxIndex; c++)
 			{
 			dist.probs[c] = (1. - redistributionProportion) * dist.probs[c] + minimumProbability;
 			}
@@ -247,19 +252,19 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	public T getDominantKey()
 		{
-		return elements.get(DSArrayUtils.argmax(dist.probs));
+		return elementIndexes.inverse().get(DSArrayUtils.argmax(dist.probs));
 		}
 
 	public void remove(T obj) throws DistributionException
 		{
-		int i = elements.indexOf(obj);
-		if (i == -1)
+		Integer i = elementIndexes.get(obj);
+		if (i == null)
 			{
 			//return 0;
 			//return Double.NaN;
 			throw new DistributionException("Can't remove nonexistent element: " + obj);
 			}
-		elements.remove(i);
+		elementIndexes.remove(obj);
 		dist.probs = ArrayUtils.remove(dist.probs, i);
 		dist.normalize();
 		}
@@ -277,13 +282,24 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		try
 			{
 			double currentval = get(obj);
-			dist.update(elements.indexOf(obj), currentval + increment);
+			dist.update(elementIndexes.get(obj), currentval + increment);
 			}
 		catch (DistributionException e)  // there wasn't already a value
 			{
-			elements.add(obj);
+			elementIndexes.put(obj, maxIndex);
+			maxIndex++;
 			dist.add(increment);
 			//dist.normalize();
 			}
+		}
+
+	public Map<T, Double> getValueMap()
+		{
+		Map<T, Double> result = new HashMap<T, Double>();
+		for (Map.Entry<T, Integer> entry : elementIndexes.entrySet())
+			{
+			result.put(entry.getKey(), dist.probs[entry.getValue()]);
+			}
+		return result;
 		}
 	}
