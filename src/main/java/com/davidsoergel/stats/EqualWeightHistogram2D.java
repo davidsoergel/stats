@@ -58,15 +58,21 @@ public class EqualWeightHistogram2D
 
 	public EqualWeightHistogram2D(SimpleXYSeries xy, int xBins, int yBins) throws StatsException
 		{
+		this(xy, xBins, yBins, false);
+		}
+
+	public EqualWeightHistogram2D(SimpleXYSeries xy, int xBins, int yBins, boolean cumulative) throws StatsException
+		{
 		theBaseHistogram = new EqualWeightHistogram1D(xBins, xy.getXArray());
 
 		for (int i = 0; i < xBins; i++)
 			{
-			double xmin = theBaseHistogram.bottomOfBin(i);
+			double xmin = cumulative ? 0 : theBaseHistogram.bottomOfBin(i);
 			double xmax = theBaseHistogram.topOfBin(i);
 			thePerBinHistograms.add(new EqualWeightHistogram1D(yBins, xy.getYArray(xmin, xmax)));
 			}
 		}
+
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 

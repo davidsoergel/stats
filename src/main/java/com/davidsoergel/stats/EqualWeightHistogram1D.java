@@ -51,6 +51,7 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
 		}
 
+
 	public EqualWeightHistogram1D(double from, double to, int bins)
 		{
 		super(from, to, bins);
