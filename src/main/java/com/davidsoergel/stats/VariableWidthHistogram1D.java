@@ -42,7 +42,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	double[] boundaries;// inclusive at the bottom, exclusive at the top
+	double[] lowerBoundaries;// inclusive at the bottom, exclusive at the top
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
@@ -50,9 +50,9 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 	public VariableWidthHistogram1D(double from, double to, int bins)
 		{
 		super(from, to, bins);
-		boundaries = new double[bins + 1];
-		boundaries[0] = from;
-		boundaries[bins] = to;
+		lowerBoundaries = new double[bins + 1];
+		lowerBoundaries[0] = from;
+		lowerBoundaries[bins] = to;
 		}
 
 	// -------------------------- OTHER METHODS --------------------------
@@ -65,7 +65,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 			}
 		for (int i = 0; i < bins; i++)
 			{
-			if (x >= boundaries[i] && x < boundaries[i + 1])
+			if (x >= lowerBoundaries[i] && x < lowerBoundaries[i + 1])
 				{
 				return i;
 				}
@@ -79,12 +79,12 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested bin " + bin + " not in histogram range 0 - " + (bins - 1));
 			}
-		return boundaries[bin];
+		return lowerBoundaries[bin];
 		}
 
 	public double getBoundary(int i)
 		{
-		return boundaries[i];
+		return lowerBoundaries[i];
 		}
 
 	public double topOfBin(int bin) throws StatsException
@@ -93,6 +93,6 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested bin " + bin + " not in histogram range 0 - " + (bins));
 			}
-		return boundaries[bin + 1];
+		return lowerBoundaries[bin + 1];
 		}
 	}
