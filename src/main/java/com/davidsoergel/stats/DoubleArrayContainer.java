@@ -54,4 +54,11 @@ public interface DoubleArrayContainer extends MutableDistribution
 	 * @return the array of parameters for this distribution
 	 */
 	double[] getArray();
+
+	/**
+	 * The sum of the elements in the array.  It's useful to cache this to avoid recomputing it all the time.
+	 *
+	 * @return
+	 */
+	double getArraySum();
 	}
