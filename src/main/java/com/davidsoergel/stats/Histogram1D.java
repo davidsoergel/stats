@@ -157,8 +157,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 				}
 			catch (StatsException e)
 				{
-				logger.debug(e);
-				e.printStackTrace();
+				logger.error(e);
 				throw new Error("Impossible");
 				}
 			var += counts[i] * d * d;
