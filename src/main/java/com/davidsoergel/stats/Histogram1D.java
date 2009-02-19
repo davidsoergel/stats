@@ -235,7 +235,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	/**
 	 * Typically, when fractions are requested, the histogram is just normalized by the number of samples seen so far.
-	 * Sometimes we may want to use a different denominator, thogh.
+	 * Sometimes we may want to use a different denominator, though.
 	 *
 	 * @param totalcounts
 	 */
