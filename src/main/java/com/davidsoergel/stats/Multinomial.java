@@ -40,6 +40,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Multiset;
 import org.apache.commons.collections15.Bag;
 import org.apache.commons.lang.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		normalize();
 		}
 
-	public void put(T obj, double prob) throws DistributionException//throws DistributionException
+	public void put(@NotNull T obj, double prob) throws DistributionException//throws DistributionException
 		{
 		if (elementIndexes.containsKey(obj))
 			{
@@ -220,9 +221,16 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 			}
 		}
 
+	@NotNull
 	public T sample() throws DistributionException
 		{
-		return elementIndexes.inverse().get(dist.sample());
+		int index = dist.sample();
+		T result = elementIndexes.inverse().get(index);
+		if (result == null)
+			{
+			throw new Error("Impossible");
+			}
+		return result;
 		}
 
 	public int size()
@@ -267,6 +275,25 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		elementIndexes.remove(obj);
 		dist.probs = ArrayUtils.remove(dist.probs, i);
 		dist.normalize();
+
+		i++;
+		while (i <= elementIndexes.size())
+			{
+			T t = elementIndexes.inverse().get(i);
+			elementIndexes.put(t, i - 1);
+			i++;
+			}
+/*
+		for (Map.Entry<T, Integer> entry : elementIndexes.entrySet())
+			{
+			Integer v = entry.getValue();
+			if (v > i)
+				{
+				entry.setValue(v - 1);
+				}
+			}
+*/
+
 		}
 
 	/**
