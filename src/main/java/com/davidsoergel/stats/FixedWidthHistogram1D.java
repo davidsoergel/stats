@@ -78,6 +78,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 	public FixedWidthHistogram1D(double[] data, int numBins)
 		{
 		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
+		//numBins = Math.min(numBins, data.length);
 		binwidth = (to - from) / numBins;
 		for (double d : data)
 			{
