@@ -47,7 +47,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public VariableWidthHistogram1D(double from, double to, int bins)
+	public VariableWidthHistogram1D(double from, double to, int bins) //throws StatsException
 		{
 		super(from, to, bins);
 		lowerBoundaries = new double[bins + 1];

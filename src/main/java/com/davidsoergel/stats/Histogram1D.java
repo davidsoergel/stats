@@ -62,8 +62,12 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public Histogram1D(double from, double to, int bins)
+	public Histogram1D(double from, double to, int bins)// throws StatsException
 		{
+		if (from > to)
+			{
+			throw new StatsRuntimeException("Can't build a histogram with negative width from " + from + " to " + to);
+			}
 		this.from = from;
 		this.to = to;
 		this.bins = bins;

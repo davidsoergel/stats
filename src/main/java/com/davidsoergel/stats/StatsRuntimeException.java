@@ -32,67 +32,35 @@
 
 package com.davidsoergel.stats;
 
-import com.davidsoergel.dsutils.DSArrayUtils;
-
-import java.util.Arrays;
-
+import com.davidsoergel.dsutils.ChainedRuntimeException;
+import org.apache.log4j.Logger;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
-public class EqualWeightHistogram1D extends VariableWidthHistogram1D
+public class StatsRuntimeException extends ChainedRuntimeException
 	{
+	// ------------------------------ FIELDS ------------------------------
+
+	private static final Logger logger = Logger.getLogger(StatsRuntimeException.class);
+
+
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public EqualWeightHistogram1D(int bins, double[] data)// throws StatsException
+	public StatsRuntimeException(Throwable e)
 		{
-		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
+		super(e);
 		}
 
-
-	public EqualWeightHistogram1D(double from, double to, int bins) //throws StatsException
+	public StatsRuntimeException(String s)
 		{
-		super(from, to, bins);
+		super(s);
 		}
 
-	public EqualWeightHistogram1D(double from, double to, int bins, double[] data) //throws StatsException
+	public StatsRuntimeException(Throwable e, String s)
 		{
-		super(from, to, bins);
-		addAll(data);
-		}
-
-	private void addAll(double[] data)
-		{
-		//int bin = 0;
-		double pointsPerBin = (double) data.length / (double) bins;
-		Arrays.sort(data);
-		int prevBin = 0;
-		for (int dataIndex = 0; dataIndex < data.length; dataIndex++)
-			{
-			// cast rounds toward zero, hence == floor
-			int bin = (int) ((double) dataIndex / pointsPerBin);
-			if (bin >= bins)
-				{
-				bin = bins - 1;
-				}
-			if (bin != prevBin)
-				{
-				lowerBoundaries[bin] = data[dataIndex];
-				}
-			counts[bin]++;
-			prevBin = bin;
-			}
-
-		// obviously the counts should be pointsPerBin for every bin, plus or minus one due to discretizing
-		// the main point here was to set the boundaries
-		}
-
-	// --------------------- GETTER / SETTER METHODS ---------------------
-
-	public int getBins()
-		{
-		return bins;
+		super(e, s);
 		}
 	}

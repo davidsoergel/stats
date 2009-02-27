@@ -57,7 +57,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public FixedWidthHistogram1D(double from, double to, double binwidth)
+	public FixedWidthHistogram1D(double from, double to, double binwidth) //throws StatsException
 		{
 		super(from, to, (int) ((to - from) / binwidth));
 
@@ -66,7 +66,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 		counts = new int[bins];
 		}
 
-	public FixedWidthHistogram1D(double from, double to, double binwidth, double[] data)
+	public FixedWidthHistogram1D(double from, double to, double binwidth, double[] data) //throws StatsException
 		{
 		this(from, to, binwidth);
 		for (double d : data)
@@ -75,7 +75,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 			}
 		}
 
-	public FixedWidthHistogram1D(double[] data, int numBins)
+	public FixedWidthHistogram1D(double[] data, int numBins) //throws StatsException
 		{
 		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
 		//numBins = Math.min(numBins, data.length);
