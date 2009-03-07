@@ -49,9 +49,10 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	private static final Logger logger = Logger.getLogger(Histogram1D.class);
 
-	int validcounts, totalcounts;
+	double validcounts;
+	double totalcounts;
 
-	protected int[] counts;
+	protected double[] counts;
 	protected int bins;
 	//protected int underflow, overflow;
 
@@ -71,12 +72,12 @@ public abstract class Histogram1D extends SimpleXYSeries
 		this.from = from;
 		this.to = to;
 		this.bins = bins;
-		counts = new int[bins];
+		counts = new double[bins];
 		}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public int[] getCounts()
+	public double[] getCounts()
 		{
 		return counts;
 		}
@@ -107,7 +108,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 		}
 
 
-	public void add(double x, int repetitions)
+	public void add(double x, double repetitions)
 		{
 		try
 			{
@@ -222,7 +223,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 			{
 			return null;
 			}
-		double[] fractions = DSArrayUtils.castToDouble(counts);
+		double[] fractions = counts.clone(); //DSArrayUtils.castToDouble(counts);
 		DSArrayUtils.multiplyBy(fractions, 1. / totalcounts);
 		return fractions;
 		}
@@ -243,7 +244,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 	 *
 	 * @param totalcounts
 	 */
-	public void setTotalcounts(int totalcounts)
+	public void setTotalcounts(double totalcounts)
 		{
 		this.totalcounts = totalcounts;
 		}

@@ -63,7 +63,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 		this.binwidth = binwidth;
 
-		counts = new int[bins];
+		counts = new double[bins];
 		}
 
 	public FixedWidthHistogram1D(double from, double to, double binwidth, double[] data) //throws StatsException
