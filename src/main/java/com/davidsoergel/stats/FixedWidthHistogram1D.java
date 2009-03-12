@@ -77,6 +77,8 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 	public FixedWidthHistogram1D(double[] data, int numBins) //throws StatsException
 		{
+		// this(data, null, numBins);
+
 		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
 		//numBins = Math.min(numBins, data.length);
 		binwidth = (to - from) / numBins;
@@ -86,6 +88,16 @@ public class FixedWidthHistogram1D extends Histogram1D
 			}
 		}
 
+	public FixedWidthHistogram1D(double[] data, double[] weights, int numBins) //throws StatsException
+		{
+		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
+		//numBins = Math.min(numBins, data.length);
+		binwidth = (to - from) / numBins;
+		for (int i = 0; i < data.length; i++)
+			{
+			add(data[i], weights == null ? 1.0 : weights[i]);
+			}
+		}
 	// -------------------------- OTHER METHODS --------------------------
 
 	public int bin(double x) throws StatsException
