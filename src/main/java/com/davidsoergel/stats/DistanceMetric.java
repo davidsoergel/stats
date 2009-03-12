@@ -1,5 +1,6 @@
 package com.davidsoergel.stats;
 
+
 /**
  * A dissimilarity measure that is also a distance in an inner product space, i.e. it is linear and honors the triangle
  * inequality.
