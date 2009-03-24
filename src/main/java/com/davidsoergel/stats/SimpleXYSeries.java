@@ -56,7 +56,6 @@ public class SimpleXYSeries
 	private double minY = Double.MAX_VALUE;
 	private double maxY = Double.MIN_VALUE;
 
-
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public double getMaxX()
