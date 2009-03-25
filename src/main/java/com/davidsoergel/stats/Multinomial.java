@@ -57,7 +57,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	private MultinomialDistribution dist = new MultinomialDistribution();
 	//private List<T> elements = new ArrayList<T>();
-	private BiMap<T, Integer> elementIndexes = new HashBiMap<T, Integer>();
+	private BiMap<T, Integer> elementIndexes = new HashBiMap<T, Integer>(10);
 	int maxIndex = 0;
 
 	// -------------------------- STATIC METHODS --------------------------
