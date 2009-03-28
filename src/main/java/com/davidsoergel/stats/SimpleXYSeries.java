@@ -150,7 +150,8 @@ public class SimpleXYSeries
 		//	int i = 0;
 		for (XYPoint p : points)
 			{
-			if (p.x >= xmin && p.x < xmax)
+			//** double-count the edge cases; otherwise a bin containing only one value appears empty
+			if (p.x >= xmin && p.x <= xmax)
 				{
 				//result[i] = p.y;
 				result.add(p.y);
