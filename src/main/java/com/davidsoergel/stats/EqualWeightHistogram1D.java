@@ -81,7 +81,7 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 				{
 				lowerBoundaries[bin] = data[dataIndex];
 				}
-			counts[bin]++;
+			incrementBin(bin);
 			prevBin = bin;
 			}
 

@@ -37,10 +37,13 @@ import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
+ * Stores a list of x,y pairs.
+ *
  * @version $Id$
  */
 public class SimpleXYSeries
@@ -49,34 +52,36 @@ public class SimpleXYSeries
 
 	private static final Logger logger = Logger.getLogger(SimpleXYSeries.class);
 
+	//protected SortedSet<XYPoint> points = new TreeSet<XYPoint>();
+
 	private List<XYPoint> points = new ArrayList<XYPoint>();
 
-	private double minX = Double.MAX_VALUE;
-	private double maxX = Double.MIN_VALUE;
-	private double minY = Double.MAX_VALUE;
-	private double maxY = Double.MIN_VALUE;
+	protected double xMin = Double.MAX_VALUE;
+	protected double xMax = Double.MIN_VALUE;
+	private double yMin = Double.MAX_VALUE;
+	private double yMax = Double.MIN_VALUE;
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public double getMaxX()
+	public double getXMax()
 		{
-		return maxX;
+		return xMax;
 		}
 
-	public double getMinX()
+	public double getXMin()
 		{
-		return minX;
+		return xMin;
 		}
 
-	public double getMinY()
+	public double getYMin()
 		{
 
-		return minY;
+		return yMin;
 		}
 
-	public double getMaxY()
+	public double getYMax()
 		{
-		return maxY;
+		return yMax;
 		}
 
 	// -------------------------- OTHER METHODS --------------------------
@@ -92,21 +97,26 @@ public class SimpleXYSeries
 			throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
 			}
 		points.add(new XYPoint(x, y));
-		if (x > maxX)
+		updateBounds(x, y);
+		}
+
+	private void updateBounds(double x, double y)
+		{
+		if (x > xMax)
 			{
-			maxX = x;
+			xMax = x;
 			}
-		if (y > maxY)
+		if (y > yMax)
 			{
-			maxY = y;
+			yMax = y;
 			}
-		if (x < minX)
+		if (x < xMin)
 			{
-			minX = x;
+			xMin = x;
 			}
-		if (y < minY)
+		if (y < yMin)
 			{
-			minY = y;
+			yMin = y;
 			}
 		}
 
@@ -115,6 +125,12 @@ public class SimpleXYSeries
 		return points.get(i).x;
 		}
 
+
+	/**
+	 * Provides an array of all the x values present in this series, in increasing order.
+	 *
+	 * @return
+	 */
 	public double[] getXArray()
 		{
 		double[] result = new double[points.size()];
@@ -127,11 +143,33 @@ public class SimpleXYSeries
 		return result;
 		}
 
+	/**
+	 * Provides an array of the unique x values present in this series, in increasing order.
+	 *
+	 * @return
+	 */
+	public double[] getUniqueXArray()
+		{
+		SortedSet<Double> result = new TreeSet<Double>();
+		for (XYPoint p : points)
+			{
+			result.add(p.x);
+			}
+		return DSArrayUtils.toPrimitive(result.toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
+		}
+
+
 	public double getY(int i)
 		{
 		return points.get(i).y;
 		}
 
+
+	/**
+	 * Provides an array of all the y values present in this series, in order of their associated x values.
+	 *
+	 * @return
+	 */
 	public double[] getYArray()
 		{
 		double[] result = new double[points.size()];
@@ -144,10 +182,19 @@ public class SimpleXYSeries
 		return result;
 		}
 
+	/**
+	 * Provides an array of y values, for x within the given range, in order of their associated x values.
+	 *
+	 * @return
+	 */
 	public double[] getYArray(double xmin, double xmax)
 		{
 		ArrayList<Double> result = new ArrayList<Double>();
+
 		//	int i = 0;
+
+		// PERF use headSet and tailSet
+
 		for (XYPoint p : points)
 			{
 			//** double-count the edge cases; otherwise a bin containing only one value appears empty
@@ -163,29 +210,29 @@ public class SimpleXYSeries
 		return DSArrayUtils.toPrimitive(result.toArray(new Double[0]), 0);
 		}
 
-	public Iterator getYiterator()
-		{
-		return new Iterator()
-		{
-		int trav = 0;
+	/*	public Iterator getYiterator()
+		 {
+		 return new Iterator()
+		 {
+		 int trav = 0;
 
-		public boolean hasNext()
-			{
-			return trav < points.size();
-			}
+		 public boolean hasNext()
+			 {
+			 return trav < points.size();
+			 }
 
-		public Object next()
-			{
-			return points.get(trav++).y;
-			}
+		 public Object next()
+			 {
+			 return points.get(trav++).y;
+			 }
 
-		public void remove()
-			{
-			//To change body of implemented methods use File | Settings | File Templates.
-			}
-		};
-		}
-
+		 public void remove()
+			 {
+			 //To change body of implemented methods use File | Settings | File Templates.
+			 }
+		 };
+		 }
+ */
 	public int size()
 		{
 		return points.size();
@@ -199,7 +246,7 @@ public class SimpleXYSeries
 			}
 		SimpleXYSeries result = new SimpleXYSeries();
 
-		// inefficient
+		// PERF inefficient, and it doesn't necessarily make sense to leave the X values intact while smoothing Y
 		for (XYPoint p : points)
 			{
 			result.addPoint(p.x, DSArrayUtils.mean(getYArray(p.x - smoothFactor, p.x + smoothFactor)));
@@ -208,9 +255,10 @@ public class SimpleXYSeries
 		return result;
 		}
 
+
 	// -------------------------- INNER CLASSES --------------------------
 
-	private static class XYPoint
+	protected static class XYPoint implements Comparable
 		{
 		public double x, y;
 
@@ -218,6 +266,11 @@ public class SimpleXYSeries
 			{
 			this.x = x;
 			this.y = y;
+			}
+
+		public int compareTo(Object o)
+			{
+			return Double.compare(x, ((XYPoint) o).x);
 			}
 		}
 	}

@@ -43,7 +43,7 @@ import java.util.Set;
  * @version $Id$
  */
 
-public abstract class Histogram1D extends SimpleXYSeries
+public abstract class Histogram1D //extends SimpleXYSeries
 	{
 	// ------------------------------ FIELDS ------------------------------
 
@@ -52,7 +52,9 @@ public abstract class Histogram1D extends SimpleXYSeries
 	double validcounts;
 	double totalcounts;
 
-	protected double[] counts;
+	private double[] counts;
+	private double[] cumulativeCounts;
+
 	protected int bins;
 	//protected int underflow, overflow;
 
@@ -79,16 +81,17 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	public double[] getCounts()
 		{
-		return counts;
+		// PERF
+		return counts.clone();
 		}
 
 	// -------------------------- OTHER METHODS --------------------------
 
 	public void addXValues(SimpleXYSeries s)
 		{
-		for (double i : s.getXArray())
+		for (double d : s.getXArray())
 			{
-			add(i);
+			add(d);
 			}
 		}
 
@@ -96,7 +99,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 		{
 		try
 			{
-			counts[bin(x)]++;
+			counts[findBinNumber(x)]++;
 			validcounts++;
 			}
 		catch (StatsException e)
@@ -105,6 +108,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 			}
 		totalsum += x;
 		totalcounts++;
+		invalidateDerived();
 		}
 
 
@@ -112,7 +116,7 @@ public abstract class Histogram1D extends SimpleXYSeries
 		{
 		try
 			{
-			counts[bin(x)] += repetitions;
+			counts[findBinNumber(x)] += repetitions;
 			validcounts += repetitions;
 			}
 		catch (StatsException e)
@@ -121,9 +125,16 @@ public abstract class Histogram1D extends SimpleXYSeries
 			}
 		totalsum += x * repetitions;
 		totalcounts += repetitions;
+		invalidateDerived();
 		}
 
-	public abstract int bin(double x) throws StatsException;
+	protected void incrementBin(int bin)
+		{
+		counts[bin]++;
+		invalidateDerived();
+		}
+
+	public abstract int findBinNumber(double x) throws StatsException;
 
 	public void addXValues(Set<SimpleXYSeries> ss)
 		{
@@ -200,7 +211,13 @@ public abstract class Histogram1D extends SimpleXYSeries
 
 	public double centerOfBin(int i) throws StatsException
 		{
-		return (topOfBin(i) + bottomOfBin(i)) / 2;
+		return (topOfBin(i) + bottomOfBin(i)) / 2.0;
+		}
+
+
+	public double halfWidthOfBin(int i) throws StatsException
+		{
+		return (topOfBin(i) - bottomOfBin(i)) / 2.0;
 		}
 
 	public abstract double topOfBin(int bin) throws StatsException;
@@ -238,6 +255,24 @@ public abstract class Histogram1D extends SimpleXYSeries
 		return result;
 		}
 
+	private void invalidateDerived()
+		{
+		cumulativeCounts = null;
+		}
+
+	public double[] getCumulativeCounts()
+		{
+		if (cumulativeCounts == null)
+			{
+			cumulativeCounts = counts.clone();
+			for (int i = 1; i < cumulativeCounts.length; i++)
+				{
+				cumulativeCounts[i] += cumulativeCounts[i - 1];
+				}
+			}
+		return cumulativeCounts;
+		}
+
 	/**
 	 * Typically, when fractions are requested, the histogram is just normalized by the number of samples seen so far.
 	 * Sometimes we may want to use a different denominator, though.
@@ -247,5 +282,10 @@ public abstract class Histogram1D extends SimpleXYSeries
 	public void setTotalcounts(double totalcounts)
 		{
 		this.totalcounts = totalcounts;
+		}
+
+	public double getCount(int bin)
+		{
+		return counts[bin];
 		}
 	}

@@ -57,7 +57,7 @@ public abstract class VariableWidthHistogram1D extends Histogram1D
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public int bin(double x) throws StatsException
+	public int findBinNumber(double x) throws StatsException
 		{
 		if (x < from || x > to)
 			{

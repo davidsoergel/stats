@@ -48,27 +48,26 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 	private static final Logger logger = Logger.getLogger(FixedWidthHistogram1D.class);
 
-	private double binwidth;
+	private double binWidth;
+	private double halfBinWidth;
 
-	public double getBinwidth()
+	public double getHalfBinWidth()
 		{
-		return binwidth;
+		return halfBinWidth;
 		}
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public FixedWidthHistogram1D(double from, double to, double binwidth) //throws StatsException
+	public FixedWidthHistogram1D(double from, double to, double binWidth) //throws StatsException
 		{
-		super(from, to, (int) ((to - from) / binwidth));
+		super(from, to, (int) ((to - from) / binWidth));
 
-		this.binwidth = binwidth;
-
-		counts = new double[bins];
+		this.halfBinWidth = binWidth / 2.0;
 		}
 
-	public FixedWidthHistogram1D(double from, double to, double binwidth, double[] data) //throws StatsException
+	public FixedWidthHistogram1D(double from, double to, double binWidth, double[] data) //throws StatsException
 		{
-		this(from, to, binwidth);
+		this(from, to, binWidth);
 		for (double d : data)
 			{
 			add(d);
@@ -81,7 +80,8 @@ public class FixedWidthHistogram1D extends Histogram1D
 
 		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
 		//numBins = Math.min(numBins, data.length);
-		binwidth = (to - from) / numBins;
+		binWidth = (to - from) / numBins;
+		halfBinWidth = binWidth / 2.0;
 		for (double d : data)
 			{
 			add(d);
@@ -92,7 +92,8 @@ public class FixedWidthHistogram1D extends Histogram1D
 		{
 		super(DSArrayUtils.min(data), DSArrayUtils.max(data), numBins);
 		//numBins = Math.min(numBins, data.length);
-		binwidth = (to - from) / numBins;
+		binWidth = (to - from) / numBins;
+		halfBinWidth = binWidth / 2.0;
 		for (int i = 0; i < data.length; i++)
 			{
 			add(data[i], weights == null ? 1.0 : weights[i]);
@@ -100,13 +101,13 @@ public class FixedWidthHistogram1D extends Histogram1D
 		}
 	// -------------------------- OTHER METHODS --------------------------
 
-	public int bin(double x) throws StatsException
+	public int findBinNumber(double x) throws StatsException
 		{
 		if (x < from || x > to)
 			{
 			throw new StatsException("Requested number  " + x + " not in histogram range " + from + " - " + to);
 			}
-		int result = (int) ((x - from) / binwidth);
+		int result = (int) ((x - from) / binWidth);
 
 		// edge case where x == xMax; just put it in the top bin
 		if (result == bins)
@@ -122,7 +123,7 @@ public class FixedWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested bin " + bin + " not in histogram range 0 - " + (bins - 1));
 			}
-		return (from + (bin * binwidth));
+		return (from + (bin * binWidth));
 		}
 
 	public double topOfBin(int bin) throws StatsException
@@ -131,6 +132,6 @@ public class FixedWidthHistogram1D extends Histogram1D
 			{
 			throw new StatsException("Requested bin " + bin + " not in histogram range 0 - " + (bins - 1));
 			}
-		return (from + ((bin + 1) * binwidth));
+		return (from + ((bin + 1) * binWidth));
 		}
 	}
