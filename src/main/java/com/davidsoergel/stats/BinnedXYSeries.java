@@ -76,6 +76,34 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		}
 
 	/**
+	 * Computes quantiles of the y values within the bin centered at x
+	 *
+	 * @param x          the center of the bin to select
+	 * @param yQuantiles the number of quantiles into which to divide the y values
+	 * @return the quantile distribution of y values within the bin centered at X
+	 */
+	public EqualWeightHistogram1D getYQuantilesCumulative(Double x, int yQuantiles)
+		{
+		// PERF cache these?
+		//double[] yPrimitiveArray =
+		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
+
+		double xTop = x + xHalfWidthsPerX.get(x);
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListCumulative(xTop));
+		if (yPrimitiveArray.length == 0)
+			{
+			return null;
+			}
+		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
+		}
+
+	private List<Double> getYListCumulative(double xTop)
+		{
+		// PERF cache these
+		return basedOnSeries.getYList(0, xTop);
+		}
+
+	/**
 	 * Creates a new bin at a given X location and width.  We don't allow more than one bin with a given center, but that
 	 * constraint is subject to numerical precision issues re equality of double values.
 	 *
@@ -111,25 +139,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		 yValsPerX.put(xCenter, yVal);
 		 }
  */
-	public SimpleXYSeries getCumulativeQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
-		{
-		SimpleXYSeries result = new SimpleXYSeries();
-		for (Map.Entry<Double, Double> entry : xHalfWidthsPerX.entrySet())
-			{
-			double x = entry.getKey();
-			EqualWeightHistogram1D hist = getYQuantiles(x, yQuantiles);
-			if (hist == null)
-				{
-				result.addPoint(x, 0.0);
-				}
-			else
-				{
-				double y = hist.getCumulativeCounts()[yQuantile];
-				result.addPoint(x, y);
-				}
-			}
-		return result;
-		}
+
 
 	public SimpleXYSeries getQuantileSeries(int yQuantiles, int yQuantile, boolean cumulative) throws StatsException
 		{
@@ -143,15 +153,42 @@ public class BinnedXYSeries //extends DistributionXYSeries
 			}
 		}
 
+	public SimpleXYSeries getCumulativeQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
+		{
+		SimpleXYSeries result = new SimpleXYSeries();
+		for (Map.Entry<Double, Double> entry : xHalfWidthsPerX.entrySet())
+			{
+			double x = entry.getKey();
+			EqualWeightHistogram1D hist = getYQuantilesCumulative(x, yQuantiles);
+			if (hist == null)
+				{
+				result.addPoint(x, 0.0);
+				}
+			else
+				{
+				double y = hist.topOfBin(yQuantile);
+				result.addPoint(x, y);
+				}
+			}
+		return result;
+		}
+
 	public SimpleXYSeries getQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
 		{
 		SimpleXYSeries result = new SimpleXYSeries();
 		for (Map.Entry<Double, Double> entry : xHalfWidthsPerX.entrySet())
 			{
 			double x = entry.getKey();
-			double y = getYQuantiles(x, yQuantiles).getCount(yQuantile);
-
-			result.addPoint(x, y);
+			EqualWeightHistogram1D hist = getYQuantiles(x, yQuantiles);
+			if (hist == null)
+				{
+				result.addPoint(x, 0.0);
+				}
+			else
+				{
+				double y = hist.topOfBin(yQuantile);
+				result.addPoint(x, y);
+				}
 			}
 		return result;
 		}
@@ -165,18 +202,13 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 	public double countYAtXCumulative(double xTop)
 		{
-		return getCumulativeYList(xTop).size();
+		return getYListCumulative(xTop).size();
 		//double halfBinWidth = xHalfWidthsPerX.get(x);
 		//double bottom = x - halfBinWidth;
 		//double top = x + halfBinWidth;
 		//return getYForXRange(0, xTop).size();
 		}
 
-	private List<Double> getCumulativeYList(double xTop)
-		{
-		// PERF cache these
-		return basedOnSeries.getYList(0, xTop);
-		}
 
 	/*
 	 public void addPointsToBins(Double x, Collection<Double> doubles)
@@ -217,12 +249,12 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 	public double meanYAtXCumulative(double xTop)
 		{
-		return DSArrayUtils.mean(getCumulativeYList(xTop));
+		return DSArrayUtils.mean(getYListCumulative(xTop));
 		}
 
 	public double stddevYAtXCumulative(Double xTop, double mean)
 		{
-		return DSArrayUtils.stddev(getCumulativeYList(xTop), mean);
+		return DSArrayUtils.stddev(getYListCumulative(xTop), mean);
 		}
 
 	public int size()
