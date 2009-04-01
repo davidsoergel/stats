@@ -72,6 +72,11 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		double halfBinWidth = xHalfWidthsPerX.get(x);
 		double bottom = x - halfBinWidth;
 		double top = x + halfBinWidth;
+		if (halfBinWidth == 0.0)
+			{
+			// increment a hair so that the interval can be open but still include the point
+			halfBinWidth += Math.ulp(halfBinWidth);
+			}
 		return basedOnSeries.getYList(bottom, top);
 		}
 
