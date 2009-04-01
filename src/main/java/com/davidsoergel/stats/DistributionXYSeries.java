@@ -30,10 +30,10 @@ public class DistributionXYSeries //extends SimpleXYSeries
 	Multimap<Double, Double> yValsPerX = new HashMultimap<Double, Double>();
 //	Map<Double, Set<Double>> yValsPerX = new HashMap<Double, Set<Double>>();
 
-	protected double xMin = Double.MAX_VALUE;
-	protected double xMax = Double.MIN_VALUE;
-	private double yMin = Double.MAX_VALUE;
-	private double yMax = Double.MIN_VALUE;
+	protected double xMin = Double.POSITIVE_INFINITY;
+	protected double xMax = Double.NEGATIVE_INFINITY;
+	private double yMin = Double.POSITIVE_INFINITY;
+	private double yMax = Double.NEGATIVE_INFINITY;
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
@@ -255,9 +255,18 @@ public class DistributionXYSeries //extends SimpleXYSeries
 	public List<Double> getYList(double bottom, double top)
 		{
 		List<Double> result = new ArrayList<Double>();
-		for (Double x : keys.tailSet(bottom).headSet(top))
+		try
 			{
-			result.addAll(yValsPerX.get(x));
+			bottom = Math.max(bottom, keys.first());
+			top = Math.min(top, keys.last());
+			for (Double x : keys.tailSet(bottom).headSet(top))
+				{
+				result.addAll(yValsPerX.get(x));
+				}
+			}
+		catch (IllegalArgumentException e)
+			{
+			// there are no points in the requested range, so we just return an empty list
 			}
 		return result;
 		}

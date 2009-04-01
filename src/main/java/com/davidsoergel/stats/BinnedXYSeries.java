@@ -89,7 +89,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
 
 		double xTop = x + xHalfWidthsPerX.get(x);
-		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListCumulative(xTop));
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYList(0, xTop));
 		if (yPrimitiveArray.length == 0)
 			{
 			return null;
@@ -97,10 +97,10 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
 		}
 
-	private List<Double> getYListCumulative(double xTop)
+	public List<Double> getYList(double xBottom, double xTop)
 		{
-		// PERF cache these
-		return basedOnSeries.getYList(0, xTop);
+		// PERF cache these?
+		return basedOnSeries.getYList(xBottom, xTop);
 		}
 
 	/**
@@ -202,7 +202,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 	public double countYAtXCumulative(double xTop)
 		{
-		return getYListCumulative(xTop).size();
+		return getYList(0, xTop).size();
 		//double halfBinWidth = xHalfWidthsPerX.get(x);
 		//double bottom = x - halfBinWidth;
 		//double top = x + halfBinWidth;
@@ -247,16 +247,17 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return DSArrayUtils.stddev(getYList(x), mean);
 		}
 
-	public double meanYAtXCumulative(double xTop)
-		{
-		return DSArrayUtils.mean(getYListCumulative(xTop));
-		}
+	/*
+	 public double meanYAtXCumulative(double xTop)
+		 {
+		 return DSArrayUtils.mean(getYListCumulative(xTop));
+		 }
 
-	public double stddevYAtXCumulative(Double xTop, double mean)
-		{
-		return DSArrayUtils.stddev(getYListCumulative(xTop), mean);
-		}
-
+	 public double stddevYAtXCumulative(Double xTop, double mean)
+		 {
+		 return DSArrayUtils.stddev(getYListCumulative(xTop), mean);
+		 }
+ */
 	public int size()
 		{
 		return basedOnSeries.size();

@@ -56,10 +56,10 @@ public class SimpleXYSeries
 
 	private List<XYPoint> points = new ArrayList<XYPoint>();
 
-	protected double xMin = Double.MAX_VALUE;
-	protected double xMax = Double.MIN_VALUE;
-	private double yMin = Double.MAX_VALUE;
-	private double yMax = Double.MIN_VALUE;
+	protected double xMin = Double.POSITIVE_INFINITY;
+	protected double xMax = Double.NEGATIVE_INFINITY;
+	private double yMin = Double.POSITIVE_INFINITY;
+	private double yMax = Double.NEGATIVE_INFINITY;
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
