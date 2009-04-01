@@ -257,11 +257,26 @@ public class DistributionXYSeries //extends SimpleXYSeries
 		List<Double> result = new ArrayList<Double>();
 		try
 			{
-			bottom = Math.max(bottom, keys.first());
-			top = Math.min(top, keys.last());
+			//bottom = Math.max(bottom, keys.first());  // not necessary
+
+
+			// here is an annoyance: the headSet(top) call can't ever include keys.last(),
+			// because either top == keys.last() in which case it's an open interval,
+			// or top > keys.last(), in which case headSet throws an exception because
+			// it's operating on a tailSet and top is outside the bounds.
+
+
+			double last = keys.last();
+			top = Math.min(top, last);  // avoid the exception...
+
 			for (Double x : keys.tailSet(bottom).headSet(top))
 				{
 				result.addAll(yValsPerX.get(x));
+				}
+
+			if (top == last)
+				{
+				result.addAll(yValsPerX.get(top));  // but do include the point
 				}
 			}
 		catch (IllegalArgumentException e)
