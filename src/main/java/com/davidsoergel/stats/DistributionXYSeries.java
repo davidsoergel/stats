@@ -1,13 +1,15 @@
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.DSArrayUtils;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -27,7 +29,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 	// need to store the sorted x's redundantly because there is no KeySortedMultimap
 	SortedSet<Double> keys = new TreeSet<Double>();
-	Multimap<Double, Double> yValsPerX = new HashMultimap<Double, Double>();
+	Map<Double, Multiset<Double>> yValsPerX = new HashMap<Double, Multiset<Double>>();
 //	Map<Double, Set<Double>> yValsPerX = new HashMap<Double, Set<Double>>();
 
 	protected double xMin = Double.POSITIVE_INFINITY;
@@ -63,7 +65,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 		{
 		//	super.addPoint(x, y);
 		keys.add(x);
-		getYSet(x).add(y);
+		getYMultiset(x).add(y);
 		updateXBounds(x);
 		updateYBounds(y);
 		}
@@ -96,7 +98,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 		{
 		//	super.addPoint(x, y);
 		keys.add(x);
-		getYSet(x).addAll(ys);
+		getYMultiset(x).addAll(ys);
 		updateXBounds(x);
 		for (Double y : ys)
 			{
@@ -104,15 +106,15 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			}
 		}
 
-	private Collection<Double> getYSet(double x)
+	private Multiset<Double> getYMultiset(double x)
 		{
-		Collection<Double> result = yValsPerX.get(x);
+		Multiset<Double> result = yValsPerX.get(x);
 
-		/*	if (result == null)
-		   {
-		   result = new HashSet<Double>();
-		   yValsPerX.put(x, result);
-		   }*/
+		if (result == null)
+			{
+			result = new HashMultiset<Double>();
+			yValsPerX.put(x, result);
+			}
 		return result;
 		}
 
@@ -125,12 +127,12 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 	public double meanYAtX(double x)
 		{
-		return DSArrayUtils.mean(getYSet(x));
+		return DSArrayUtils.mean(getYMultiset(x));
 		}
 
 	public double stddevYAtX(double x, double mean)
 		{
-		return DSArrayUtils.stddev(getYSet(x), mean);
+		return DSArrayUtils.stddev(getYMultiset(x), mean);
 		}
 
 	public double meanYAtXCumulative(double xTop)
@@ -271,7 +273,11 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 			for (Double x : keys.tailSet(bottom).headSet(top))
 				{
-				result.addAll(yValsPerX.get(x));
+				// check that a multiset iterator returns the duplicates
+				int i = result.size();
+				Multiset<Double> multiset = yValsPerX.get(x);
+				result.addAll(multiset);
+				assert result.size() == i + multiset.size();
 				}
 
 			if (top == last)
@@ -307,7 +313,12 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 	public int size()
 		{
-		return yValsPerX.size();
+		int result = 0;
+		for (Multiset<Double> doubles : yValsPerX.values())
+			{
+			result += doubles.size();
+			}
+		return result;
 		}
 
 	public SimpleXYSeries asSimpleXYSeries() throws StatsException
@@ -315,7 +326,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 		SimpleXYSeries result = new SimpleXYSeries();
 		for (Double x : keys)
 			{
-			for (Double y : getYSet(x))
+			for (Double y : getYMultiset(x))
 				{
 				result.addPoint(x, y);
 				}
