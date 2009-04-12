@@ -125,7 +125,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		normalize();
 		}
 
-	public void put(@NotNull T obj, double prob) throws DistributionException//throws DistributionException
+	public synchronized void put(@NotNull T obj, double prob) throws DistributionException//throws DistributionException
 		{
 		if (elementIndexes.containsKey(obj))
 			{
@@ -142,21 +142,21 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 			}
 		}
 
-	public void normalize() throws DistributionException
+	public synchronized void normalize() throws DistributionException
 		{
 		dist.normalize();
 		}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public Collection<T> getElements()
+	public synchronized Collection<T> getElements()
 		{
 		return elementIndexes.keySet();
 		}
 
 	// ------------------------ CANONICAL METHODS ------------------------
 
-	public Multinomial<T> clone()
+	public synchronized Multinomial<T> clone()
 		{
 		Multinomial<T> result = new Multinomial<T>();
 		result.dist = new MultinomialDistribution(dist);
@@ -166,7 +166,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public double KLDivergenceToThisFrom(Multinomial<T> belief) throws DistributionException
+	public synchronized double KLDivergenceToThisFrom(Multinomial<T> belief) throws DistributionException
 		{
 		double divergence = 0;
 		for (T key : elementIndexes.keySet())
@@ -188,7 +188,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		return divergence;
 		}
 
-	public double getLog(T obj) throws DistributionException
+	public synchronized double getLog(T obj) throws DistributionException
 		{
 		//		Double result = logProbs.get(obj);
 		//		if (result == null)
@@ -200,7 +200,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		return MathUtils.approximateLog(get(obj));
 		}
 
-	public double get(T obj) throws DistributionException//throws DistributionException
+	public synchronized double get(T obj) throws DistributionException//throws DistributionException
 		{
 		Integer i = elementIndexes.get(obj);
 		if (i == null)
@@ -212,7 +212,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		return dist.probs[i];
 		}
 
-	public void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
+	public synchronized void mixIn(Multinomial<T> uniform, double smoothFactor) throws DistributionException
 		{
 		for (int c = 0; c < elementIndexes.size(); c++)
 			{
@@ -222,7 +222,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		}
 
 	@NotNull
-	public T sample() throws DistributionException
+	public synchronized T sample() throws DistributionException
 		{
 		int index = dist.sample();
 		T result = elementIndexes.inverse().get(index);
@@ -233,12 +233,12 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		return result;
 		}
 
-	public int size()
+	public synchronized int size()
 		{
 		return elementIndexes.size();
 		}
 
-	public void redistributeWithMinimum(double minimumProbability) throws DistributionException
+	public synchronized void redistributeWithMinimum(double minimumProbability) throws DistributionException
 		{
 		double redistributionProportion = maxIndex * minimumProbability;
 		if (redistributionProportion > 1.)
@@ -253,17 +253,17 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 			}
 		}
 
-	public double getDominantProbability()
+	public synchronized double getDominantProbability()
 		{
 		return DSArrayUtils.max(dist.probs);
 		}
 
-	public T getDominantKey()
+	public synchronized T getDominantKey()
 		{
 		return elementIndexes.inverse().get(DSArrayUtils.argmax(dist.probs));
 		}
 
-	public void remove(T obj) throws DistributionException
+	public synchronized void remove(T obj) throws DistributionException
 		{
 		Integer i = elementIndexes.get(obj);
 		if (i == null)
@@ -304,7 +304,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	 * @param increment
 	 * @throws DistributionException
 	 */
-	public void increment(T obj, double increment) throws DistributionException
+	public synchronized void increment(T obj, double increment) throws DistributionException
 		{
 		try
 			{
@@ -320,7 +320,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 			}
 		}
 
-	public Map<T, Double> getValueMap()
+	public synchronized Map<T, Double> getValueMap()
 		{
 		Map<T, Double> result = new HashMap<T, Double>();
 		for (Map.Entry<T, Integer> entry : elementIndexes.entrySet())
