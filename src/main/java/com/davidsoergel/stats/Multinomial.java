@@ -45,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
@@ -58,7 +59,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	private MultinomialDistribution dist = new MultinomialDistribution();
 	//private List<T> elements = new ArrayList<T>();
 	private BiMap<T, Integer> elementIndexes = new HashBiMap<T, Integer>(10);
-	int maxIndex = 0;
+	private int maxIndex = 0;
 
 	// -------------------------- STATIC METHODS --------------------------
 
@@ -81,7 +82,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		return result;
 		}
 
-	public boolean isAlreadyNormalized() throws DistributionException
+	public synchronized boolean isAlreadyNormalized() throws DistributionException
 		{
 		return dist.isAlreadyNormalized();
 		}
@@ -323,9 +324,12 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	public synchronized Map<T, Double> getValueMap()
 		{
 		Map<T, Double> result = new HashMap<T, Double>();
-		for (Map.Entry<T, Integer> entry : elementIndexes.entrySet())
+		Set<Map.Entry<T, Integer>> entries = elementIndexes.entrySet();
+		for (Map.Entry<T, Integer> entry : entries)
 			{
-			result.put(entry.getKey(), dist.probs[entry.getValue()]);
+			T key = entry.getKey();
+			Integer value = entry.getValue();
+			result.put(key, dist.probs[value]);
 			}
 		return result;
 		}
