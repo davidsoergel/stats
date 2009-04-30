@@ -32,37 +32,35 @@
 
 package com.davidsoergel.stats;
 
-
 /**
- * A distribution that can be represented as an array of double.  Of course, any distribution that can be represented as
- * a set of double parameters can qualify in principle, but here the idea is that the parameters are all equivalent in
- * some sense (i.e., frequencies of samples in each of n classes, etc.).  In this case it may (or may not) be sensible
- * to apply various generic DistributionProcessors (i.e., adding pseudocounts) or DistanceMeasures (i.e., Euclidean
- * distance) to these distributions.
+ * Normalize the array so that the values sum to one.
  *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
- * @version $Id$
+ * @version $Id: DoubleArrayNormalizer.java 289 2008-09-23 17:46:56Z soergel $
  */
 
-public interface DoubleArrayContainer extends MutableDistribution  //<T extends DoubleArrayContainer>
+public class DoubleArrayLinearScaler
+		implements DistributionProcessor<DoubleArrayContainer>//extends DoubleArrayProcessor
 	{
-	// -------------------------- OTHER METHODS --------------------------
 
-	/**
-	 * Gets the array of parameters for this distribution
-	 *
-	 * @return the array of parameters for this distribution
-	 */
-	double[] getArray();
+	double[] minimum;
+	//double[] maxima;
+	double[] extent;
 
-	/**
-	 * The sum of the elements in the array.  It's useful to cache this to avoid recomputing it all the time.
-	 *
-	 * @return
-	 */
-	double getArraySum();
+	public DoubleArrayLinearScaler(double[] minimum, double[] extent)
+		{
+		this.minimum = minimum;
+		this.extent = extent;
+		}
 
-	// insist on an implementation
-	//T clone();
-	Object clone();
+	public void process(DoubleArrayContainer distribution) throws DistributionProcessorException
+
+		{
+		double[] array = distribution.getArray();
+		for (int i = 0; i < array.length; i++)
+			{
+			double v = array[i];
+			array[i] = (v - minimum[i]) / extent[i];
+			}
+		}
 	}
