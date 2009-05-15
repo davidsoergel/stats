@@ -2,28 +2,31 @@ package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.DSArrayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * Provides distributions of y values within x bins.  Differs from DistributionXYSeries in that this keeps track of bin
  * widths, not just x values (which in this context are taken to be the centers of the bins).
  * <p/>
  * Note that the bins may overlap, in which case a point may contribute to multiple bins.  However, each point is stored
- * only onceAlso, the bins may be of different widths.
+ * only once.  Also, the bins may be of different widths.
  * <p/>
  * The bin "center" is considered to be halfway between the top and the bottom.  Bin widths are generally expressed in
  * terms of "half bin widths", being the distance between the center and the upper and lower bounds.
+ * <p/>
+ * Bins are identified by an integer id; no guarantees are made about the order of these.  There may be multiple copies
+ * of a bin with the same center and width.
  *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 public class BinnedXYSeries //extends DistributionXYSeries
 	{
-	private SortedMap<Double, Double> xHalfWidthsPerX = new TreeMap<Double, Double>();
+	//private SortedMap<Double, Double> xHalfWidthsPerX = new TreeMap<Double, Double>();
+
+	private List<Double> xCenters = new ArrayList<Double>();
+	private List<Double> xHalfWidths = new ArrayList<Double>();
 
 	private final DistributionXYSeries basedOnSeries;
 
@@ -35,29 +38,30 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	/**
 	 * Gets the half-width of the bin centered at the given X value.
 	 *
-	 * @param x
+	 * @param i
 	 * @return the half-width of the bin centered at x
 	 * @throws NullPointerException if there is no bin centered at x
 	 */
-	public double getHalfXWidth(Double x)
+	public double getHalfXWidthForBin(int i)
 		{
-		return xHalfWidthsPerX.get(x);
+		return xHalfWidths.get(i);
 		}
 
+
 	/**
-	 * Computes quantiles of the y values within the bin centered at x
+	 * Computes quantiles of the y values within a given bin
 	 *
-	 * @param x          the center of the bin to select
+	 * @param i          the bin index to select
 	 * @param yQuantiles the number of quantiles into which to divide the y values
-	 * @return the quantile distribution of y values within the bin centered at X
+	 * @return the quantile distribution of y values within the requested bin
 	 */
-	public EqualWeightHistogram1D getYQuantiles(Double x, int yQuantiles)
+	private EqualWeightHistogram1D getYQuantilesForBin(int i, int yQuantiles)
 		{
 		// PERF cache these?
 		//double[] yPrimitiveArray =
 		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
 
-		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYList(x));
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListForBin(i));
 		if (yPrimitiveArray.length == 0)
 			{
 			return null;
@@ -65,11 +69,12 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
 		}
 
-	private List<Double> getYList(Double x)
+	private List<Double> getYListForBin(int i)
 		{
 		// PERF cache these
 
-		double halfBinWidth = xHalfWidthsPerX.get(x);
+		double x = xCenters.get(i);
+		double halfBinWidth = xHalfWidths.get(i);
 		double bottom = x - halfBinWidth;
 		double top = x + halfBinWidth;
 		if (halfBinWidth == 0.0)
@@ -83,18 +88,17 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	/**
 	 * Computes quantiles of the y values within the bin centered at x
 	 *
-	 * @param x          the center of the bin to select
+	 * @param i          the bin index to select
 	 * @param yQuantiles the number of quantiles into which to divide the y values
-	 * @return the quantile distribution of y values within the bin centered at X
+	 * @return the quantile distribution of y values within the requested bin
 	 */
-	public EqualWeightHistogram1D getYQuantilesCumulative(Double x, int yQuantiles)
+	private EqualWeightHistogram1D getYQuantilesForBinCumulative(int i, int yQuantiles)
 		{
 		// PERF cache these?
 		//double[] yPrimitiveArray =
 		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
 
-		double xTop = x + xHalfWidthsPerX.get(x);
-		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYList(0, xTop));
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListForBinRangeToTop(0, i));
 		if (yPrimitiveArray.length == 0)
 			{
 			return null;
@@ -102,15 +106,36 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
 		}
 
-	public List<Double> getYList(double xBottom, double xTop)
+	public List<Double> getYListForBinRangeToTop(int lowBin, int highBin)
 		{
+		if (highBin == -1)
+			{
+			return new ArrayList<Double>();
+			}
+		double highX = xCenters.get(highBin);
+		double highHalfBinWidth = xHalfWidths.get(highBin);
+		double xTop = highX + highHalfBinWidth;
+
+		double lowX = xCenters.get(lowBin);
+		double lowHalfBinWidth = xHalfWidths.get(lowBin);
+		double xBottom = lowX + lowHalfBinWidth;
+
 		// PERF cache these?
 		return basedOnSeries.getYList(xBottom, xTop);
 		}
 
+	public List<Double> getYListForBinRangeToCenter(int lowBin, int highBin)
+		{
+		double lowX = xCenters.get(lowBin);
+		double lowHalfBinWidth = xHalfWidths.get(lowBin);
+		double xBottom = lowX + lowHalfBinWidth;
+
+		// PERF cache these?
+		return basedOnSeries.getYList(xBottom, xCenters.get(highBin));
+		}
+
 	/**
-	 * Creates a new bin at a given X location and width.  We don't allow more than one bin with a given center, but that
-	 * constraint is subject to numerical precision issues re equality of double values.
+	 * Creates a new bin at a given X location and width.
 	 *
 	 * @param xCenter
 	 * @param halfBinWidth
@@ -123,11 +148,22 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		//double binWidth = top - bottom;
 		//double xCenter = bottom + binWidth / 2.0;
 
+		/*
+		if (halfBinWidth == 0.0)
+		 {
+			// ** a quantile contains only items of a single value; just skip it
+			return;
+			}
+
 		if (xHalfWidthsPerX.containsKey(xCenter))
 			{
-			throw new DistributionException("Can't add the same bin twice");
-			}
-		xHalfWidthsPerX.put(xCenter, halfBinWidth);
+			throw new DistributionException("Can't add the same bin twice: " + xCenter);
+			}*/
+
+		//	xHalfWidthsPerX.put(xCenter, halfBinWidth);
+
+		xCenters.add(xCenter);
+		xHalfWidths.add(halfBinWidth);
 		/*for (double v : yArray)
 			{
 			yValsPerX.put(xCenter, v);
@@ -161,10 +197,10 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	public SimpleXYSeries getCumulativeQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
 		{
 		SimpleXYSeries result = new SimpleXYSeries();
-		for (Map.Entry<Double, Double> entry : xHalfWidthsPerX.entrySet())
+		for (int i = 0; i < xCenters.size(); i++)
 			{
-			double x = entry.getKey();
-			EqualWeightHistogram1D hist = getYQuantilesCumulative(x, yQuantiles);
+			double x = xCenters.get(i);
+			EqualWeightHistogram1D hist = getYQuantilesForBinCumulative(i, yQuantiles);
 			if (hist == null)
 				{
 				result.addPoint(x, 0.0);
@@ -181,10 +217,10 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	public SimpleXYSeries getQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
 		{
 		SimpleXYSeries result = new SimpleXYSeries();
-		for (Map.Entry<Double, Double> entry : xHalfWidthsPerX.entrySet())
+		for (int i = 0; i < xCenters.size(); i++)
 			{
-			double x = entry.getKey();
-			EqualWeightHistogram1D hist = getYQuantiles(x, yQuantiles);
+			double x = xCenters.get(i);
+			EqualWeightHistogram1D hist = getYQuantilesForBin(i, yQuantiles);
 			if (hist == null)
 				{
 				result.addPoint(x, 0.0);
@@ -198,16 +234,16 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return result;
 		}
 
-	public double countYAtX(double x)
+	public double countYForBin(int i)
 		{
-		return getYList(x).size();
+		return getYListForBin(i).size();
 
 //		return yValsPerX.get(x).size();
 		}
 
-	public double countYAtXCumulative(double xTop)
+	private double countYForBinCumulative(int i)
 		{
-		return getYList(0, xTop).size();
+		return getYListForBinRangeToTop(0, i).size();
 		//double halfBinWidth = xHalfWidthsPerX.get(x);
 		//double bottom = x - halfBinWidth;
 		//double top = x + halfBinWidth;
@@ -234,22 +270,28 @@ public class BinnedXYSeries //extends DistributionXYSeries
  */
 	public int numBins()
 		{
-		return xHalfWidthsPerX.size();
+		return xCenters.size();
 		}
 
-	public Set<Double> getBinCenters()
+	public List<Double> getBinCenters()
 		{
-		return xHalfWidthsPerX.keySet();
+		return xCenters;
 		}
 
-	public double meanYAtX(Double x)
+	public Double getBinCenter(int i)
 		{
-		return DSArrayUtils.mean(getYList(x));
+		return xCenters.get(i);
 		}
 
-	public double stddevYAtX(Double x, double mean)
+	public double meanYForBin(int i)
 		{
-		return DSArrayUtils.stddev(getYList(x), mean);
+		return DSArrayUtils.mean(getYListForBin(i));
+		}
+
+	public double stddevYForBin(int i, double mean)
+		{
+		//PERF
+		return DSArrayUtils.stddev(getYListForBin(i), mean);
 		}
 
 	/*

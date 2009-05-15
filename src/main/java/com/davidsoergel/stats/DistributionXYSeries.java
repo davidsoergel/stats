@@ -213,14 +213,20 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			{
 			BinnedXYSeries result = new BinnedXYSeries(this);
 
+			Multiset<Double> allXValues = new HashMultiset<Double>();
+			for (Map.Entry<Double, Multiset<Double>> entry : yValsPerX.entrySet())
+				{
+				allXValues.add(entry.getKey(), entry.getValue().size());
+				}
+
 			EqualWeightHistogram1D theBaseHistogram =
-					new EqualWeightHistogram1D(numQuantiles, DSArrayUtils.toPrimitiveArray(yValsPerX.keySet()));
+					new EqualWeightHistogram1D(numQuantiles, DSArrayUtils.toPrimitiveArray(allXValues));
 
 			int numBins = theBaseHistogram.getBins();
 			for (int i = 0; i < numBins; i++)
 				{
-				double bottom = theBaseHistogram.bottomOfBin(i);
-				double top = theBaseHistogram.topOfBin(i);
+				//	double bottom = theBaseHistogram.bottomOfBin(i);
+				//	double top = theBaseHistogram.topOfBin(i);
 				double center = theBaseHistogram.centerOfBin(i);
 				double halfBinWidth = theBaseHistogram.halfWidthOfBin(i);
 				result.addBin(center, halfBinWidth);
