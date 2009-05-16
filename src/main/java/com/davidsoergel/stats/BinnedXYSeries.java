@@ -12,6 +12,8 @@ import java.util.List;
  * Note that the bins may overlap, in which case a point may contribute to multiple bins.  However, each point is stored
  * only once.  Also, the bins may be of different widths.
  * <p/>
+ * Basically this just keeps track of a set of predefined vertical slices through the underlying DistributionXYSeries.
+ * <p/>
  * The bin "center" is considered to be halfway between the top and the bottom.  Bin widths are generally expressed in
  * terms of "half bin widths", being the distance between the center and the upper and lower bounds.
  * <p/>
@@ -214,6 +216,14 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return result;
 		}
 
+	/**
+	 * Returns a SimpleXYSeries mapping each bin center to the requested Y quantile in that bin
+	 *
+	 * @param yQuantiles
+	 * @param yQuantile
+	 * @return
+	 * @throws StatsException
+	 */
 	public SimpleXYSeries getQuantileSeries(int yQuantiles, int yQuantile) throws StatsException
 		{
 		SimpleXYSeries result = new SimpleXYSeries();

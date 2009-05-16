@@ -137,12 +137,12 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 	public double meanYAtXCumulative(double xTop)
 		{
-		return DSArrayUtils.mean(getYArray(0, xTop));
+		return DSArrayUtils.mean(getYList(0, xTop));
 		}
 
 	public double stddevYAtXCumulative(double xTop, double mean)
 		{
-		return DSArrayUtils.stddev(getYArray(0, xTop), mean);
+		return DSArrayUtils.stddev(getYList(0, xTop), mean);
 		}
 
 	public BinnedXYSeries makeBinnedXYSeries(double halfBinWidth, double binStep)
@@ -203,8 +203,8 @@ public class DistributionXYSeries //extends SimpleXYSeries
 		{
 		//	double xMin = keys.first();
 		//	double xMax = keys.last();
-		double halfBinWidth = ((xMax - xMin) / numBins) / 2.0;
-		return makeBinnedXYSeries(halfBinWidth, halfBinWidth);
+		double binWidth = ((xMax - xMin) / numBins);
+		return makeBinnedXYSeries(binWidth / 2.0, binWidth);
 		}
 
 	public BinnedXYSeries binXQuantiles(int numQuantiles)
@@ -249,17 +249,28 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			}
 		}
 
-	public double[] getYArray(double bottom, double top)
-		{
-		List<Double> result = new ArrayList<Double>();
-		for (Double x : keys.tailSet(bottom).headSet(top))
-			{
-			result.addAll(yValsPerX.get(x));
-			}
-		return DSArrayUtils.toPrimitiveArray(result);
-		}
 
+//	public double[] getYArray(double bottom, double top)
+//		{
+//		return DSArrayUtils.toPrimitiveArray(getYList(bottom,top));
+	/*
+	   List<Double> result = new ArrayList<Double>();
+	   for (Double x : keys.tailSet(bottom).headSet(top))
+		   {
+		   result.addAll(yValsPerX.get(x));
+		   }
+	   return DSArrayUtils.toPrimitiveArray(result);
+	   */
+//		}
 
+	/**
+	 * Returns a list of all Y values associated with X values in the given range, including the bottom but not including
+	 * the top point
+	 *
+	 * @param bottom the lowest X value to consider, inclusive
+	 * @param top    the highest X value to consider, exclusive
+	 * @return
+	 */
 	public List<Double> getYList(double bottom, double top)
 		{
 		List<Double> result = new ArrayList<Double>();
@@ -275,9 +286,9 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 
 			double last = keys.last();
-			top = Math.min(top, last);  // avoid the exception...
+			double topTrim = Math.min(top, last);  // avoid the exception...
 
-			for (Double x : keys.tailSet(bottom).headSet(top))
+			for (Double x : keys.tailSet(bottom).headSet(topTrim))
 				{
 				// check that a multiset iterator returns the duplicates
 				int i = result.size();
@@ -286,9 +297,9 @@ public class DistributionXYSeries //extends SimpleXYSeries
 				assert result.size() == i + multiset.size();
 				}
 
-			if (top == last)
+			if (top > last)  // top is exclusive
 				{
-				result.addAll(yValsPerX.get(top));  // but do include the point
+				result.addAll(yValsPerX.get(last));  // but do include the point
 				}
 			}
 		catch (IllegalArgumentException e)
