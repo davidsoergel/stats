@@ -33,7 +33,6 @@
 
 package com.davidsoergel.stats;
 
-
 /**
  * A measure of dissimilarity between points of the generic type.  Note the dissimiliarity need not be symmetric or
  * linear, and may not honor the triangle inequality; so there is no guarantee that it is a metric or that there exists
