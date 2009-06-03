@@ -77,13 +77,16 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 		double x = xCenters.get(i);
 		double halfBinWidth = xHalfWidths.get(i);
-		double bottom = x - halfBinWidth;
-		double top = x + halfBinWidth;
+
 		if (halfBinWidth == 0.0)
 			{
 			// increment a hair so that the interval can be open but still include the point
 			halfBinWidth += Math.ulp(halfBinWidth);
 			}
+
+		double bottom = x - halfBinWidth;
+		double top = x + halfBinWidth;
+
 		return basedOnSeries.getYList(bottom, top);
 		}
 
@@ -108,6 +111,11 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
 		}
 
+	/**
+	 * @param lowBin  inclusive
+	 * @param highBin inclusive
+	 * @return
+	 */
 	public List<Double> getYListForBinRangeToTop(int lowBin, int highBin)
 		{
 		if (highBin == -1)
@@ -120,20 +128,27 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 		double lowX = xCenters.get(lowBin);
 		double lowHalfBinWidth = xHalfWidths.get(lowBin);
-		double xBottom = lowX + lowHalfBinWidth;
+		double xBottom = lowX - lowHalfBinWidth;
 
 		// PERF cache these?
 		return basedOnSeries.getYList(xBottom, xTop);
 		}
 
+	/**
+	 * @param lowBin  inclusive
+	 * @param highBin inclusive
+	 * @return
+	 */
 	public List<Double> getYListForBinRangeToCenter(int lowBin, int highBin)
 		{
 		double lowX = xCenters.get(lowBin);
 		double lowHalfBinWidth = xHalfWidths.get(lowBin);
-		double xBottom = lowX + lowHalfBinWidth;
+		double xBottom = lowX - lowHalfBinWidth;
 
 		// PERF cache these?
-		return basedOnSeries.getYList(xBottom, xCenters.get(highBin));
+		double center = xCenters.get(highBin);
+		center += Math.ulp(center);
+		return basedOnSeries.getYList(xBottom, center);
 		}
 
 	/**
