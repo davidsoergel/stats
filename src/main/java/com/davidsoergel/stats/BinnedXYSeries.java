@@ -136,7 +136,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 
 	/**
 	 * @param lowBin  inclusive
-	 * @param highBin inclusive
+	 * @param highBin inclusive of the center point of the high bin
 	 * @return
 	 */
 	public List<Double> getYListForBinRangeToCenter(int lowBin, int highBin)
@@ -149,6 +149,40 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		double center = xCenters.get(highBin);
 		center += Math.ulp(center);
 		return basedOnSeries.getYList(xBottom, center);
+		}
+
+	/**
+	 * inclusive of the center point
+	 *
+	 * @param bin
+	 * @return
+	 */
+	public List<Double> getYListForBinBottomHalf(final int bin)
+		{
+		double x = xCenters.get(bin);
+		double halfBinWidth = xHalfWidths.get(bin);
+		double xBottom = x - halfBinWidth;
+
+		x += Math.ulp(x);
+		// PERF cache these?
+		return basedOnSeries.getYList(xBottom, x);
+		}
+
+	/**
+	 * exclusive of the center point
+	 *
+	 * @param bin
+	 * @return
+	 */
+	public List<Double> getYListForBinTopHalf(final int bin)
+		{
+		double x = xCenters.get(bin);
+		double halfBinWidth = xHalfWidths.get(bin);
+		double xTop = x + halfBinWidth;
+
+		x += Math.ulp(x);
+		// PERF cache these?
+		return basedOnSeries.getYList(x, xTop);
 		}
 
 	/**
