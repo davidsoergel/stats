@@ -58,7 +58,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 
 	private MultinomialDistribution dist = new MultinomialDistribution();
 	//private List<T> elements = new ArrayList<T>();
-	private BiMap<T, Integer> elementIndexes = new HashBiMap<T, Integer>(10);
+	private BiMap<T, Integer> elementIndexes = HashBiMap.create(10);
 	private int maxIndex = 0;
 
 	// -------------------------- STATIC METHODS --------------------------
@@ -161,7 +161,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 		{
 		Multinomial<T> result = new Multinomial<T>();
 		result.dist = new MultinomialDistribution(dist);
-		result.elementIndexes = new HashBiMap<T, Integer>(elementIndexes);
+		result.elementIndexes = HashBiMap.create(elementIndexes);
 		return result;
 		}
 
@@ -246,7 +246,7 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 			{
 			throw new DistributionException(
 					"Can't use a minimum probability of " + minimumProbability + " for a multinomial with " + maxIndex
-							+ "elements.");
+					+ "elements.");
 			}
 		for (int c = 0; c < maxIndex; c++)
 			{

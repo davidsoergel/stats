@@ -112,7 +112,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 		if (result == null)
 			{
-			result = new HashMultiset<Double>();
+			result = HashMultiset.create();
 			yValsPerX.put(x, result);
 			}
 		return result;
@@ -213,7 +213,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			{
 			BinnedXYSeries result = new BinnedXYSeries(this);
 
-			Multiset<Double> allXValues = new HashMultiset<Double>();
+			Multiset<Double> allXValues = HashMultiset.create();
 			for (Map.Entry<Double, Multiset<Double>> entry : yValsPerX.entrySet())
 				{
 				allXValues.add(entry.getKey(), entry.getValue().size());
