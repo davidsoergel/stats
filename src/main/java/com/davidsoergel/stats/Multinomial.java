@@ -160,8 +160,11 @@ public class Multinomial<T> implements Cloneable//extends HashMap<Double, T>
 	public synchronized Multinomial<T> clone()
 		{
 		Multinomial<T> result = new Multinomial<T>();
-		result.dist = new MultinomialDistribution(dist);
-		result.elementIndexes = HashBiMap.create(elementIndexes);
+		synchronized (result)
+			{
+			result.dist = new MultinomialDistribution(dist);
+			result.elementIndexes = HashBiMap.create(elementIndexes);
+			}
 		return result;
 		}
 
