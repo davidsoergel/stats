@@ -350,4 +350,53 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			}
 		return result;
 		}
+
+	LinearRegression regression = null;
+	double correlation;
+
+	public double pearsonCorrelation() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return correlation;
+		}
+
+	public double regressionM() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return regression.m;
+		}
+
+	public double regressionB() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return regression.b;
+		}
+
+	private void computeRegression() throws StatsException
+		{
+		double[] xs = new double[size()];
+		double[] ys = new double[size()];
+		int i = 0;
+		for (Double x : keys)
+			{
+			for (Double y : getYMultiset(x))
+				{
+				xs[i] = x;
+				ys[i] = y;
+				i++;
+				}
+			}
+
+		regression = new LinearRegression(xs, ys);
+		correlation = PearsonCorrelation.computeCorrelationCoefficient(xs, ys);
+		}
 	}

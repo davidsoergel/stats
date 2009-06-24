@@ -77,12 +77,12 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 		double sum_coproduct = 0;
 		double mean_x = x[1];
 		double mean_y = y[1];
-		int N = x.length;
-		if (y.length != N)
+		int n = x.length;
+		if (y.length != n)
 			{
 			throw new StatsException("Cannot compute correlation coefficient between arrays of different lengths");
 			}
-		for (int i = 2; i < N; i++)
+		for (int i = 2; i < n; i++)
 			{
 			double sweep = (i - 1.0) / i;
 			double delta_x = x[i] - mean_x;
@@ -108,10 +108,10 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 			throw new StatsException("Can't compute Pearson correlation: distribution has no variance");
 			}
 
-		double pop_sd_x = Math.sqrt(sum_sq_x / N);
-		double pop_sd_y = Math.sqrt(sum_sq_y / N);
+		double pop_sd_x = Math.sqrt(sum_sq_x / n);
+		double pop_sd_y = Math.sqrt(sum_sq_y / n);
 
-		double cov_x_y = sum_coproduct / N;
+		double cov_x_y = sum_coproduct / n;
 		double correlation = cov_x_y / (pop_sd_x * pop_sd_y);
 		if (Double.isNaN(correlation) || Double.isInfinite(correlation))
 			{
