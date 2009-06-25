@@ -6,8 +6,8 @@ package com.davidsoergel.stats;
  */
 public class LinearRegression
 	{
-	final double m;
-	final double b;
+	public final double m;
+	public final double b;
 
 	public LinearRegression(double[] x, double[] y) throws StatsException
 		{
