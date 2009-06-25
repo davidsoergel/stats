@@ -32,6 +32,8 @@
 
 package com.davidsoergel.stats;
 
+import java.util.Arrays;
+
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
@@ -106,8 +108,8 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 		if (sum_sq_x == 0 || sum_sq_y == 0)
 			{
 			throw new StatsException(
-					"Can't compute Pearson correlation: distribution has no variance: \n\n" + x + "\n\n"
-					+ y);  //BAD temp huge error message
+					"Can't compute Pearson correlation: distribution has no variance: \n\n" + Arrays.toString(x)
+					+ "\n\n" + Arrays.toString(y));  //BAD temp huge error message
 			}
 
 		double pop_sd_x = Math.sqrt(sum_sq_x / n);
