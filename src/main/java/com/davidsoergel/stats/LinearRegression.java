@@ -31,5 +31,10 @@ public class LinearRegression
 		m = (sumX * sumY - n * sumXY) / (sumX * sumX - n * sumXSquared);
 
 		b = (sumX * sumXY - sumY * sumXSquared) / (sumX * sumX - n * sumXSquared);
+
+		if (Double.isNaN(m) || Double.isInfinite(m) || Double.isNaN(b) || Double.isInfinite(b))
+			{
+			throw new StatsException("Regression failed with NaN or infinity");
+			}
 		}
 	}
