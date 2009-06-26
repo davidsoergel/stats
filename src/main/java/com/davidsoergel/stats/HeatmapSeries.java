@@ -36,22 +36,24 @@ package com.davidsoergel.stats;
 import org.apache.commons.collections15.map.MultiKeyMap;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Stores a list of x,y pairs.
  *
  * @version $Id$
  */
-public class SimpleXYZSeries
+public class HeatmapSeries
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static final Logger logger = Logger.getLogger(SimpleXYZSeries.class);
+	private static final Logger logger = Logger.getLogger(HeatmapSeries.class);
 
 	//protected SortedSet<XYPoint> points = new TreeSet<XYPoint>();
 
-	private MultiKeyMap<Double, XYZPoint> points = new MultiKeyMap<Double, XYZPoint>();
+	private MultiKeyMap<Double, HeatmapPoint> points = new MultiKeyMap<Double, HeatmapPoint>();
 
 	protected double xMin = Double.POSITIVE_INFINITY;
 	protected double xMax = Double.NEGATIVE_INFINITY;
@@ -94,25 +96,27 @@ public class SimpleXYZSeries
 		}
 // -------------------------- OTHER METHODS --------------------------
 
-	public void addPoint(double x, double y, double z) throws StatsException
+	public void addPoint(final double x, final double y, final double z, final double startx, final double endx,
+	                     final double starty, final double endy) throws StatsException
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
-			throw new StatsException("Invalid x value in SimpleXYZSeries: " + x);
+			throw new StatsException("Invalid x value in HeatmapSeries: " + x);
 			}
 		if (Double.isNaN(y) || Double.isInfinite(y))
 			{
-			throw new StatsException("Invalid y value in SimpleXYZSeries: " + y);
+			throw new StatsException("Invalid y value in HeatmapSeries: " + y);
 			}
 		if (Double.isNaN(z) || Double.isInfinite(z))
 			{
-			throw new StatsException("Invalid z value in SimpleXYZSeries: " + z);
+			throw new StatsException("Invalid z value in HeatmapSeries: " + z);
 			}
-		points.put(x, y, new XYZPoint(x, y, z));
+		points.put(x, y, new HeatmapPoint(x, y, z, startx, endx, starty, endy));
 		updateBounds(x, y, z);
 		}
 
-	public void incrementPoint(double x, double y, double zIncrement) throws StatsException
+	public void incrementPoint(double x, double y, double zIncrement, final double startx, final double endx,
+	                           final double starty, final double endy) throws StatsException
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
@@ -126,7 +130,7 @@ public class SimpleXYZSeries
 			{
 			throw new StatsException("Invalid zIncrement value in SimpleXYZSeries: " + zIncrement);
 			}
-		XYZPoint currentPoint = points.get(x, y);
+		HeatmapPoint currentPoint = points.get(x, y);
 		if (currentPoint != null)
 			{
 			currentPoint.z += zIncrement;
@@ -134,7 +138,7 @@ public class SimpleXYZSeries
 			}
 		else
 			{
-			points.put(x, y, new XYZPoint(x, y, zIncrement));
+			points.put(x, y, new HeatmapPoint(x, y, zIncrement, startx, endx, starty, endy));
 
 			updateBounds(x, y, zIncrement);
 			}
@@ -183,7 +187,7 @@ public class SimpleXYZSeries
 		{
 		double[] result = new double[points.size()];
 		int i = 0;
-		for (XYZPoint p : (Collection<XYZPoint>) points.values())
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
 			{
 			result[i] = p.x;
 			i++;
@@ -207,7 +211,7 @@ public class SimpleXYZSeries
 		{
 		double[] result = new double[points.size()];
 		int i = 0;
-		for (XYZPoint p : (Collection<XYZPoint>) points.values())
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
 			{
 			result[i] = p.y;
 			i++;
@@ -231,9 +235,57 @@ public class SimpleXYZSeries
 		{
 		double[] result = new double[points.size()];
 		int i = 0;
-		for (XYZPoint p : (Collection<XYZPoint>) points.values())
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
 			{
 			result[i] = p.z;
+			i++;
+			}
+		return result;
+		}
+
+	public double[] getStartXArray()
+		{
+		double[] result = new double[points.size()];
+		int i = 0;
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
+			{
+			result[i] = p.startx;
+			i++;
+			}
+		return result;
+		}
+
+	public double[] getEndXArray()
+		{
+		double[] result = new double[points.size()];
+		int i = 0;
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
+			{
+			result[i] = p.endx;
+			i++;
+			}
+		return result;
+		}
+
+	public double[] getStartYArray()
+		{
+		double[] result = new double[points.size()];
+		int i = 0;
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
+			{
+			result[i] = p.starty;
+			i++;
+			}
+		return result;
+		}
+
+	public double[] getEndYArray()
+		{
+		double[] result = new double[points.size()];
+		int i = 0;
+		for (HeatmapPoint p : (Collection<HeatmapPoint>) points.values())
+			{
+			result[i] = p.endy;
 			i++;
 			}
 		return result;
@@ -244,20 +296,30 @@ public class SimpleXYZSeries
 		return points.size();
 		}
 
+	public List<HeatmapPoint> getPoints()
+		{
+		return new ArrayList<HeatmapPoint>(points.values());
+		}
+
 	// -------------------------- INNER CLASSES --------------------------
 
-	protected static class XYZPoint implements Comparable<XYZPoint>
+	public static class HeatmapPoint implements Comparable<HeatmapPoint>
 		{
-		public double x, y, z;
+		public double x, y, z, startx, endx, starty, endy;
 
-		public XYZPoint(double x, double y, double z)
+		public HeatmapPoint(final double x, final double y, final double z, final double startx, final double endx,
+		                    final double starty, final double endy)
 			{
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			this.startx = startx;
+			this.endx = endx;
+			this.starty = starty;
+			this.endy = endy;
 			}
 
-		public int compareTo(final XYZPoint o)
+		public int compareTo(final HeatmapPoint o)
 			{
 			int c = Double.compare(x, o.x);
 			if (c == 0)
