@@ -71,7 +71,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		return new EqualWeightHistogram1D(yQuantiles, yPrimitiveArray);
 		}
 
-	private List<Double> getYListForBin(int i)
+	public List<Double> getYListForBin(int i)
 		{
 		// PERF cache these
 
