@@ -57,7 +57,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	 * @param yQuantiles the number of quantiles into which to divide the y values
 	 * @return the quantile distribution of y values within the requested bin
 	 */
-	private EqualWeightHistogram1D getYQuantilesForBin(int i, int yQuantiles)
+	private EqualWeightHistogram1D getYQuantilesForBin(int i, int yQuantiles) throws StatsException
 		{
 		// PERF cache these?
 		//double[] yPrimitiveArray =
@@ -97,7 +97,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 	 * @param yQuantiles the number of quantiles into which to divide the y values
 	 * @return the quantile distribution of y values within the requested bin
 	 */
-	private EqualWeightHistogram1D getYQuantilesForBinCumulative(int i, int yQuantiles)
+	private EqualWeightHistogram1D getYQuantilesForBinCumulative(int i, int yQuantiles) throws StatsException
 		{
 		// PERF cache these?
 		//double[] yPrimitiveArray =

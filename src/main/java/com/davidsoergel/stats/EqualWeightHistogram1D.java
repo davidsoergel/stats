@@ -33,6 +33,7 @@
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.DSArrayUtils;
+import org.apache.log4j.Logger;
 
 import java.util.Arrays;
 
@@ -44,9 +45,11 @@ import java.util.Arrays;
 
 public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 	{
+	private static final Logger logger = Logger.getLogger(EqualWeightHistogram1D.class);
+
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public EqualWeightHistogram1D(int bins, double[] data)// throws StatsException
+	public EqualWeightHistogram1D(int bins, double[] data) throws StatsException
 		{
 		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
 		}
@@ -57,16 +60,24 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		super(from, to, bins);
 		}
 
-	public EqualWeightHistogram1D(double from, double to, int bins, double[] data) //throws StatsException
+	public EqualWeightHistogram1D(double from, double to, int bins, double[] data) throws StatsException
 		{
 		super(from, to, bins);
 		addAll(data);
 		}
 
-	private void addAll(double[] data)
+	private void addAll(double[] data) throws StatsException
 		{
 		//int bin = 0;
 		double pointsPerBin = (double) data.length / (double) bins;
+
+		if (pointsPerBin < 1.)
+			{
+			//logger.warn(
+			throw new StatsException(
+					"Can't compute a good histogram for " + bins + " bins with only " + data.length + " data points");
+			}
+
 		Arrays.sort(data);
 		int prevBin = 0;
 		for (int dataIndex = 0; dataIndex < data.length; dataIndex++)
