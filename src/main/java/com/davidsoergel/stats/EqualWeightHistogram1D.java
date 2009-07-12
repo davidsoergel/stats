@@ -51,6 +51,10 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 
 	public EqualWeightHistogram1D(int bins, double[] data) throws StatsException
 		{
+		/*if(data.length == 0)
+			{
+			throw new StatsException("Can't build a histogram from no data");
+			}*/
 		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
 		}
 
