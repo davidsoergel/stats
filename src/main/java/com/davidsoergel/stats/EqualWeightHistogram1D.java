@@ -47,7 +47,8 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 	{
 	private static final Logger logger = Logger.getLogger(EqualWeightHistogram1D.class);
 
-	// --------------------------- CONSTRUCTORS ---------------------------
+	private final boolean failOnTooLittleData;
+	// -----------boolean ---------------- CONSTRUCTORS ---------------------------
 
 	public EqualWeightHistogram1D(int bins, double[] data) throws StatsException
 		{
@@ -55,18 +56,30 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 			{
 			throw new StatsException("Can't build a histogram from no data");
 			}*/
-		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data);
+		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data, false);
+		}
+
+	public EqualWeightHistogram1D(int bins, double[] data, boolean failOnTooLittleData) throws StatsException
+		{
+		/*if(data.length == 0)
+			{
+			throw new StatsException("Can't build a histogram from no data");
+			}*/
+		this(DSArrayUtils.min(data), DSArrayUtils.max(data), bins, data, failOnTooLittleData);
 		}
 
 
-	public EqualWeightHistogram1D(double from, double to, int bins) //throws StatsException
+	public EqualWeightHistogram1D(double from, double to, int bins, boolean failOnTooLittleData) //throws StatsException
 		{
 		super(from, to, bins);
+		this.failOnTooLittleData = false; //
 		}
 
-	public EqualWeightHistogram1D(double from, double to, int bins, double[] data) throws StatsException
+	public EqualWeightHistogram1D(double from, double to, int bins, double[] data, boolean failOnTooLittleData)
+			throws StatsException
 		{
 		super(from, to, bins);
+		this.failOnTooLittleData = failOnTooLittleData;
 		addAll(data);
 		}
 
@@ -75,7 +88,7 @@ public class EqualWeightHistogram1D extends VariableWidthHistogram1D
 		//int bin = 0;
 		double pointsPerBin = (double) data.length / (double) bins;
 
-		if (pointsPerBin < 1.)
+		if (pointsPerBin < 1. && failOnTooLittleData)
 			{
 			//logger.warn(
 			throw new StatsException(
