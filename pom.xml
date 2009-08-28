@@ -33,67 +33,67 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.davidsoergel</groupId>
-	<artifactId>stats</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.davidsoergel</groupId>
+  <artifactId>stats</artifactId>
 
-	<name>stats</name>
-	<version>0.9-SNAPSHOT</version>
-	<url>http://dev.davidsoergel.com/stats</url>
-	<description>Distributions.</description>
+  <name>stats</name>
+  <version>0.9-SNAPSHOT</version>
+  <url>http://dev.davidsoergel.com/stats</url>
+  <description>Distributions.</description>
 
-	<parent>
-		<groupId>com.davidsoergel</groupId>
-		<artifactId>basepom</artifactId>
-		<version>0.92</version>
-	</parent>
+  <parent>
+    <groupId>com.davidsoergel</groupId>
+    <artifactId>basepom</artifactId>
+    <version>0.93</version>
+  </parent>
 
-	<inceptionYear>2006</inceptionYear>
+  <inceptionYear>2006</inceptionYear>
 
-	<packaging>jar</packaging>
+  <packaging>jar</packaging>
 
-	<issueManagement>
-		<system>Trac</system>
-		<url>http://dev.davidsoergel.com/stats/</url>
-	</issueManagement>
+  <issueManagement>
+    <system>Trac</system>
+    <url>http://dev.davidsoergel.com/stats/</url>
+  </issueManagement>
 
-	<scm>
-		<connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
-		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
-	</scm>
+  <scm>
+    <connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
+    <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
+  </scm>
 
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>scpexe://dev.davidsoergel.com/home/build/mavensites/stats</url>
-		</site>
-	</distributionManagement>
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>scpexe://dev.davidsoergel.com/home/build/mavensites/stats</url>
+    </site>
+  </distributionManagement>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://dev.davidsoergel.com/artifactory/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://dev.davidsoergel.com/artifactory/repo</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://dev.davidsoergel.com/artifactory/repo</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>snapshots</id>
+      <url>http://dev.davidsoergel.com/artifactory/repo</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
 
 
-	<dependencies>
-		<dependency>
-			<groupId>com.davidsoergel</groupId>
-			<artifactId>dsutils</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.davidsoergel</groupId>
+      <artifactId>dsutils</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
 </project>
