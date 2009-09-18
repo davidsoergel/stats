@@ -1,6 +1,7 @@
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.DSArrayUtils;
+import com.davidsoergel.dsutils.math.MersenneTwisterFast;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -398,5 +400,90 @@ public class DistributionXYSeries //extends SimpleXYSeries
 
 		regression = new LinearRegression(xs, ys);
 		correlation = PearsonCorrelation.computeCorrelationCoefficient(xs, ys);
+		}
+
+
+	public void addAllVsAllPoints(List<Double> xValues, List<Double> yValues, boolean xlog, boolean ylog, double xnoise,
+	                              double ynoise)
+		{
+		for (double dx : xValues)
+			{
+			//	double dx = dxv.getValue();
+			if (xlog)
+				{
+				dx = Math.log10(dx);
+				}
+
+			for (double dy : yValues)
+				{
+				//double dy = dyv.getValue();
+
+				if (ylog)
+					{
+					dy = Math.log10(dy);
+					}
+				double dxn = dx;
+				if (xnoise != 0)
+					{
+					dxn += xnoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				if (ynoise != 0)
+					{
+					dy += ynoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				//try
+				//	{
+				addPoint(dxn, dy);
+				//	}
+				//catch (StatsException e)
+				//	{
+				//	logger.warn("warn", e);
+				//	}
+				}
+			}
+		}
+
+	public void addParallelArrayPoints(List<Double> xValues, List<Double> yValues, boolean xlog, boolean ylog,
+	                                   double xnoise, double ynoise)
+		{
+		Iterator<Double> yIterator = yValues.iterator();
+		for (double dx : xValues)
+			{
+			//	double dx = dxv.getValue();
+			if (xlog)
+				{
+				dx = Math.log10(dx);
+				}
+
+			if (xnoise != 0)
+				{
+				dx += xnoise * (MersenneTwisterFast.gaussian() - 0.5);
+				}
+			double dy = yIterator.next();
+
+			//double dy = dyv.getValue();
+
+			if (ylog)
+				{
+				dy = Math.log10(dy);
+				}
+
+			if (ynoise != 0)
+				{
+				dy += ynoise * (MersenneTwisterFast.gaussian() - 0.5);
+				}
+
+
+			//try
+			//	{
+			addPoint(dx, dy);
+			//	}
+			//catch (StatsException e)
+			//	{
+			//	logger.warn("warn", e);
+			//	}
+			}
 		}
 	}
