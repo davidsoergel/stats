@@ -273,4 +273,70 @@ public class SimpleXYSeries
 			return Double.compare(x, ((XYPoint) o).x);
 			}
 		}
+
+	public static SimpleXYSeries yVsY(SimpleXYSeries theSeries1, SimpleXYSeries theSeries2) throws StatsException
+		{
+		SimpleXYSeries result = new SimpleXYSeries();
+
+		int size = theSeries1.size();
+
+		if (theSeries2.size() != size)
+			{
+			throw new StatsRuntimeException("Can't make Y vs. Y plot when # of points differ");
+			}
+
+		for (int i = 0; i < size; i++)
+			{
+			result.addPoint(theSeries1.getY(i), theSeries2.getY(i));
+			}
+
+		return result;
+		}
+
+
+	LinearRegression regression = null;
+	double correlation;
+
+	public double pearsonCorrelation() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return correlation;
+		}
+
+	public double regressionM() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return regression.m;
+		}
+
+	public double regressionB() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		return regression.b;
+		}
+
+	private void computeRegression() throws StatsException
+		{
+		double[] xs = new double[size()];
+		double[] ys = new double[size()];
+		int i = 0;
+		for (XYPoint point : points)
+			{
+			xs[i] = point.x;
+			ys[i] = point.y;
+			i++;
+			}
+
+		regression = new LinearRegression(xs, ys);
+		correlation = PearsonCorrelation.computeCorrelationCoefficient(xs, ys);
+		}
 	}
