@@ -42,8 +42,8 @@ public class PearsonCorrelation
 	// -------------------------- STATIC METHODS --------------------------
 
 	/*
-	Pseudocade from Wikipedia
-	sum_sq_x = 0
+	Pseudocode from Wikipedia
+sum_sq_x = 0
 sum_sq_y = 0
 sum_coproduct = 0
 mean_x = x[1]
