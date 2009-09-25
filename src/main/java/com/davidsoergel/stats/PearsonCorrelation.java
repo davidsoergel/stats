@@ -132,6 +132,12 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 	 */
 	public static double computeCorrelationCoefficient(double[] x, double[] y, double ignore) throws StatsException
 		{
+		int n = x.length;
+		if (y.length != n)
+			{
+			throw new StatsException("Cannot compute correlation coefficient between arrays of different lengths");
+			}
+
 		double sum_sq_x = 0;
 		double sum_sq_y = 0;
 		double sum_coproduct = 0;
@@ -140,16 +146,15 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 		while (x[startI] == ignore || y[startI] == ignore)
 			{
 			startI++;
+			if (startI >= x.length)
+				{
+				throw new StatsException("All points are ignored");
+				}
 			}
 
 		double mean_x = x[startI];
 		double mean_y = y[startI];
 
-		int n = x.length;
-		if (y.length != n)
-			{
-			throw new StatsException("Cannot compute correlation coefficient between arrays of different lengths");
-			}
 		for (int i = startI + 1; i < n; i++)
 			{
 			if (x[i] == ignore || y[i] == ignore)
