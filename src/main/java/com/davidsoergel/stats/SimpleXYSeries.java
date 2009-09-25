@@ -312,7 +312,7 @@ public class SimpleXYSeries
 			{
 			computeRegression();
 			}
-		return regression.m;
+		return regression.slope;
 		}
 
 	public double regressionB() throws StatsException
@@ -321,7 +321,7 @@ public class SimpleXYSeries
 			{
 			computeRegression();
 			}
-		return regression.b;
+		return regression.intercept;
 		}
 
 	private void computeRegression() throws StatsException

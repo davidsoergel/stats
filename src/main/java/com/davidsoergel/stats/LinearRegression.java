@@ -6,9 +6,14 @@ package com.davidsoergel.stats;
  */
 public class LinearRegression
 	{
-	public final double m;
-	public final double b;
+	public final double slope;
+	public final double intercept;
+	public final double R2;
+
 	public int n;
+	private final double slopeStdErr;
+	private final double interceptStdErr;
+	private final double interceptStdErr2;
 
 	public LinearRegression(double[] x, double[] y) throws StatsException
 		{
@@ -18,6 +23,7 @@ public class LinearRegression
 			throw new StatsException("Cannot compute linear regression between arrays of different lengths");
 			}
 
+		/* WTF is this?
 		double sumX = 0, sumXY = 0, sumXSquared = 0, sumY = 0;
 
 		for (int i = 0; i < n; i++)
@@ -32,50 +38,71 @@ public class LinearRegression
 		m = (sumX * sumY - n * sumXY) / (sumX * sumX - n * sumXSquared);
 
 		b = (sumX * sumXY - sumY * sumXSquared) / (sumX * sumX - n * sumXSquared);
+		*/
 
-		if (Double.isNaN(m) || Double.isInfinite(m) || Double.isNaN(b) || Double.isInfinite(b))
+		// this version from http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html
+
+		// first pass: read in data, compute xbar and ybar
+		double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
+		for (int i = 0; i < n; i++)
 			{
-			throw new StatsException("Regression failed with NaN or infinity");
+			sumx += x[i];
+			sumx2 += x[i] * x[i];
+			sumy += y[i];
 			}
-		}
+		double xbar = sumx / n;
+		double ybar = sumy / n;
 
-	/**
-	 * If either the x or y value at a given index equals the ignore value, drop that data point
-	 *
-	 * @param x
-	 * @param y
-	 * @param ignore
-	 * @return
-	 * @throws StatsException
-	 */
-	public LinearRegression(double[] x, double[] y, double ignore) throws StatsException
-		{
-		int xl = x.length;
-		if (y.length != x.length)
+		// second pass: compute summary statistics
+		double xxbar = 0.0, yybar = 0.0, xybar = 0.0;
+		for (int i = 0; i < n; i++)
 			{
-			throw new StatsException("Cannot compute linear regression between arrays of different lengths");
+			xxbar += (x[i] - xbar) * (x[i] - xbar);
+			yybar += (y[i] - ybar) * (y[i] - ybar);
+			xybar += (x[i] - xbar) * (y[i] - ybar);
 			}
+		slope = xybar / xxbar;
+		intercept = ybar - slope * xbar;
 
-		double sumX = 0, sumXY = 0, sumXSquared = 0, sumY = 0;
+		// print results
+		//	System.out.println("y   = " + beta1 + " * x + " + beta0);
 
-		n = 0;
-		for (int i = 0; i < xl; i++)
+		// analyze results
+		int df = n - 2;
+		double rss = 0.0;      // residual sum of squares
+		double ssr = 0.0;      // regression sum of squares
+
+		// third pass: correlation etc.
+		for (int i = 0; i < n; i++)
 			{
-			if (x[i] != ignore && y[i] != ignore)
-				{
-				sumX += x[i];
-				sumXSquared += x[i] * x[i];
-				sumY += y[i];
-				sumXY += x[i] * y[i];
-				n++;
-				}
+			double fit = slope * x[i] + intercept;
+			rss += (fit - y[i]) * (fit - y[i]);
+			ssr += (fit - ybar) * (fit - ybar);
 			}
+		R2 = ssr / yybar;
+		double svar = rss / df;
+		double svar1 = svar / xxbar;
+		double svar0 = svar / n + xbar * xbar * svar1;
 
-		m = (sumX * sumY - n * sumXY) / (sumX * sumX - n * sumXSquared);
+		slopeStdErr = Math.sqrt(svar1);
+		interceptStdErr = Math.sqrt(svar0);
+		svar0 = svar * sumx2 / (n * xxbar);
+		interceptStdErr2 = Math.sqrt(svar0);
 
-		b = (sumX * sumXY - sumY * sumXSquared) / (sumX * sumX - n * sumXSquared);
+		/*
+		  System.out.println("R^2                 = " + R2);
+		  System.out.println("std error of beta_1 = " + Math.sqrt(svar1));
+		  System.out.println("std error of beta_0 = " + Math.sqrt(svar0));
+		  svar0 = svar * sumx2 / (n * xxbar);
+		  System.out.println("std error of beta_0 = " + Math.sqrt(svar0));
 
-		if (Double.isNaN(m) || Double.isInfinite(m) || Double.isNaN(b) || Double.isInfinite(b))
+		  System.out.println("SSTO = " + yybar);
+		  System.out.println("SSE  = " + rss);
+		  System.out.println("SSR  = " + ssr);
+  */
+
+		if (Double.isNaN(this.slope) || Double.isInfinite(this.slope) || Double.isNaN(this.intercept) || Double
+				.isInfinite(this.intercept))
 			{
 			throw new StatsException("Regression failed with NaN or infinity");
 			}

@@ -33,6 +33,8 @@
 package com.davidsoergel.stats;
 
 /**
+ * THis is the one-pass version.  See also LinearRegression, which aslol computes correlation.
+ *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
