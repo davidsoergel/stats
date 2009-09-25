@@ -8,10 +8,11 @@ public class LinearRegression
 	{
 	public final double m;
 	public final double b;
+	public int n;
 
 	public LinearRegression(double[] x, double[] y) throws StatsException
 		{
-		int n = x.length;
+		n = x.length;
 		if (y.length != n)
 			{
 			throw new StatsException("Cannot compute linear regression between arrays of different lengths");
@@ -57,21 +58,18 @@ public class LinearRegression
 
 		double sumX = 0, sumXY = 0, sumXSquared = 0, sumY = 0;
 
-		int n = 0;
+		n = 0;
 		for (int i = 0; i < xl; i++)
 			{
-			if (x[i] == ignore || y[i] == ignore)
+			if (x[i] != ignore && y[i] != ignore)
 				{
-				continue;
+				sumX += x[i];
+				sumXSquared += x[i] * x[i];
+				sumY += y[i];
+				sumXY += x[i] * y[i];
+				n++;
 				}
-
-			sumX += x[i];
-			sumXSquared += x[i] * x[i];
-			sumY += y[i];
-			sumXY += x[i] * y[i];
-			n++;
 			}
-
 
 		m = (sumX * sumY - n * sumXY) / (sumX * sumX - n * sumXSquared);
 
