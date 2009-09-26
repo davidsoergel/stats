@@ -44,7 +44,9 @@ package com.davidsoergel.stats;
  */
 public interface DissimilarityMeasure<T>
 	{
-	public static final Double UNKNOWN_DISTANCE = 1e308; // Double.MAX_VALUE; triggers MySQL bug # 21497
+	// just use NaN
+	//public static final Double UNKNOWN_DISTANCE = 1e308; // Double.MAX_VALUE; triggers MySQL bug # 21497
+	public static final Double UNKNOWN_DISTANCE = Double.NaN;
 
 	// -------------------------- OTHER METHODS --------------------------
 

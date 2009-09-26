@@ -98,15 +98,21 @@ public class SimpleXYZSeries
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
-			throw new StatsException("Invalid x value in SimpleXYZSeries: " + x);
+			//throw new StatsException("Invalid x value in SimpleXYZSeries: " + x);
+			logger.warn("Invalid x value in SimpleXYZSeries: " + x);
+			return;
 			}
 		if (Double.isNaN(y) || Double.isInfinite(y))
 			{
-			throw new StatsException("Invalid y value in SimpleXYZSeries: " + y);
+			//throw new StatsException("Invalid y value in SimpleXYZSeries: " + y);
+			logger.warn("Invalid y value in SimpleXYZSeries: " + y);
+			return;
 			}
 		if (Double.isNaN(z) || Double.isInfinite(z))
 			{
-			throw new StatsException("Invalid z value in SimpleXYZSeries: " + z);
+			//throw new StatsException("Invalid z value in SimpleXYZSeries: " + z);
+			logger.warn("Invalid z value in SimpleXYZSeries: " + z);
+			return;
 			}
 		points.put(x, y, new XYZPoint(x, y, z));
 		updateBounds(x, y, z);

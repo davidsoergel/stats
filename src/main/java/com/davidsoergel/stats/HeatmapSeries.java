@@ -101,15 +101,21 @@ public class HeatmapSeries
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
-			throw new StatsException("Invalid x value in HeatmapSeries: " + x);
+			//throw new StatsException("Invalid x value in HeatmapSeries: " + x);
+			logger.warn("Invalid x value in HeatmapSeries: " + x);
+			return;
 			}
 		if (Double.isNaN(y) || Double.isInfinite(y))
 			{
-			throw new StatsException("Invalid y value in HeatmapSeries: " + y);
+			//throw new StatsException("Invalid y value in HeatmapSeries: " + y);
+			logger.warn("Invalid y value in HeatmapSeries: " + y);
+			return;
 			}
 		if (Double.isNaN(z) || Double.isInfinite(z))
 			{
-			throw new StatsException("Invalid z value in HeatmapSeries: " + z);
+			//throw new StatsException("Invalid z value in HeatmapSeries: " + z);
+			logger.warn("Invalid z value in HeatmapSeries: " + z);
+			return;
 			}
 		points.put(x, y, new HeatmapPoint(x, y, z, startx, endx, starty, endy));
 		updateBounds(x, y, z);

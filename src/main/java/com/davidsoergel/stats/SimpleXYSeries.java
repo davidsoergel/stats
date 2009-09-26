@@ -90,11 +90,15 @@ public class SimpleXYSeries
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
-			throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
+			//throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
+			logger.warn("Invalid x value in SimpleXYSeries: " + x);
+			return;
 			}
 		if (Double.isNaN(y) || Double.isInfinite(y))
 			{
-			throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
+			//throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
+			logger.warn("Invalid y value in SimpleXYSeries: " + y);
+			return;
 			}
 		points.add(new XYPoint(x, y));
 		updateBounds(x, y);
