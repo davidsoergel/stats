@@ -46,7 +46,9 @@ public interface DissimilarityMeasure<T>
 	{
 	// just use NaN
 	//public static final Double UNKNOWN_DISTANCE = 1e308; // Double.MAX_VALUE; triggers MySQL bug # 21497
-	public static final Double UNKNOWN_DISTANCE = Double.NaN;
+
+	// in fact, use NaN directly; using this constant obscures the fact that == doesn't work right and so forth.
+//	public static final Double UNKNOWN_DISTANCE = Double.NaN;
 
 	// -------------------------- OTHER METHODS --------------------------
 

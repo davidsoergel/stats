@@ -64,6 +64,13 @@ public class LinearRegression
 		slope = xybar / xxbar;
 		intercept = ybar - slope * xbar;
 
+		if (Double.isNaN(this.slope) || Double.isInfinite(this.slope) || Double.isNaN(this.intercept) || Double
+				.isInfinite(this.intercept))
+			{
+			throw new StatsException("Regression failed with NaN or infinity");
+			}
+
+
 		// print results
 		//	System.out.println("y   = " + beta1 + " * x + " + beta0);
 
@@ -101,10 +108,6 @@ public class LinearRegression
 		  System.out.println("SSR  = " + ssr);
   */
 
-		if (Double.isNaN(this.slope) || Double.isInfinite(this.slope) || Double.isNaN(this.intercept) || Double
-				.isInfinite(this.intercept))
-			{
-			throw new StatsException("Regression failed with NaN or infinity");
-			}
+
 		}
 	}
