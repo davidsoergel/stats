@@ -37,7 +37,9 @@ import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -88,20 +90,39 @@ public class SimpleXYSeries
 
 	public void addPoint(double x, double y) throws StatsException
 		{
-		if (Double.isNaN(x) || Double.isInfinite(x))
-			{
-			//throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
-			logger.warn("Invalid x value in SimpleXYSeries: " + x);
-			return;
-			}
-		if (Double.isNaN(y) || Double.isInfinite(y))
-			{
-			//throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
-			logger.warn("Invalid y value in SimpleXYSeries: " + y);
-			return;
-			}
+		/*	if (Double.isNaN(x) || Double.isInfinite(x))
+		   {
+		   //throw new StatsException("Invalid x value in SimpleXYSeries: " + x);
+		   logger.warn("Invalid x value in SimpleXYSeries: " + x);
+		   return;
+		   }
+	   if (Double.isNaN(y) || Double.isInfinite(y))
+		   {
+		   //throw new StatsException("Invalid y value in SimpleXYSeries: " + y);
+		   logger.warn("Invalid y value in SimpleXYSeries: " + y);
+		   return;
+		   }*/
 		points.add(new XYPoint(x, y));
 		updateBounds(x, y);
+		}
+
+	public void removeNaNAndInfinity()
+		{
+		Set<XYPoint> pointsToRemove = new HashSet<XYPoint>();
+
+		for (XYPoint point : points)
+			{
+			if (Double.isNaN(point.x) || Double.isInfinite(point.x))
+				{
+				pointsToRemove.add(point);
+				}
+			if (Double.isNaN(point.y) || Double.isInfinite(point.y))
+				{
+				pointsToRemove.add(point);
+				}
+			}
+
+		points.removeAll(pointsToRemove);
 		}
 
 	private void updateBounds(double x, double y)
