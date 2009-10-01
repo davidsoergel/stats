@@ -6,20 +6,33 @@ package com.davidsoergel.stats;
  */
 public class LinearRegression
 	{
+	// return values are NaN by default; those get overwritten if the regression succeeds
+
+/*	public  double slope = Double.NaN;
+	public  double intercept = Double.NaN;
+	public  double R2 = Double.NaN;
+
+	public int n = 0;
+	private  double slopeStdErr = Double.NaN;
+	private  double interceptStdErr = Double.NaN;
+	private  double interceptStdErr2 = Double.NaN;
+*/
+
 	public final double slope;
 	public final double intercept;
 	public final double R2;
 
-	public int n;
-	private final double slopeStdErr;
-	private final double interceptStdErr;
-	private final double interceptStdErr2;
+	public final int n;
+	public final double slopeStdErr;
+	public final double interceptStdErr;
+	public final double interceptStdErr2;
 
 	public LinearRegression(double[] x, double[] y) throws StatsException
 		{
 		n = x.length;
 		if (y.length != n)
 			{
+			//return;
 			throw new StatsException("Cannot compute linear regression between arrays of different lengths");
 			}
 
@@ -67,6 +80,7 @@ public class LinearRegression
 		if (Double.isNaN(this.slope) || Double.isInfinite(this.slope) || Double.isNaN(this.intercept) || Double
 				.isInfinite(this.intercept))
 			{
+			//return;
 			throw new StatsException("Regression failed with NaN or infinity");
 			}
 
