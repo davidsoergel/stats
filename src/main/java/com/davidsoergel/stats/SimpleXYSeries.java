@@ -331,6 +331,16 @@ public class SimpleXYSeries
 		return correlation;
 		}
 
+	public double R2() throws StatsException
+		{
+		if (regression == null)
+			{
+			computeRegression();
+			}
+		logger.debug("Correlations: " + regression.R2 + ", " + correlation);
+		return regression.R2;
+		}
+
 	public double regressionM() throws StatsException
 		{
 		if (regression == null)
