@@ -496,4 +496,110 @@ public class DistributionXYSeries //extends SimpleXYSeries
 			//	}
 			}
 		}
+
+	public void addParallelArrayPoints(List<Double> xValues, List<Double> yValues, boolean xlog, boolean ylog,
+	                                   double xnoise, double ynoise, List<Double> maskValues, double maskMin,
+	                                   double maskMax, List<Double> mask2Values, double mask2Min, double mask2Max)
+		{
+		Iterator<Double> yIterator = yValues.iterator();
+		Iterator<Double> maskIterator = maskValues.iterator();
+		Iterator<Double> mask2Iterator = mask2Values.iterator();
+		for (double dx : xValues)
+			{
+			double dMask = maskIterator.next();
+			double dMask2 = mask2Iterator.next();
+			double dy = yIterator.next();
+
+			if (dMask >= maskMin && dMask <= maskMax && dMask2 >= mask2Min && dMask2 <= mask2Max)
+				{
+				//	double dx = dxv.getValue();
+				if (xlog)
+					{
+					dx = Math.log10(dx);
+					}
+
+				if (xnoise != 0)
+					{
+					dx += xnoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				//double dy = dyv.getValue();
+
+				if (ylog)
+					{
+					dy = Math.log10(dy);
+					}
+
+				if (ynoise != 0)
+					{
+					dy += ynoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				//try
+				//	{
+				addPoint(dx, dy);
+				//	}
+				//catch (StatsException e)
+				//	{
+				//	logger.warn("warn", e);
+				//	}
+				}
+			else
+				{
+				addPoint(dx, Double.NaN);
+				}
+			}
+		}
+
+	public void addParallelArrayPoints(List<Double> xValues, List<Double> yValues, boolean xlog, boolean ylog,
+	                                   double xnoise, double ynoise, List<Double> maskValues, double maskMin,
+	                                   double maskMax)
+		{
+		Iterator<Double> yIterator = yValues.iterator();
+		Iterator<Double> maskIterator = maskValues.iterator();
+		for (double dx : xValues)
+			{
+			double dMask = maskIterator.next();
+			double dy = yIterator.next();
+
+			if (dMask >= maskMin && dMask <= maskMax)
+				{
+				//	double dx = dxv.getValue();
+				if (xlog)
+					{
+					dx = Math.log10(dx);
+					}
+
+				if (xnoise != 0)
+					{
+					dx += xnoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				//double dy = dyv.getValue();
+
+				if (ylog)
+					{
+					dy = Math.log10(dy);
+					}
+
+				if (ynoise != 0)
+					{
+					dy += ynoise * (MersenneTwisterFast.gaussian() - 0.5);
+					}
+
+				//try
+				//	{
+				addPoint(dx, dy);
+				//	}
+				//catch (StatsException e)
+				//	{
+				//	logger.warn("warn", e);
+				//	}
+				}
+			else
+				{
+				addPoint(dx, Double.NaN);
+				}
+			}
+		}
 	}
