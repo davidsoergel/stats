@@ -46,7 +46,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	//private static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double[] probs = new double[0];
 	private boolean normalized = false;
 
@@ -122,7 +122,7 @@ public class MultinomialDistribution implements DiscreteDistribution1D
 			throw new DistributionException(
 					"Multinomial distribution is not normalized.");// force the programmer to pay attention
 			}
-		double r = mtf.nextDouble();//Math.random();
+		double r = MersenneTwisterFast.random();
 		int c = 0;
 		while (r >= probs[c])
 			{

@@ -43,7 +43,7 @@ public class NormalDistribution implements ContinuousDistribution1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	//static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double mean;
 	double variance;
 
@@ -63,6 +63,6 @@ public class NormalDistribution implements ContinuousDistribution1D
 
 	public double sample()//throws DistributionException
 		{
-		return mean + (variance * mtf.nextGaussian());
+		return mean + (variance * MersenneTwisterFast.gaussian());
 		}
 	}

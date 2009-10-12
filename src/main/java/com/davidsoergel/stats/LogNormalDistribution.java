@@ -44,7 +44,7 @@ public class LogNormalDistribution implements ContinuousDistribution1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	//static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double mean;
 	double variance;
 
@@ -64,6 +64,6 @@ public class LogNormalDistribution implements ContinuousDistribution1D
 
 	public double sample()//throws DistributionException
 		{
-		return MathUtils.approximateLog(mean + (variance * mtf.nextGaussian()));
+		return MathUtils.approximateLog(mean + (variance * MersenneTwisterFast.gaussian()));
 		}
 	}

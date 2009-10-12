@@ -42,7 +42,7 @@ public class UniformDistribution implements ContinuousDistribution1D
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	static MersenneTwisterFast mtf = new MersenneTwisterFast();
+	//static MersenneTwisterFast mtf = new MersenneTwisterFast();
 	double min;
 	double max;
 
@@ -62,6 +62,6 @@ public class UniformDistribution implements ContinuousDistribution1D
 
 	public double sample()//throws DistributionException
 		{
-		return min + ((max - min) * mtf.nextDouble());
+		return min + ((max - min) * MersenneTwisterFast.random());
 		}
 	}
