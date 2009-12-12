@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,6 +65,11 @@ public class SimpleXYSeries
 	private double yMax = Double.NEGATIVE_INFINITY;
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
+
+	public void sortByX()
+		{
+		Collections.sort(points);
+		}
 
 	public double getXMax()
 		{
