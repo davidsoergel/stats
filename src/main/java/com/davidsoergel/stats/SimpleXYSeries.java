@@ -36,6 +36,9 @@ package com.davidsoergel.stats;
 import com.davidsoergel.dsutils.DSArrayUtils;
 import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -63,6 +66,44 @@ public class SimpleXYSeries
 	protected double xMax = Double.NEGATIVE_INFINITY;
 	private double yMin = Double.POSITIVE_INFINITY;
 	private double yMax = Double.NEGATIVE_INFINITY;
+
+	public SimpleXYSeries()
+		{
+		}
+
+	public SimpleXYSeries(String filename) throws IOException, StatsException
+		{
+		BufferedReader br = new BufferedReader(new FileReader(filename));
+		try
+			{
+			String line;
+			int i = 0;
+			while ((line = br.readLine()) != null)
+				{
+				line = line.trim();
+				if (line.equals("")) //line.isEmpty())   // JDK 1.5 compatibility
+					{
+					continue;
+					}
+				String[] numbers = line.split("[ ,\t]+");
+				try
+					{
+					Double x = new Double(numbers[0]);
+					Double y = new Double(numbers[1]);
+					addPoint(x, y);
+					i++;
+					}
+				catch (NumberFormatException e)
+					{
+					throw new NumberFormatException("Could not read line " + i + " of " + filename + ": " + line);
+					}
+				}
+			}
+		finally
+			{
+			br.close();
+			}
+		}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
