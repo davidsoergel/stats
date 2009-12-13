@@ -1,6 +1,7 @@
 package com.davidsoergel.stats;
 
 import com.davidsoergel.dsutils.math.MersenneTwisterFast;
+import com.google.common.base.Function;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class KernelDensityFunctionSampler implements Serializable
+public class KernelDensityFunctionSampler implements Serializable, Function<Double, Double>
 	{
 	private double[] Xs;
 	private double[] Ys;
@@ -51,7 +52,8 @@ public class KernelDensityFunctionSampler implements Serializable
 		maxLeft = xs.length - pointsWidth;
 		}
 
-	public double sample(double x)
+	public Double apply(Double x)
+
 		{
 		int center = Arrays.binarySearch(Xs, x);
 
