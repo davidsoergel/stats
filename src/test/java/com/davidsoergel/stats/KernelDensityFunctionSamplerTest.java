@@ -28,7 +28,7 @@ public class KernelDensityFunctionSamplerTest extends TestCase
 
 		for (int i = 0; i < 10; i++)
 			{
-			double s = d.sample(5);
+			double s = d.apply(5.);
 			assert s >= 4 && s <= 6;
 			}
 		}
