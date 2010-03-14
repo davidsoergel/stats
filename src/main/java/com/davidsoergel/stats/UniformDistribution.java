@@ -64,4 +64,10 @@ public class UniformDistribution implements ContinuousDistribution1D
 		{
 		return min + ((max - min) * MersenneTwisterFast.random());
 		}
+
+	@Override
+	public String toString()
+		{
+		return "UniformDistribution{" + min + "," + max + '}';
+		}
 	}
