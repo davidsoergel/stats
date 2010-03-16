@@ -172,6 +172,36 @@ public class SimpleXYSeries
 		points.removeAll(pointsToRemove);
 		}
 
+	public void replaceNaNWith(double d)
+		{
+		for (XYPoint point : points)
+			{
+			if (Double.isNaN(point.x))
+				{
+				point.x = d;
+				}
+			if (Double.isNaN(point.y))
+				{
+				point.y = d;
+				}
+			}
+		}
+
+	public void replaceInfinityWith(double d)
+		{
+		for (XYPoint point : points)
+			{
+			if (Double.isInfinite(point.x))
+				{
+				point.x = d;
+				}
+			if (Double.isInfinite(point.y))
+				{
+				point.y = d;
+				}
+			}
+		}
+
 	private void updateBounds(double x, double y)
 		{
 		if (x > xMax)
@@ -305,6 +335,7 @@ public class SimpleXYSeries
 		 };
 		 }
  */
+
 	public int size()
 		{
 		return points.size();
