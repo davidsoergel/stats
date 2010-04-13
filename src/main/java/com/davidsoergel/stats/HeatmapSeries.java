@@ -117,12 +117,12 @@ public class HeatmapSeries
 			logger.warn("Invalid z value in HeatmapSeries: " + z);
 			return;
 			}
-		points.put(x, y, new HeatmapPoint(x, y, z, startx, endx, starty, endy));
+		points.put(x, y, new HeatmapPoint(x, y, z)); //, startx, endx, starty, endy));
 		updateBounds(x, y, z);
 		}
 
-	public void incrementPoint(double x, double y, double zIncrement, final double startx, final double endx,
-	                           final double starty, final double endy) throws StatsException
+	public void incrementPoint(double x, double y, double zIncrement) //throws StatsException
+		//, final double startx, final double endx,final double starty, final double endy) throws StatsException
 		{
 		if (Double.isNaN(x) || Double.isInfinite(x))
 			{
@@ -139,7 +139,7 @@ public class HeatmapSeries
 		if (Double.isNaN(zIncrement) || Double.isInfinite(zIncrement))
 			{
 			//throw new StatsException("Invalid zIncrement value in SimpleXYZSeries: " + zIncrement);
-			logger.warn("Invalid zIncrement value in SimpleXYZSeries: " + zIncrement);
+			logger.warn("Invalid zIncrement value in HeatmapSeries: " + zIncrement);
 			return;
 			}
 		HeatmapPoint currentPoint = points.get(x, y);
@@ -150,7 +150,7 @@ public class HeatmapSeries
 			}
 		else
 			{
-			points.put(x, y, new HeatmapPoint(x, y, zIncrement, startx, endx, starty, endy));
+			points.put(x, y, new HeatmapPoint(x, y, zIncrement)); //, startx, endx, starty, endy));
 
 			updateBounds(x, y, zIncrement);
 			}
@@ -255,7 +255,7 @@ public class HeatmapSeries
 		return result;
 		}
 
-	public double[] getStartXArray()
+/*	public double[] getStartXArray()
 		{
 		double[] result = new double[points.size()];
 		int i = 0;
@@ -303,6 +303,8 @@ public class HeatmapSeries
 		return result;
 		}
 
+		*/
+
 	public int size()
 		{
 		return points.size();
@@ -317,18 +319,19 @@ public class HeatmapSeries
 
 	public static class HeatmapPoint implements Comparable<HeatmapPoint>
 		{
-		public double x, y, z, startx, endx, starty, endy;
+		public double x, y, z;
+		//, startx, endx, starty, endy;
 
-		public HeatmapPoint(final double x, final double y, final double z, final double startx, final double endx,
-		                    final double starty, final double endy)
+		public HeatmapPoint(final double x, final double y, final double z)
+			//, final double startx, final double endx,  final double starty, final double endy)
 			{
 			this.x = x;
 			this.y = y;
 			this.z = z;
-			this.startx = startx;
-			this.endx = endx;
-			this.starty = starty;
-			this.endy = endy;
+			/*	this.startx = startx;
+						this.endx = endx;
+						this.starty = starty;
+						this.endy = endy;*/
 			}
 
 		public int compareTo(final HeatmapPoint o)
