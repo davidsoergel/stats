@@ -60,6 +60,48 @@ public class KernelDensityFunctionSampler implements Serializable, Function<Doub
 		center = center < 0 ? -(center + 1) : center;
 		// if the original center = -insertionPoint-1, then now it's insertionPoint
 
+
+		// if a bunch of x values are the same (as often happens with 0) the binary search always picks the same one,
+		// but we need to randomize to get the edge effects right.
+
+		// PERF these searches could be done by nested binary search
+
+		// the block indexes start out exclusive
+		int leftEqualBlock = center - 1;
+		try
+			{
+			while (Xs[leftEqualBlock] == x)
+				{
+				leftEqualBlock--;
+				}
+			}
+		catch (ArrayIndexOutOfBoundsException e)
+			{
+			leftEqualBlock = -1;
+			}
+
+		int rightEqualBlock = center + 1;
+		try
+			{
+			while (Xs[rightEqualBlock] == x)
+				{
+				rightEqualBlock++;
+				}
+			}
+		catch (ArrayIndexOutOfBoundsException e)
+			{
+			rightEqualBlock = Xs.length;
+			}
+
+		// now make them inclusive
+		leftEqualBlock++;
+		rightEqualBlock--;
+
+		if (leftEqualBlock != rightEqualBlock)
+			{
+			center = leftEqualBlock + MersenneTwisterFast.randomInt(1 + rightEqualBlock - leftEqualBlock);
+			}
+
 		int left = center - halfPointsWidth;
 		left = Math.max(left, 0);
 		left = Math.min(left, maxLeft);
