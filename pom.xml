@@ -37,7 +37,7 @@
   <artifactId>stats</artifactId>
 
   <name>stats</name>
-  <version>0.92</version>
+  <version>0.93-SNAPSHOT</version>
   <url>http://dev.davidsoergel.com/stats</url>
   <description>Distributions.</description>
 
@@ -57,8 +57,8 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.davidsoergel.com/repos/stats/tags/stats-0.92</connection>
-    <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats/tags/stats-0.92</developerConnection>
+    <connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
+    <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
   </scm>
 
   <distributionManagement>
