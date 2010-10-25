@@ -121,6 +121,12 @@ public class HeatmapSeries
 		updateBounds(x, y, z);
 		}
 
+	public void incrementPoint(double x, double y, double zIncrement, final double startx, final double endx,
+	                           final double starty, final double endy) throws StatsException
+		{
+		throw new Error("Completely broken");
+		}
+
 	public void incrementPoint(double x, double y, double zIncrement) //throws StatsException
 		//, final double startx, final double endx,final double starty, final double endy) throws StatsException
 		{
