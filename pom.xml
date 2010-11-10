@@ -31,7 +31,8 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.davidsoergel</groupId>
   <artifactId>stats</artifactId>
@@ -90,7 +91,7 @@
     <dependency>
       <groupId>com.davidsoergel</groupId>
       <artifactId>dsutils</artifactId>
-      <version>1.03</version>
+      <version>1.04-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <!-- try to work around transitive multiple inclusion of old versions -->
