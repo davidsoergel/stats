@@ -33,74 +33,68 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.davidsoergel</groupId>
-  <artifactId>stats</artifactId>
-
-  <name>stats</name>
-  <version>0.93-SNAPSHOT</version>
-  <url>http://dev.davidsoergel.com/stats</url>
-  <description>Distributions.</description>
-
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.davidsoergel</groupId>
-    <artifactId>basepom</artifactId>
-    <version>0.95</version>
-  </parent>
+    <artifactId>stats</artifactId>
 
-  <inceptionYear>2006</inceptionYear>
+    <name>stats</name>
+    <version>0.93-SNAPSHOT</version>
+    <url>http://dev.davidsoergel.com/stats</url>
+    <description>Distributions.</description>
 
-  <packaging>jar</packaging>
+    <parent>
+        <groupId>com.davidsoergel</groupId>
+        <artifactId>basepom</artifactId>
+        <version>0.98</version>
+    </parent>
 
-  <issueManagement>
-    <system>Trac</system>
-    <url>http://dev.davidsoergel.com/stats/</url>
-  </issueManagement>
+    <inceptionYear>2006</inceptionYear>
 
-  <scm>
-    <connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
-    <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
-  </scm>
+    <packaging>jar</packaging>
 
-  <distributionManagement>
-    <site>
-      <id>website</id>
-      <url>scpexe://jenkins@dev.davidsoergel.com/home/build/mavensites/stats</url>
-    </site>
-  </distributionManagement>
+    <issueManagement>
+        <system>Trac</system>
+        <url>http://dev.davidsoergel.com/stats/</url>
+    </issueManagement>
 
-  <repositories>
-    <repository>
-      <id>central</id>
-      <url>http://dev.davidsoergel.com/artifactory/repo</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots</id>
-      <url>http://dev.davidsoergel.com/artifactory/repo</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
+    <scm>
+        <connection>scm:svn:http://svn.davidsoergel.com/repos/stats</connection>
+        <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-ds/stats</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scpexe://jenkins@dev.davidsoergel.com/home/build/mavensites/stats</url>
+        </site>
+    </distributionManagement>
 
 
-  <dependencies>
-    <dependency>
-      <groupId>com.davidsoergel</groupId>
-      <artifactId>dsutils</artifactId>
-      <version>1.04-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <!-- try to work around transitive multiple inclusion of old versions -->
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>dev.davidsoergel.com</id>
+            <url>http://dev.davidsoergel.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.davidsoergel</groupId>
+            <artifactId>dsutils</artifactId>
+            <version>1.04-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- try to work around transitive multiple inclusion of old versions -->
+        <!--<dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+            <scope>compile</scope>
+        </dependency>-->
+    </dependencies>
 
 </project>
