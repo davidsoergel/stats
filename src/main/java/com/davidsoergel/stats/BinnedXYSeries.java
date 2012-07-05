@@ -63,7 +63,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		//double[] yPrimitiveArray =
 		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
 
-		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListForBin(i));
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveDoubleArray(getYListForBin(i));
 		if (yPrimitiveArray.length == 0)
 			{
 			return null;
@@ -103,7 +103,7 @@ public class BinnedXYSeries //extends DistributionXYSeries
 		//double[] yPrimitiveArray =
 		//		DSArrayUtils.toPrimitive(yValsPerX.get(x).toArray(DSArrayUtils.EMPTY_DOUBLE_OBJECT_ARRAY));
 
-		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveArray(getYListForBinRangeToTop(0, i));
+		double[] yPrimitiveArray = DSArrayUtils.toPrimitiveDoubleArray(getYListForBinRangeToTop(0, i));
 		if (yPrimitiveArray.length == 0)
 			{
 			return null;

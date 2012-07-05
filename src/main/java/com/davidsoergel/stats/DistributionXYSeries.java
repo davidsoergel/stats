@@ -222,7 +222,7 @@ public class DistributionXYSeries //extends SimpleXYSeries
 				}
 
 			EqualWeightHistogram1D theBaseHistogram =
-					new EqualWeightHistogram1D(numQuantiles, DSArrayUtils.toPrimitiveArray(allXValues));
+					new EqualWeightHistogram1D(numQuantiles, DSArrayUtils.toPrimitiveDoubleArray(allXValues));
 
 			int numBins = theBaseHistogram.getBins();
 			for (int i = 0; i < numBins; i++)
