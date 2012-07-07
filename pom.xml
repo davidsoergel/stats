@@ -41,7 +41,7 @@
 	<parent>
 		<groupId>com.davidsoergel</groupId>
 		<artifactId>basepom</artifactId>
-		<version>0.99-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<inceptionYear>2006</inceptionYear>
 	<packaging>jar</packaging>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>com.davidsoergel</groupId>
 			<artifactId>dsutils</artifactId>
-			<version>1.04-SNAPSHOT</version>
+			<version>1.05</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- try to work around transitive multiple inclusion of old versions -->
