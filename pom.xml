@@ -35,7 +35,7 @@
     <groupId>com.davidsoergel</groupId>
     <artifactId>stats</artifactId>
     <name>stats</name>
-    <version>0.931</version>
+    <version>0.94-SNAPSHOT</version>
     <url>http://dev.davidsoergel.com/stats</url>
     <description>Distributions.</description>
     <parent>
