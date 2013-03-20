@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>dsutils</artifactId>
-            <version>1.05</version>
+            <version>1.051</version>
             <scope>compile</scope>
         </dependency>
         <!-- try to work around transitive multiple inclusion of old versions -->
