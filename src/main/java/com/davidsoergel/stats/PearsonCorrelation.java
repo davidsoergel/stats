@@ -32,6 +32,8 @@
 
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.math.MathUtils;
+
 /**
  * THis is the one-pass version.  See also LinearRegression, which aslol computes correlation.
  *
@@ -105,7 +107,7 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 			mean_y += delta_y / i;
 			}
 
-		if (sum_sq_x == 0 || sum_sq_y == 0)
+		if (MathUtils.equalWithinFPError(sum_sq_x, 0) || MathUtils.equalWithinFPError(sum_sq_y, 0))
 			{
 			throw new StatsException("Can't compute Pearson correlation: distribution has no variance");
 			//: \n\n" + Arrays.toString(x) + "\n\n" + Arrays.toString(y));  // temp huge error message
