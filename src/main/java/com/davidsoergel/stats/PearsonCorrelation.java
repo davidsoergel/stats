@@ -35,7 +35,7 @@ package com.davidsoergel.stats;
 import com.davidsoergel.dsutils.math.MathUtils;
 
 /**
- * THis is the one-pass version.  See also LinearRegression, which aslol computes correlation.
+ * This is the one-pass version.  See also LinearRegression, which also computes correlation.
  *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
@@ -79,14 +79,14 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 		double sum_sq_x = 0;
 		double sum_sq_y = 0;
 		double sum_coproduct = 0;
-		double mean_x = x[1];
-		double mean_y = y[1];
+		double mean_x = x[0];
+		double mean_y = y[0];
 		int n = x.length;
 		if (y.length != n)
 			{
 			throw new StatsException("Cannot compute correlation coefficient between arrays of different lengths");
 			}
-		for (int i = 2; i < n; i++)
+		for (int i = 1; i < n; i++)
 			{
 			double sweep = (i - 1.0) / i;
 			double delta_x = x[i] - mean_x;
@@ -146,7 +146,7 @@ correlation = cov_x_y / (pop_sd_x * pop_sd_y)
 		double sum_sq_y = 0;
 		double sum_coproduct = 0;
 
-		int startI = 1;
+		int startI = 0;
 		while (x[startI] == ignore || y[startI] == ignore)
 			{
 			startI++;
