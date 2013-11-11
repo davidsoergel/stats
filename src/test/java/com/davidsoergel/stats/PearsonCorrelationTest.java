@@ -1,5 +1,6 @@
 package com.davidsoergel.stats;
 
+import com.davidsoergel.dsutils.math.MathUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,12 +35,11 @@ public class PearsonCorrelationTest {
 
     @Test
     public void perfectCorrelationWorks() throws StatsException {
-        // could require fuzzy match due to rounding errors
-        
         double[] a = new double[]{1.,2.,3.,4.};
         double[] b =  new double[]{1.,2.,3.,4.};
 
-        assert(PearsonCorrelation.computeCorrelationCoefficient(a,b) == 1.0);
+        // requires fuzzy match due to rounding errors
+        assert(MathUtils.equalWithinFPError(PearsonCorrelation.computeCorrelationCoefficient(a,b), 1.0));
 
     }
 
