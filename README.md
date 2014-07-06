@@ -36,10 +36,10 @@ Download
 	<dependency>
 		<groupId>com.davidsoergel</groupId>
 		<artifactId>stats</artifactId>
-		<version>0.9</version>
+		<version>0.931</version>
 	</dependency>
 </dependencies>
 ```
 
-If you really want just the jar, you can get the [latest release](http://dev.davidsoergel.com/nexus/content/repositories/releases/com/davidsoergel/stats/) from the Maven repo; or get the [latest stable build](http://dev.davidsoergel.com/jenkins/job/dsutils/lastStableBuild/com.davidsoergel$stats/) from the build server.
+If you really want just the jar, you can get the [latest release](http://dev.davidsoergel.com/nexus/content/repositories/releases/com/davidsoergel/stats/) from the Maven repo; or get the [latest stable build](http://dev.davidsoergel.com/jenkins/job/stats/lastStableBuild/com.davidsoergel$stats/) from the build server.
 
